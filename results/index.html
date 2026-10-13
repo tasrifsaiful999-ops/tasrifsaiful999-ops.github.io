@@ -103,19 +103,52 @@
 
 <section id="campaign-results" style="background:var(--white);">
   <div class="container">
-    <h2 class="section-title" style="margin-bottom:8px;">Recent Campaign Performance</h2>
-    <p class="section-sub">January – February 2026.</p>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px;" class="reveal">
-      <div class="live-badge">Verified Campaign Data</div>
-      <div style="font-size:0.78rem;color:var(--text-light);">January – February 2026 · 4 campaigns · 3 brands</div>
+    <div class="section-head-row reveal">
+      <div>
+        <h2 class="section-title" style="margin-bottom:8px;">Recent Campaign Performance</h2>
+        <p class="section-sub" style="margin-bottom:0;">Live performance analytics across Meta Ads Manager and client growth accounts (2026).</p>
+      </div>
+      <div class="live-badge">Verified Performance Data</div>
     </div>
 
-    <!-- Summary cards -->
+    <!-- Filter Pills -->
+    <div class="filter-bar reveal" style="margin:28px 0 32px;">
+      <button class="filter-btn active" data-filter="all">All Campaigns</button>
+      <button class="filter-btn" data-filter="Anzara">Anzara</button>
+      <button class="filter-btn" data-filter="Azran">Azran</button>
+      <button class="filter-btn" data-filter="Elor">Elor</button>
+    </div>
+
+    <!-- Summary cards with Animated Counters -->
     <div class="dash-grid reveal">
-      <div class="dash-card"><div class="dash-plat">Anzara — Post Engagement</div><div class="dash-num">990,513</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.45 · CPC ৳15.02</span><div class="dash-bars"><div class="db" style="height:40%"></div><div class="db" style="height:55%"></div><div class="db" style="height:48%"></div><div class="db" style="height:70%"></div><div class="db" style="height:62%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Azran — Post Engagement</div><div class="dash-num">875,424</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.36 · CPC ৳2.81</span><div class="dash-bars"><div class="db" style="height:45%"></div><div class="db" style="height:52%"></div><div class="db" style="height:60%"></div><div class="db" style="height:68%"></div><div class="db" style="height:76%"></div><div class="db" style="height:86%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Elor — Post Engagement</div><div class="dash-num">61,399</div><div class="dash-lbl">Engagements · Feb 2026</div><span class="dash-trend">Cost per result ৳0.04</span><div class="dash-bars"><div class="db" style="height:30%"></div><div class="db" style="height:42%"></div><div class="db" style="height:50%"></div><div class="db" style="height:64%"></div><div class="db" style="height:74%"></div><div class="db" style="height:85%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Anzara — Engagement</div><div class="dash-num">51,230</div><div class="dash-lbl">Reach · Feb 2026</div><span class="dash-trend">98,786 impressions</span><div class="dash-bars"><div class="db" style="height:35%"></div><div class="db" style="height:45%"></div><div class="db" style="height:55%"></div><div class="db" style="height:66%"></div><div class="db" style="height:78%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
+      <div class="dash-card filterable" data-brand="Anzara">
+        <div class="dash-plat">Anzara — Post Engagement</div>
+        <div class="dash-num"><span data-target="990513">990,513</span></div>
+        <div class="dash-lbl">Impressions · Jan 2026</div>
+        <span class="dash-trend">Frequency 1.45 · CPC ৳15.02</span>
+        <div class="dash-bars"><div class="db" style="height:40%"></div><div class="db" style="height:55%"></div><div class="db" style="height:48%"></div><div class="db" style="height:70%"></div><div class="db" style="height:62%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div>
+      </div>
+      <div class="dash-card filterable" data-brand="Azran">
+        <div class="dash-plat">Azran — Post Engagement</div>
+        <div class="dash-num"><span data-target="875424">875,424</span></div>
+        <div class="dash-lbl">Impressions · Jan 2026</div>
+        <span class="dash-trend">Frequency 1.36 · CPC ৳2.81</span>
+        <div class="dash-bars"><div class="db" style="height:45%"></div><div class="db" style="height:52%"></div><div class="db" style="height:60%"></div><div class="db" style="height:68%"></div><div class="db" style="height:76%"></div><div class="db" style="height:86%"></div><div class="db" style="height:100%"></div></div>
+      </div>
+      <div class="dash-card filterable" data-brand="Elor">
+        <div class="dash-plat">Elor — Post Engagement</div>
+        <div class="dash-num"><span data-target="61399">61,399</span></div>
+        <div class="dash-lbl">Engagements · Feb 2026</div>
+        <span class="dash-trend" style="background:#eff6ff;color:#1d4ed8;">Cost per result ৳0.04</span>
+        <div class="dash-bars"><div class="db" style="height:30%"></div><div class="db" style="height:42%"></div><div class="db" style="height:50%"></div><div class="db" style="height:64%"></div><div class="db" style="height:74%"></div><div class="db" style="height:85%"></div><div class="db" style="height:100%"></div></div>
+      </div>
+      <div class="dash-card filterable" data-brand="Anzara">
+        <div class="dash-plat">Anzara — Reach Growth</div>
+        <div class="dash-num"><span data-target="51230">51,230</span></div>
+        <div class="dash-lbl">Reach · Feb 2026</div>
+        <span class="dash-trend">98,786 impressions</span>
+        <div class="dash-bars"><div class="db" style="height:35%"></div><div class="db" style="height:45%"></div><div class="db" style="height:55%"></div><div class="db" style="height:66%"></div><div class="db" style="height:78%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div>
+      </div>
     </div>
 
     <!-- Desktop table -->

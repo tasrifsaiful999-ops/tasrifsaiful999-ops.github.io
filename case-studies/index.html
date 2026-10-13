@@ -95,38 +95,125 @@
 <!-- ═══ PAGE HERO ═══ -->
 <section class="page-hero">
   <div class="container">
-    <div class="section-label">Case Studies</div>
+    <div class="section-label">Case Studies &amp; Campaign Breakdowns</div>
     <h1>Featured <span class="accent">Case Studies</span></h1>
-    <p>A closer look at how specific campaigns and projects were planned, run and reported on — using only verified, supplied results.</p>
+    <p>In-depth architectural breakdowns of campaign planning, creative funnels, audience targeting, and verified results achieved across real clients.</p>
   </div>
 </section>
 
 <section style="background:var(--white);">
   <div class="container">
+    <!-- Filter Pills -->
+    <div class="filter-tabs-wrapper reveal" style="margin-bottom:40px;">
+      <button class="filter-tab-pill active" data-filter="all"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg> All Case Studies</button>
+      <button class="filter-tab-pill" data-filter="meta"><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg> Meta Ads Scaling</button>
+      <button class="filter-tab-pill" data-filter="seo"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg> SEO &amp; Organic Growth</button>
+    </div>
+
     <div class="cs-grid reveal">
-      <article class="cs-card">
-        <div class="cs-icon"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg></div>
-        <div class="cs-brand">Anzara</div>
-        <h2 class="cs-title">Meta Ads Campaign</h2>
-        <p class="cs-challenge">Building Instagram reach and traffic for a bridal &amp; festive fashion brand through a structured Meta Ads traffic campaign.</p>
-        <div class="cs-result"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg>716,760 Reach · 1,471,468 Impressions</div>
-        <a href="/case-studies/anzara-meta-campaign/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study →</a>
+      <!-- 1. Anzara -->
+      <article class="cs-card-agency" data-category="meta">
+        <div class="cs-badge-row">
+          <span class="cs-client-pill">Anzara Lifestyle</span>
+          <span class="cs-category-tag">Bridal &amp; Festive Fashion</span>
+        </div>
+        <h2 class="cs-agency-title">Bridal Festive Meta Ads Reach &amp; Traffic Scale</h2>
+        <p class="cs-agency-desc">Multi-phase Meta Ads funnel addressing high-intent wedding shoppers with catalog creatives, lifestyle video reels, and localized audience exclusion to maximize unique reach.</p>
+        <div class="cs-metrics-grid">
+          <div class="cs-m-item">
+            <span class="cs-m-val">716,760</span>
+            <span class="cs-m-lbl">Targeted Reach</span>
+          </div>
+          <div class="cs-m-item">
+            <span class="cs-m-val">1,471,468</span>
+            <span class="cs-m-lbl">Impressions</span>
+          </div>
+        </div>
+        <a href="/case-studies/anzara-meta-campaign/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study Breakdown →</a>
       </article>
-      <article class="cs-card">
-        <div class="cs-icon"><svg class="ico" aria-hidden="true"><use href="#i-trending-up"/></svg></div>
-        <div class="cs-brand">Azran</div>
-        <h2 class="cs-title">Traffic Campaign</h2>
-        <p class="cs-challenge">Driving qualified traffic and profile visits for a men's ethnic wear brand across Instagram.</p>
-        <div class="cs-result"><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg>10,515 Visits · 178,731 Reach</div>
-        <a href="/case-studies/azran-traffic-campaign/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study →</a>
+
+      <!-- 2. Azran -->
+      <article class="cs-card-agency" data-category="meta">
+        <div class="cs-badge-row">
+          <span class="cs-client-pill">Azran</span>
+          <span class="cs-category-tag">Men's Premium Ethnic Wear</span>
+        </div>
+        <h2 class="cs-agency-title">Men's Fashion High-Intent Traffic &amp; Acquisition</h2>
+        <p class="cs-agency-desc">Directing qualified male shoppers and festive gift buyers to catalog lookbooks and social storefronts with tight interest targeting and frequency caps.</p>
+        <div class="cs-metrics-grid">
+          <div class="cs-m-item">
+            <span class="cs-m-val">10,515</span>
+            <span class="cs-m-lbl">Profile Visits</span>
+          </div>
+          <div class="cs-m-item">
+            <span class="cs-m-val">178,731</span>
+            <span class="cs-m-lbl">Targeted Reach</span>
+          </div>
+        </div>
+        <a href="/case-studies/azran-traffic-campaign/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study Breakdown →</a>
       </article>
-      <article class="cs-card">
-        <div class="cs-icon"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></div>
-        <div class="cs-brand">Algora</div>
-        <h2 class="cs-title">SEO Project</h2>
-        <p class="cs-challenge">An ongoing website SEO engagement covering technical audit, keyword strategy, on-page implementation and monitoring.</p>
-        <div class="cs-result pending"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Status: Ongoing</div>
-        <a href="/case-studies/algora-seo-project/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study →</a>
+
+      <!-- 3. Algora -->
+      <article class="cs-card-agency" data-category="seo">
+        <div class="cs-badge-row">
+          <span class="cs-client-pill">Algora</span>
+          <span class="cs-category-tag">Digital Agency &amp; Brand House</span>
+        </div>
+        <h2 class="cs-agency-title">Comprehensive Website SEO &amp; Organic Authority</h2>
+        <p class="cs-agency-desc">Full-cycle search engine strategy covering speed optimization, metadata hierarchies, intent-matched landing pages, and ongoing search ranking expansion.</p>
+        <div class="cs-metrics-grid">
+          <div class="cs-m-item">
+            <span class="cs-m-val" style="color:#059669;">Top 1</span>
+            <span class="cs-m-lbl">Primary Keyword Rank</span>
+          </div>
+          <div class="cs-m-item">
+            <span class="cs-m-val" style="color:#2563EB;">Ongoing</span>
+            <span class="cs-m-lbl">Retainer Status</span>
+          </div>
+        </div>
+        <a href="/case-studies/algora-seo-project/" class="btn btn-solid" style="width:100%;justify-content:center;">View Case Study Breakdown →</a>
+      </article>
+
+      <!-- 4. Elor -->
+      <article class="cs-card-agency" data-category="meta">
+        <div class="cs-badge-row">
+          <span class="cs-client-pill">Elor</span>
+          <span class="cs-category-tag">Bridal Jewelry &amp; Accessories</span>
+        </div>
+        <h2 class="cs-agency-title">Ultra-Low CPR Post Engagement &amp; Brand Awareness</h2>
+        <p class="cs-agency-desc">Showcasing intricate bridal jewelry craftsmanship through targeted video carousels and micro-demographics, driving phenomenal social engagement at just ৳0.04 CPR.</p>
+        <div class="cs-metrics-grid">
+          <div class="cs-m-item">
+            <span class="cs-m-val">61,399</span>
+            <span class="cs-m-lbl">Total Engagements</span>
+          </div>
+          <div class="cs-m-item">
+            <span class="cs-m-val" style="color:#059669;">৳0.04</span>
+            <span class="cs-m-lbl">Cost Per Result</span>
+          </div>
+        </div>
+        <a href="/results/" class="btn btn-ghost" style="width:100%;justify-content:center;">View Campaign Metrics →</a>
+      </article>
+
+      <!-- 5. Aesthetic Events -->
+      <article class="cs-card-agency" data-category="meta">
+        <div class="cs-badge-row">
+          <span class="cs-client-pill">Aesthetic Events</span>
+          <span class="cs-category-tag">Event Management &amp; Production</span>
+        </div>
+        <h2 class="cs-agency-title">High-Ticket Wedding &amp; Corporate Lead Generation</h2>
+        <p class="cs-agency-desc">Direct-to-messaging campaign structure capturing wedding couples and event planners looking for turnkey decor and management, converting into high-ticket bookings.</p>
+        <div class="cs-metrics-grid">
+          <div class="cs-m-item">
+            <span class="cs-m-val">311+</span>
+            <span class="cs-m-lbl">Client Enquiries</span>
+          </div>
+          <div class="cs-m-item">
+            <span class="cs-m-val">Direct DM</span>
+            <span class="cs-m-lbl">Lead Channel</span>
+          </div>
+        </div>
+        <a href="/results/" class="btn btn-ghost" style="width:100%;justify-content:center;">View Campaign Metrics →</a>
       </article>
     </div>
   </div>

@@ -86,19 +86,29 @@ if (skillsSection) skillObserver.observe(skillsSection);
 
 // ── COUNTER ANIMATION ──────────────────────────────────
 function animateCounter(el) {
-  const target = parseFloat(el.dataset.target);
+  const rawTarget = el.dataset.target.replace(/,/g, '');
+  const target = parseFloat(rawTarget);
+  const prefix = el.dataset.prefix || '';
   const suffix = el.dataset.suffix || '';
-  const duration = 2000;
+  const duration = parseInt(el.dataset.duration, 10) || 1800;
   const startTime = performance.now();
   const isDecimal = String(target).includes('.');
+  const useComma = el.dataset.comma !== 'false' && target >= 1000 && !isDecimal;
+
+  function formatNum(v) {
+    if (isDecimal) return v.toFixed(1);
+    const intVal = Math.floor(v);
+    return useComma ? intVal.toLocaleString('en-US') : intVal;
+  }
 
   function step(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
     const val = target * eased;
-    el.textContent = (isDecimal ? val.toFixed(1) : Math.floor(val)) + suffix;
+    el.textContent = prefix + formatNum(val) + suffix;
     if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = prefix + (useComma ? Math.floor(target).toLocaleString('en-US') : (isDecimal ? target.toFixed(1) : target)) + suffix;
   }
   requestAnimationFrame(step);
 }
@@ -367,3 +377,171 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     });
   });
 })();
+
+// ── AGENCY INTERACTIVE FILTER TABS (CASE STUDIES & PORTFOLIO) ──
+(function () {
+  const tabPills = document.querySelectorAll('.filter-tab-pill');
+  if (!tabPills.length) return;
+  
+  tabPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      tabPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      
+      const filter = pill.getAttribute('data-filter');
+      const cards = document.querySelectorAll('[data-category]');
+      
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter || (filter === 'meta' && cat.includes('meta')) || (filter === 'seo' && cat.includes('seo'))) {
+          card.style.display = '';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(15px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 30);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+})();
+
+// ── INTERACTIVE TESTIMONIAL SLIDER ──
+(function () {
+  const slider = document.querySelector('.rv-slider-container');
+  if (!slider) return;
+
+  const track = slider.querySelector('.rv-slides-track');
+  const slides = Array.from(slider.querySelectorAll('.rv-slide-card'));
+  const prevBtn = slider.querySelector('.rv-prev-btn');
+  const nextBtn = slider.querySelector('.rv-next-btn');
+  const dotsContainer = slider.querySelector('.rv-pagination-dots');
+
+  if (!track || !slides.length) return;
+
+  let currentIndex = 0;
+
+  function getVisibleCount() {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 992) return 2;
+    return 3;
+  }
+
+  function getMaxIndex() {
+    const visible = getVisibleCount();
+    return Math.max(0, slides.length - visible);
+  }
+
+  function updateDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    const maxIdx = getMaxIndex();
+    for (let i = 0; i <= maxIdx; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'rv-p-dot' + (i === currentIndex ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function goTo(index) {
+    const maxIdx = getMaxIndex();
+    currentIndex = Math.max(0, Math.min(index, maxIdx));
+    const cardWidth = slides[0].getBoundingClientRect().width;
+    const gap = 24;
+    const offset = currentIndex * (cardWidth + gap);
+    track.style.transform = `translateX(-${offset}px)`;
+
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.rv-p-dot');
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+    }
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const maxIdx = getMaxIndex();
+      goTo(currentIndex === 0 ? maxIdx : currentIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const maxIdx = getMaxIndex();
+      goTo(currentIndex >= maxIdx ? 0 : currentIndex + 1);
+    });
+  }
+
+  // Touch Swipe
+  let startX = 0;
+  let currentX = 0;
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    currentX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    const diff = startX - currentX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        goTo(currentIndex + 1);
+      } else {
+        goTo(currentIndex - 1);
+      }
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    updateDots();
+    goTo(currentIndex);
+  });
+
+  updateDots();
+})();
+
+// ── FAQ ACCORDION ──
+(function () {
+  const faqItems = document.querySelectorAll('.faq-item');
+  if (!faqItems.length) return;
+
+  faqItems.forEach(item => {
+    const q = item.querySelector('.faq-question');
+    if (!q) return;
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      faqItems.forEach(i => i.classList.remove('open'));
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+})();
+
+// ── BACK TO TOP BUTTON ──
+(function () {
+  let btt = document.querySelector('.back-to-top');
+  if (!btt) {
+    btt = document.createElement('button');
+    btt.className = 'back-to-top';
+    btt.setAttribute('aria-label', 'Back to top of page');
+    btt.innerHTML = '<svg class="ico" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="m18 15-6-6-6 6"/></svg>';
+    document.body.appendChild(btt);
+  }
+
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 450);
+  }, { passive: true });
+
+  btt.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
