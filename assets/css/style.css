@@ -2455,3 +2455,332 @@ footer{background:var(--navy);color:rgba(255,255,255,.6);padding:56px 0 24px;}
     display: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   LUXURY BRANDS & PROFESSIONAL EXPERIENCE SHOWCASE
+═══════════════════════════════════════════════════════ */
+
+/* ── Infinite Luxury Brand Logo Ribbon ── */
+.brand-marquee-container {
+  position: relative;
+  overflow: hidden;
+  margin: 36px 0 52px;
+  padding: 16px 0;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+.brand-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 24px;
+  animation: brandMarqueeScroll 20s linear infinite;
+  will-change: transform;
+}
+.brand-marquee-container:hover .brand-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes brandMarqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.brand-marquee-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 10px 22px 10px 14px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.brand-marquee-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(125, 211, 252, 0.45);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+.brand-marquee-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+.brand-marquee-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-marquee-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+.brand-marquee-tag {
+  font-size: 0.72rem;
+  color: #7DD3FC;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── 3D Glass Interactive Brand Experience Grid ── */
+.brand-exp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 20px;
+}
+@media (max-width: 1080px) {
+  .brand-exp-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+@media (max-width: 680px) {
+  .brand-exp-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.brand-exp-card {
+  background: rgba(13, 31, 56, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.brand-exp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--brand-accent-color, #38BDF8);
+  opacity: 0.8;
+}
+.brand-exp-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(125, 211, 252, 0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--brand-glow-color, rgba(56, 189, 248, 0.2));
+}
+
+/* Brand specific ambient hues */
+.brand-exp-card[data-brand="anzara"] {
+  --brand-accent-color: #BE123C;
+  --brand-glow-color: rgba(190, 18, 60, 0.25);
+}
+.brand-exp-card[data-brand="azran"] {
+  --brand-accent-color: #10B981;
+  --brand-glow-color: rgba(16, 185, 129, 0.22);
+}
+.brand-exp-card[data-brand="elor"] {
+  --brand-accent-color: #6EE7B7;
+  --brand-glow-color: rgba(110, 231, 183, 0.2);
+}
+.brand-exp-card[data-brand="aesthetic"] {
+  --brand-accent-color: #F59E0B;
+  --brand-glow-color: rgba(245, 158, 11, 0.25);
+}
+.brand-exp-card[data-brand="algora"] {
+  --brand-accent-color: #38BDF8;
+  --brand-glow-color: rgba(56, 189, 248, 0.25);
+}
+
+.brand-exp-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.brand-logo-frame {
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-exp-card:hover .brand-logo-frame {
+  transform: scale(1.08) rotate(-2deg);
+}
+.brand-logo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Specular light sweep on brand logo */
+.brand-shine-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.4) 50%, transparent 80%);
+  transform: translateX(-150%) skewX(-20deg);
+  transition: transform 0.75s ease;
+  pointer-events: none;
+}
+.brand-exp-card:hover .brand-shine-sweep {
+  transform: translateX(200%) skewX(-20deg);
+}
+
+.brand-header-meta {
+  flex: 1;
+  min-width: 0;
+}
+.brand-status-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7DD3FC;
+  margin-bottom: 4px;
+}
+.brand-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulseGreen 2s infinite;
+}
+.brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.25;
+  margin-bottom: 3px;
+}
+.brand-sector {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.brand-exp-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.65;
+  margin-bottom: 22px;
+  flex: 1;
+}
+
+/* Verified Metrics inside brand card */
+.brand-exp-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+.b-metric-item {
+  display: flex;
+  flex-direction: column;
+}
+.b-metric-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.b-metric-lbl {
+  font-size: 0.68rem;
+  color: #7DD3FC;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.brand-exp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.brand-role-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+.brand-link-btn {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #38BDF8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+.brand-link-btn:hover {
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
+/* ── Brand Avatars in Reviews & Case Studies ── */
+.rv-brand-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.2);
+  border: 2px solid var(--white);
+  flex-shrink: 0;
+  background: #0B192C;
+}
+.rv-brand-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-brand-ico {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 6px;
+  display: inline-block;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+

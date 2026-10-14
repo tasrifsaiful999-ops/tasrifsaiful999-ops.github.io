@@ -843,7 +843,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 // ── INTERACTIVE 3D PERSPECTIVE CARD TILT ──
 (function () {
-  const tiltCards = document.querySelectorAll('.card-tilt-3d, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill');
+  const tiltCards = document.querySelectorAll('.card-tilt-3d, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill, .brand-exp-card');
   if (!tiltCards.length) return;
 
   // Don't bind tilt on touch devices
@@ -929,7 +929,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 
   // Magnetic hover expansion on clickable items
-  const interactiveTargets = 'a, button, .hero-stat-pill, .cs-card-agency, .dash-card, .proof-frame-wrap, .filter-tab-pill, .card-tilt-3d';
+  const interactiveTargets = 'a, button, .hero-stat-pill, .cs-card-agency, .dash-card, .proof-frame-wrap, .filter-tab-pill, .card-tilt-3d, .brand-exp-card, .brand-marquee-card';
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest(interactiveTargets)) {
       ring.classList.add('hovering');
