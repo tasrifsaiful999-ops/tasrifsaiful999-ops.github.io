@@ -660,4 +660,287 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   slider.addEventListener('touchend', () => setTimeout(startAutoplay, 2000));
 })();
 
+// ── HERO DYNAMIC TEXT ROTATOR (3D PERSPECTIVE FLIP) ──
+(function () {
+  const rotator = document.getElementById('heroTextRotator');
+  if (!rotator) return;
+  const words = Array.from(rotator.querySelectorAll('.rotate-word'));
+  if (words.length <= 1) return;
+
+  let currentIndex = 0;
+  setInterval(() => {
+    const currentWord = words[currentIndex];
+    const nextIndex = (currentIndex + 1) % words.length;
+    const nextWord = words[nextIndex];
+
+    currentWord.classList.remove('active');
+    currentWord.classList.add('exit');
+
+    nextWord.classList.remove('exit');
+    nextWord.classList.add('active');
+
+    setTimeout(() => {
+      currentWord.classList.remove('exit');
+    }, 650);
+
+    currentIndex = nextIndex;
+  }, 2600);
+})();
+
+// ── HERO INTERACTIVE CONSTELLATION CANVAS ──
+(function () {
+  const canvas = document.getElementById('heroParticles');
+  const heroSection = document.getElementById('hero');
+  if (!canvas || !heroSection) return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let animationId = null;
+  let isVisible = true;
+  const mouse = { x: -9999, y: -9999, radius: 140 };
+
+  const particleCount = 38;
+  const particles = [];
+
+  function resize() {
+    width = canvas.width = heroSection.offsetWidth;
+    height = canvas.height = heroSection.offsetHeight;
+  }
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * (width || 800);
+      this.y = Math.random() * (height || 600);
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = (Math.random() - 0.5) * 0.45;
+      this.radius = Math.random() * 1.5 + 1.2;
+      this.alpha = Math.random() * 0.5 + 0.35;
+      this.color = Math.random() > 0.4 ? '125, 211, 252' : '91, 159, 213';
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0) this.x = width;
+      else if (this.x > width) this.x = 0;
+      if (this.y < 0) this.y = height;
+      else if (this.y > height) this.y = 0;
+
+      // Subtle interaction with mouse
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < mouse.radius && dist > 0) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        this.x -= (dx / dist) * force * 1.6;
+        this.y -= (dy / dist) * force * 1.6;
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = `rgba(${this.color}, 0.8)`;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  function init() {
+    resize();
+    particles.length = 0;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw connecting hairline webs
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < 125) {
+          const alpha = (1 - dist / 125) * 0.22;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(125, 211, 252, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+
+      // Connect to mouse if near
+      const mdx = mouse.x - particles[i].x;
+      const mdy = mouse.y - particles[i].y;
+      const mdist = Math.hypot(mdx, mdy);
+      if (mdist < 140) {
+        const mAlpha = (1 - mdist / 140) * 0.38;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(56, 189, 248, ${mAlpha})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    if (isVisible) {
+      animationId = requestAnimationFrame(render);
+    }
+  }
+
+  init();
+  animationId = requestAnimationFrame(render);
+
+  window.addEventListener('resize', () => {
+    resize();
+  }, { passive: true });
+
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  }, { passive: true });
+
+  heroSection.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  }, { passive: true });
+
+  // IntersectionObserver: Pause canvas rendering when hero is off-screen (0% CPU impact)
+  if ('IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          if (!animationId) animationId = requestAnimationFrame(render);
+        } else {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        }
+      });
+    }, { threshold: 0.05 });
+    heroObserver.observe(heroSection);
+  }
+})();
+
+// ── INTERACTIVE 3D PERSPECTIVE CARD TILT ──
+(function () {
+  const tiltCards = document.querySelectorAll('.card-tilt-3d, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill');
+  if (!tiltCards.length) return;
+
+  // Don't bind tilt on touch devices
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  tiltCards.forEach(card => {
+    let ticking = false;
+
+    card.addEventListener('mousemove', (e) => {
+      if (ticking) return;
+      window.requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        const tiltX = -y * 12;
+        const tiltY = x * 12;
+
+        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        ticking = false;
+      });
+      ticking = true;
+    }, { passive: true });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  });
+})();
+
+// ── CUSTOM GLOWING MAGNETIC CURSOR FOLLOWER ──
+(function () {
+  if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 992) return;
+
+  let dot = document.getElementById('cursorGlowDot');
+  let ring = document.getElementById('cursorGlowRing');
+
+  if (!dot) {
+    dot = document.createElement('div');
+    dot.id = 'cursorGlowDot';
+    dot.className = 'cursor-glow-dot';
+    document.body.appendChild(dot);
+  }
+  if (!ring) {
+    ring = document.createElement('div');
+    ring.id = 'cursorGlowRing';
+    ring.className = 'cursor-glow-ring';
+    document.body.appendChild(ring);
+  }
+
+  let mouseX = -100, mouseY = -100;
+  let ringX = -100, ringY = -100;
+  let isMoving = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = `${mouseX}px`;
+    dot.style.top = `${mouseY}px`;
+    if (!isMoving) {
+      isMoving = true;
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+      animateRing();
+    }
+  }, { passive: true });
+
+  window.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget) {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+      isMoving = false;
+    }
+  });
+
+  function animateRing() {
+    if (!isMoving) return;
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    ring.style.left = `${ringX.toFixed(1)}px`;
+    ring.style.top = `${ringY.toFixed(1)}px`;
+    requestAnimationFrame(animateRing);
+  }
+
+  // Magnetic hover expansion on clickable items
+  const interactiveTargets = 'a, button, .hero-stat-pill, .cs-card-agency, .dash-card, .proof-frame-wrap, .filter-tab-pill, .card-tilt-3d';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactiveTargets)) {
+      ring.classList.add('hovering');
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactiveTargets)) {
+      ring.classList.remove('hovering');
+    }
+  });
+})();
+
+
 

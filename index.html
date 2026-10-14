@@ -111,6 +111,7 @@
 
 
 <section id="hero">
+  <canvas id="heroParticles" class="hero-particles-canvas" aria-hidden="true"></canvas>
   <div class="hero-ambient-wrap" aria-hidden="true">
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
@@ -121,39 +122,47 @@
   <div class="hero-bg-shape s3"></div>
   <div class="container">
     <div class="hero-grid">
-      <div class="reveal">
-        <div class="hero-status-pill">
+      <div>
+        <div class="hero-status-pill hero-anim-pill">
           <span class="live-pulse-dot" aria-hidden="true"></span>
           <span>Available for New Campaigns &amp; High-Growth Retainers</span>
         </div>
-        <div class="hero-kicker-title">Saiful Islam Mollah · Digital Marketing Executive</div>
-        <h1 class="hero-headline">Scaling Brands with <span class="hero-gradient-text">Meta Ads</span> &amp; Organic Growth</h1>
-        <p class="hero-sub-text">I build data-driven performance funnels and high-intent acquisition systems for fashion, luxury, and e-commerce brands — delivering compound reach, low CPA, and measurable ROI.</p>
-        <div class="hero-btns">
+        <div class="hero-kicker-title hero-anim-kicker">Saiful Islam Mollah · Digital Marketing Executive</div>
+        <h1 class="hero-headline hero-anim-title">
+          Scaling High-Growth Brands With<br>
+          <span class="text-rotator" id="heroTextRotator">
+            <span class="rotate-word active">Meta Ads &amp; Paid Social</span>
+            <span class="rotate-word">Top Google Rankings</span>
+            <span class="rotate-word">High-Intent Funnels</span>
+            <span class="rotate-word">Scale &amp; Compound ROI</span>
+          </span>
+        </h1>
+        <p class="hero-sub-text hero-anim-sub">I build data-driven performance funnels and high-intent acquisition systems for fashion, luxury, and e-commerce brands — delivering compound reach, low CPA, and measurable ROI.</p>
+        <div class="hero-btns hero-anim-btns">
           <a href="/results/" class="btn btn-primary">Explore Verified Results →</a>
           <a href="/consultation/" class="btn btn-outline">Schedule Strategy Call</a>
         </div>
-        <div class="hero-metrics-pill-strip">
-          <div class="hero-stat-pill" data-proof-src="/assets/images/proof/anzara-meta-ads.png" data-proof-title="Anzara Meta Ads Manager (716,760 Reach)">
+        <div class="hero-metrics-pill-strip hero-anim-metrics">
+          <div class="hero-stat-pill card-tilt-3d" data-proof-src="/assets/images/proof/anzara-meta-ads.png" data-proof-title="Anzara Meta Ads Manager (716,760 Reach)">
             <div class="hero-stat-num"><span data-target="716760">716,760</span></div>
             <div class="hero-stat-lbl">Targeted Reach · Anzara</div>
           </div>
-          <div class="hero-stat-pill" data-proof-src="/assets/images/proof/elor-engagement-ads.png" data-proof-title="Elor Jewellery CPR Record (৳0.04)">
+          <div class="hero-stat-pill card-tilt-3d" data-proof-src="/assets/images/proof/elor-engagement-ads.png" data-proof-title="Elor Jewellery CPR Record (৳0.04)">
             <div class="hero-stat-num">৳0.04</div>
             <div class="hero-stat-lbl">Lowest CPR · Elor</div>
           </div>
-          <div class="hero-stat-pill" data-proof-src="/assets/images/proof/azran-traffic-campaign.png" data-proof-title="Azran Website Visits (10,515 Visits)">
+          <div class="hero-stat-pill card-tilt-3d" data-proof-src="/assets/images/proof/azran-traffic-campaign.png" data-proof-title="Azran Website Visits (10,515 Visits)">
             <div class="hero-stat-num"><span data-target="10515">10,515</span></div>
             <div class="hero-stat-lbl">Store Visits · Azran</div>
           </div>
-          <div class="hero-stat-pill" data-proof-src="/assets/images/proof/algora-seo-gsc.png" data-proof-title="Algora SEO Rankings (Top 1)">
+          <div class="hero-stat-pill card-tilt-3d" data-proof-src="/assets/images/proof/algora-seo-gsc.png" data-proof-title="Algora SEO Rankings (Top 1)">
             <div class="hero-stat-num">Top 1</div>
             <div class="hero-stat-lbl">Google Rank · Algora</div>
           </div>
         </div>
       </div>
-      <!-- Clean, unobstructed portrait frame -->
-      <div class="hero-photo-col reveal delay-1">
+      <!-- Clean, unobstructed portrait frame with subtle breathing float -->
+      <div class="hero-photo-col">
         <div class="hero-sq-wrap">
           <div class="hero-sq-frame">
             <img src="/assets/images/hero.webp" width="480" height="480"
@@ -347,10 +356,10 @@
 
     <!-- Summary cards -->
     <div class="dash-grid reveal">
-      <div class="dash-card"><div class="dash-plat">Anzara — Post Engagement</div><div class="dash-num">990,513</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.45 · CPC ৳15.02</span><div class="dash-bars"><div class="db" style="height:40%"></div><div class="db" style="height:55%"></div><div class="db" style="height:48%"></div><div class="db" style="height:70%"></div><div class="db" style="height:62%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Azran — Post Engagement</div><div class="dash-num">875,424</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.36 · CPC ৳2.81</span><div class="dash-bars"><div class="db" style="height:45%"></div><div class="db" style="height:52%"></div><div class="db" style="height:60%"></div><div class="db" style="height:68%"></div><div class="db" style="height:76%"></div><div class="db" style="height:86%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Elor — Post Engagement</div><div class="dash-num">61,399</div><div class="dash-lbl">Engagements · Feb 2026</div><span class="dash-trend">Cost per result ৳0.04</span><div class="dash-bars"><div class="db" style="height:30%"></div><div class="db" style="height:42%"></div><div class="db" style="height:50%"></div><div class="db" style="height:64%"></div><div class="db" style="height:74%"></div><div class="db" style="height:85%"></div><div class="db" style="height:100%"></div></div></div>
-      <div class="dash-card"><div class="dash-plat">Anzara — Engagement</div><div class="dash-num">51,230</div><div class="dash-lbl">Reach · Feb 2026</div><span class="dash-trend">98,786 impressions</span><div class="dash-bars"><div class="db" style="height:35%"></div><div class="db" style="height:45%"></div><div class="db" style="height:55%"></div><div class="db" style="height:66%"></div><div class="db" style="height:78%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
+      <div class="dash-card card-tilt-3d"><div class="dash-plat">Anzara — Post Engagement</div><div class="dash-num">990,513</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.45 · CPC ৳15.02</span><div class="dash-bars"><div class="db" style="height:40%"></div><div class="db" style="height:55%"></div><div class="db" style="height:48%"></div><div class="db" style="height:70%"></div><div class="db" style="height:62%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
+      <div class="dash-card card-tilt-3d"><div class="dash-plat">Azran — Post Engagement</div><div class="dash-num">875,424</div><div class="dash-lbl">Impressions · Jan 2026</div><span class="dash-trend">Frequency 1.36 · CPC ৳2.81</span><div class="dash-bars"><div class="db" style="height:45%"></div><div class="db" style="height:52%"></div><div class="db" style="height:60%"></div><div class="db" style="height:68%"></div><div class="db" style="height:76%"></div><div class="db" style="height:86%"></div><div class="db" style="height:100%"></div></div></div>
+      <div class="dash-card card-tilt-3d"><div class="dash-plat">Elor — Post Engagement</div><div class="dash-num">61,399</div><div class="dash-lbl">Engagements · Feb 2026</div><span class="dash-trend">Cost per result ৳0.04</span><div class="dash-bars"><div class="db" style="height:30%"></div><div class="db" style="height:42%"></div><div class="db" style="height:50%"></div><div class="db" style="height:64%"></div><div class="db" style="height:74%"></div><div class="db" style="height:85%"></div><div class="db" style="height:100%"></div></div></div>
+      <div class="dash-card card-tilt-3d"><div class="dash-plat">Anzara — Engagement</div><div class="dash-num">51,230</div><div class="dash-lbl">Reach · Feb 2026</div><span class="dash-trend">98,786 impressions</span><div class="dash-bars"><div class="db" style="height:35%"></div><div class="db" style="height:45%"></div><div class="db" style="height:55%"></div><div class="db" style="height:66%"></div><div class="db" style="height:78%"></div><div class="db" style="height:88%"></div><div class="db" style="height:100%"></div></div></div>
     </div>
 
     <!-- Desktop table -->
@@ -427,7 +436,7 @@
 
     <div class="cs-grid reveal">
       <!-- Anzara Card -->
-      <article class="cs-card-agency" data-category="meta">
+      <article class="cs-card-agency card-tilt-3d" data-category="meta">
         <div class="proof-top-bar" style="border-radius:14px 14px 0 0;">
           <div class="proof-dots-mac"><span></span><span></span><span></span></div>
           <span class="proof-top-title">Meta Ads Manager · Verified Active</span>
@@ -462,7 +471,7 @@
       </article>
 
       <!-- Azran Card -->
-      <article class="cs-card-agency" data-category="meta">
+      <article class="cs-card-agency card-tilt-3d" data-category="meta">
         <div class="proof-top-bar" style="border-radius:14px 14px 0 0;">
           <div class="proof-dots-mac"><span></span><span></span><span></span></div>
           <span class="proof-top-title">Meta Ads Manager · Verified Active</span>
@@ -497,7 +506,7 @@
       </article>
 
       <!-- Algora Card -->
-      <article class="cs-card-agency" data-category="seo">
+      <article class="cs-card-agency card-tilt-3d" data-category="seo">
         <div class="proof-top-bar" style="border-radius:14px 14px 0 0;">
           <div class="proof-dots-mac"><span></span><span></span><span></span></div>
           <span class="proof-top-title">Google Search Console · Verified</span>
