@@ -120,7 +120,7 @@ const counterObserver = new IntersectionObserver((entries) => {
       counterObserver.unobserve(e.target);
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
 document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
 
@@ -545,18 +545,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 })();
 
-// ── INTERACTIVE CURSOR SPOTLIGHT GLOW ──
+// ── INTERACTIVE CURSOR SPOTLIGHT GLOW (60FPS RAF THROTTLED) ──
 (function () {
   const cards = document.querySelectorAll('.card-glow-interactive, .cs-card-agency, .dash-card, .proof-card-item, .case-card, .rv-slide-card, .srv-card');
   cards.forEach(card => {
     card.classList.add('card-glow-interactive');
+    let ticking = false;
     card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   });
 })();
 
