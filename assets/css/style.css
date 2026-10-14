@@ -2609,6 +2609,10 @@ footer{background:var(--navy);color:rgba(255,255,255,.6);padding:56px 0 24px;}
   --brand-accent-color: #38BDF8;
   --brand-glow-color: rgba(56, 189, 248, 0.25);
 }
+.brand-exp-card[data-brand="rotopy"] {
+  --brand-accent-color: #8B2C8D;
+  --brand-glow-color: rgba(139, 44, 141, 0.25);
+}
 
 .brand-exp-header {
   display: flex;
