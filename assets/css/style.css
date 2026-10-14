@@ -2788,3 +2788,171 @@ footer{background:var(--navy);color:rgba(255,255,255,.6);padding:56px 0 24px;}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   HIGH-FIDELITY VISUAL SHOWCASES & CONTEXTUAL MEDIA MODULES
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Service Media Showcase Banners */
+.service-media-banner {
+  margin-top: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--navy);
+  box-shadow: 0 10px 30px rgba(11, 37, 69, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-media-banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(11, 37, 69, 0.14);
+}
+.service-media-frame {
+  width: 100%;
+}
+.service-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #061528;
+}
+.service-img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.service-media-banner:hover .service-img-wrap img {
+  transform: scale(1.02);
+}
+.service-media-caption {
+  padding: 14px 20px;
+  background: var(--white);
+  border-top: 1px solid var(--rule);
+  font-size: 0.86rem;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.service-media-caption strong {
+  color: var(--navy);
+}
+
+/* Consultation Preview Card */
+.consultation-preview-card {
+  margin-bottom: 28px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(11, 37, 69, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+.consultation-preview-card .proof-top-bar {
+  background: rgba(8, 26, 48, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.consultation-preview-caption {
+  padding: 16px 20px;
+  background: rgba(6, 21, 40, 0.9);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.consultation-preview-caption strong {
+  color: #38BDF8;
+}
+
+/* Client Trust Banner in Reviews */
+.client-trust-banner {
+  background: var(--white);
+  border: 1.5px solid var(--rule);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 44px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.client-trust-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.client-trust-img-box {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+  background: #081B33;
+}
+.client-trust-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.client-trust-banner:hover .client-trust-img-box img {
+  transform: scale(1.03);
+}
+.client-trust-content {
+  padding: 36px 38px;
+}
+.client-trust-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.client-trust-stats div {
+  display: flex;
+  flex-direction: column;
+}
+.client-trust-stats strong {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--navy);
+  font-family: 'Syne', sans-serif;
+}
+.client-trust-stats span {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* Responsiveness for all screen sizes (Mobile, Tablet/iPad, MacBook, Desktop) */
+@media (max-width: 991px) {
+  .client-trust-banner {
+    grid-template-columns: 1fr;
+  }
+  .client-trust-img-box {
+    min-height: 240px;
+  }
+  .client-trust-content {
+    padding: 26px 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .client-trust-stats {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .client-trust-stats strong {
+    font-size: 1.2rem;
+  }
+  .service-media-caption {
+    font-size: 0.8rem;
+    padding: 12px 14px;
+  }
+}
+
