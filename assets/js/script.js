@@ -545,3 +545,114 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 })();
 
+// ── INTERACTIVE CURSOR SPOTLIGHT GLOW ──
+(function () {
+  const cards = document.querySelectorAll('.card-glow-interactive, .cs-card-agency, .dash-card, .proof-card-item, .case-card, .rv-slide-card, .srv-card');
+  cards.forEach(card => {
+    card.classList.add('card-glow-interactive');
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+})();
+
+// ── PROOF SCREENSHOT LIGHTBOX MODAL ──
+(function () {
+  // Inject modal into DOM if not present
+  let modalOverlay = document.getElementById('proofModalOverlay');
+  if (!modalOverlay) {
+    modalOverlay = document.createElement('div');
+    modalOverlay.id = 'proofModalOverlay';
+    modalOverlay.className = 'proof-modal-overlay';
+    modalOverlay.innerHTML = `
+      <div class="proof-modal-content" role="dialog" aria-modal="true" aria-labelledby="proofModalTitle">
+        <div class="proof-modal-topbar">
+          <div class="proof-modal-title" id="proofModalTitle">
+            <span style="color:#00a400;">● Verified Client Data</span>
+            <span id="proofModalSubtitle" style="color:rgba(255,255,255,0.7);font-size:0.86rem;font-weight:500;"></span>
+          </div>
+          <button class="proof-modal-close-btn" id="proofModalCloseBtn" aria-label="Close modal">✕</button>
+        </div>
+        <div class="proof-modal-img-scroll">
+          <img id="proofModalImg" src="" alt="Campaign Proof Screenshot" loading="lazy">
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalOverlay);
+  }
+
+  const modalImg = document.getElementById('proofModalImg');
+  const modalSub = document.getElementById('proofModalSubtitle');
+  const closeBtn = document.getElementById('proofModalCloseBtn');
+
+  function openProofModal(src, title) {
+    if (!modalImg || !modalOverlay) return;
+    modalImg.src = src;
+    if (modalSub) modalSub.textContent = title ? `— ${title}` : '';
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProofModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (modalImg) modalImg.src = '';
+    }, 250);
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeProofModal);
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeProofModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) {
+      closeProofModal();
+    }
+  });
+
+  // Attach click listener to all proof targets
+  document.querySelectorAll('[data-proof-src], .proof-frame-wrap, .cs-verified-img-box').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const src = el.getAttribute('data-proof-src') || el.querySelector('img')?.getAttribute('src');
+      const title = el.getAttribute('data-proof-title') || el.querySelector('img')?.getAttribute('alt') || 'Meta Ads Manager / Analytics Proof';
+      if (src) openProofModal(src, title);
+    });
+  });
+})();
+
+// ── AUTOPLAY ENHANCEMENT FOR TESTIMONIALS ──
+(function () {
+  const slider = document.querySelector('.rv-slider-container');
+  if (!slider) return;
+  const nextBtn = slider.querySelector('.rv-next-btn');
+  if (!nextBtn) return;
+
+  let autoplayTimer = null;
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      nextBtn.click();
+    }, 4500);
+  }
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  startAutoplay();
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
+  slider.addEventListener('touchstart', stopAutoplay, { passive: true });
+  slider.addEventListener('touchend', () => setTimeout(startAutoplay, 2000));
+})();
+
+
