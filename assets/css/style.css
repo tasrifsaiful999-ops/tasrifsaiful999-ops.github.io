@@ -2956,3 +2956,163 @@ footer{background:var(--navy);color:rgba(255,255,255,.6);padding:56px 0 24px;}
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   ATS, MOBILE, TABLET (IPAD), MACBOOK & CROSS-DEVICE OPTIMIZATIONS
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* iOS Safari: Prevent automatic zoom on form input focus */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* Touch Ergonomics & Inertia Scrolling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+.ctable-wrap,
+.rv-track,
+.brand-marquee-wrap,
+.filter-tabs-wrapper {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch Targets: Minimum 44px height for mobile accessibility */
+@media (max-width: 768px) {
+  .btn,
+  .filter-tab-pill,
+  .filter-btn,
+  .rv-arrow-btn,
+  .brand-link-btn,
+  .nav-cta,
+  .mob-cta {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-links a {
+    padding: 10px 14px;
+  }
+}
+
+/* iPad & Tablet Landscape / Portrait (768px – 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .brand-exp-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px;
+  }
+  .cs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .dash-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .proof-showcase-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px;
+  }
+}
+
+/* MacBook & Standard Laptop Viewports (1024px – 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .container {
+    max-width: 1180px;
+  }
+  .brand-exp-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+
+/* High-DPI / 4K Desktop Screens (min-width: 1920px) */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1400px;
+  }
+  body {
+    font-size: 17px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   HIGH-SPEED RENDERING OPTIMIZATION (FCP / LCP BOOST)
+   ══════════════════════════════════════════════════════════════════════ */
+/* content-visibility skips layout calculations for off-screen sections until user scrolls */
+@media screen {
+  #proof,
+  #experience,
+  #reviews,
+  #contact,
+  #campaign-results {
+    content-visibility: auto;
+    contain-intrinsic-size: 800px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ATS (APPLICANT TRACKING SYSTEM) & RECRUITER PRINT STYLESHEET
+   ══════════════════════════════════════════════════════════════════════ */
+@media print {
+  *, *::before, *::after {
+    background: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+    font-size: 11pt;
+    line-height: 1.5;
+    background: #FFFFFF !important;
+    color: #111827 !important;
+  }
+  /* Hide non-printable decorative UI */
+  #navbar,
+  .mobile-nav,
+  .hamburger,
+  .cursor-glow,
+  .hero-canvas,
+  .brand-shine-sweep,
+  .brand-marquee-wrap,
+  .filter-tabs-wrapper,
+  .filter-bar,
+  .rv-controls-row,
+  .rv-nav,
+  .quick-actions,
+  .social-links,
+  footer,
+  .skip-link {
+    display: none !important;
+  }
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  h1, h2, h3 {
+    page-break-after: avoid;
+    color: #0B2545 !important;
+  }
+  .brand-exp-card,
+  .cs-card-agency,
+  .service-group,
+  .seo-feature,
+  .dash-card {
+    page-break-inside: avoid;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 8px !important;
+    margin-bottom: 16pt !important;
+    padding: 12pt !important;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #4B5563 !important;
+  }
+}
+

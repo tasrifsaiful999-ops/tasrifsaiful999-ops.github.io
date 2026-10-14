@@ -19,31 +19,33 @@ if (navbar) {
   }
 }
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  mobileNav.classList.toggle('open');
-  hamburger.setAttribute('aria-expanded', mobileNav.classList.contains('open') ? 'true' : 'false');
-  document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
-});
-
-document.querySelectorAll('.mobile-nav a').forEach(a => {
-  a.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+if (hamburger && mobileNav) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', mobileNav.classList.contains('open') ? 'true' : 'false');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
   });
-});
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
-    hamburger.classList.remove('open');
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    hamburger.focus();
-  }
-});
+  document.querySelectorAll('.mobile-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      hamburger.focus();
+    }
+  });
+}
 
 // ── ACTIVE NAV ─────────────────────────────────────────
 const sections  = document.querySelectorAll('section[id]');
