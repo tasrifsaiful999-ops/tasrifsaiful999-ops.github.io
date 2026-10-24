@@ -71,7 +71,10 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+document.querySelectorAll('.reveal, .service-group, .cs-card-agency, .dash-card, .proof-card-item, .brand-exp-card, .seo-feature, .pricing-card, .review-card, .cs-metric-card, .consult-card, .stat-card, .service-media-banner').forEach(el => {
+  if (!el.classList.contains('reveal')) el.classList.add('reveal');
+  revealObserver.observe(el);
+});
 
 // ── SKILL BARS ─────────────────────────────────────────
 const skillObserver = new IntersectionObserver((entries) => {
@@ -950,17 +953,224 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 })();
 
-// ── INTERACTIVE 3D PERSPECTIVE CARD TILT WITH HOLOGRAPHIC SHEEN ──
-(function () {
-  const tiltCards = document.querySelectorAll('.card-tilt-3d, .about-photo-wrap, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill, .brand-exp-card');
-  if (!tiltCards.length) return;
+// ── SUBPAGE INTERACTIVE 3D MARKETING CYBER-WAVE CANVAS ──
+(function initSubpage3DMatrix() {
+  const pageHero = document.querySelector('.page-hero');
+  if (!pageHero) return;
 
-  // Don't bind tilt on touch devices
-  if (window.matchMedia('(pointer: coarse)').matches) return;
+  // 1. Inject canvas if not already present
+  let canvas = pageHero.querySelector('.page-hero-3d-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.className = 'page-hero-3d-canvas';
+    pageHero.insertBefore(canvas, pageHero.firstChild);
+  }
 
-  tiltCards.forEach(card => {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = 0, height = 0;
+  let animId = null;
+  let isVisible = true;
+  let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+  let time = 0;
+
+  function resize() {
+    width = canvas.width = pageHero.offsetWidth;
+    height = canvas.height = pageHero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  pageHero.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.targetX = (e.clientX - rect.left - width / 2) * 0.0006;
+    mouse.targetY = (e.clientY - rect.top - height / 2) * 0.0006;
+  }, { passive: true });
+
+  pageHero.addEventListener('mouseleave', () => {
+    mouse.targetX = 0;
+    mouse.targetY = 0;
+  }, { passive: true });
+
+  // Grid points for 3D Perspective Wave Mesh
+  const cols = 22;
+  const rows = 12;
+  const spacingX = 42;
+  const spacingZ = 42;
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+    time += 0.024;
+    mouse.x += (mouse.targetX - mouse.x) * 0.05;
+    mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+    const rotX = 0.45 + mouse.y;
+    const rotY = mouse.x;
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const fov = 420;
+    const cx = width * 0.58;
+    const cy = height * 0.48;
+
+    const projected = [];
+
+    for (let r = 0; r < rows; r++) {
+      projected[r] = [];
+      for (let c = 0; c < cols; c++) {
+        const ox = (c - cols / 2) * spacingX;
+        const oz = (r - rows / 2) * spacingZ;
+        const oy = Math.sin(c * 0.35 + time) * 22 + Math.cos(r * 0.4 + time * 0.8) * 18;
+
+        // 3D rotation
+        const x1 = ox * cosY + oz * sinY;
+        const z1 = -ox * sinY + oz * cosY;
+        const y2 = oy * cosX - z1 * sinX;
+        const z2 = oy * sinX + z1 * cosX + 320;
+
+        const scale = fov / (fov + z2);
+        const px = cx + x1 * scale;
+        const py = cy + y2 * scale;
+        projected[r][c] = { px, py, scale, z: z2 };
+      }
+    }
+
+    // Draw connecting lines with depth fade
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const pt = projected[r][c];
+        const alpha = Math.max(0.04, Math.min(0.35, 1 - pt.z / 650));
+
+        // Horizontal line
+        if (c < cols - 1) {
+          const next = projected[r][c + 1];
+          ctx.beginPath();
+          ctx.moveTo(pt.px, pt.py);
+          ctx.lineTo(next.px, next.py);
+          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.75})`;
+          ctx.lineWidth = pt.scale * 1.1;
+          ctx.stroke();
+        }
+
+        // Vertical line
+        if (r < rows - 1) {
+          const down = projected[r + 1][c];
+          ctx.beginPath();
+          ctx.moveTo(pt.px, pt.py);
+          ctx.lineTo(down.px, down.py);
+          ctx.strokeStyle = `rgba(16, 185, 129, ${alpha * 0.55})`;
+          ctx.lineWidth = pt.scale * 1.1;
+          ctx.stroke();
+        }
+
+        // Floating node glow
+        if ((r + c) % 3 === 0) {
+          ctx.beginPath();
+          ctx.arc(pt.px, pt.py, pt.scale * 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(125, 211, 252, ${alpha * 1.2})`;
+          ctx.fill();
+        }
+      }
+    }
+
+    if (isVisible) {
+      animId = requestAnimationFrame(render);
+    }
+  }
+
+  animId = requestAnimationFrame(render);
+
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          if (!animId) animId = requestAnimationFrame(render);
+        } else {
+          if (animId) {
+            cancelAnimationFrame(animId);
+            animId = null;
+          }
+        }
+      });
+    }, { threshold: 0.05 });
+    obs.observe(pageHero);
+  }
+
+  // 2. Inject Subpage 3D Floating Ambient Badges
+  const container = pageHero.querySelector('.container');
+  if (container && !pageHero.querySelector('.subpage-3d-badges-wrap')) {
+    const path = window.location.pathname.toLowerCase();
+    let badges = [
+      { text: '6.1x ROAS Scaling', dot: '' },
+      { text: 'Top #1 SEO Ranked', dot: 'sky' },
+      { text: 'GA4 / CAPI Verified', dot: 'purple' }
+    ];
+    if (path.includes('result')) {
+      badges = [
+        { text: '2.41M+ Reach Growth', dot: 'sky' },
+        { text: '+210% Conversion Lift', dot: '' },
+        { text: 'Enterprise Performance', dot: 'purple' }
+      ];
+    } else if (path.includes('case-stud')) {
+      badges = [
+        { text: 'Real Brands Audited', dot: '' },
+        { text: 'Data-Backed Growth', dot: 'sky' },
+        { text: 'Scale-Ready Funnels', dot: 'purple' }
+      ];
+    } else if (path.includes('seo')) {
+      badges = [
+        { text: 'Top #1 Search Console', dot: 'sky' },
+        { text: 'Zero Spam / White-Hat', dot: '' },
+        { text: '180K+ Organic Traffic', dot: 'purple' }
+      ];
+    } else if (path.includes('review')) {
+      badges = [
+        { text: '5.0★ Genuine Feedback', dot: '' },
+        { text: 'Long-term Partnerships', dot: 'sky' },
+        { text: '100% Client Verified', dot: 'purple' }
+      ];
+    } else if (path.includes('consult')) {
+      badges = [
+        { text: '1-on-1 Growth Audit', dot: 'sky' },
+        { text: 'Full Funnel Roadmaps', dot: '' },
+        { text: 'Strategy Session', dot: 'purple' }
+      ];
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'subpage-3d-badges-wrap';
+    wrap.setAttribute('aria-hidden', 'true');
+    badges.forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'subpage-3d-badge';
+      el.innerHTML = `<span class="s-badge-dot ${b.dot}"></span><span>${b.text}</span>`;
+      wrap.appendChild(el);
+    });
+    pageHero.appendChild(wrap);
+  }
+})();
+
+// ── AUTONOMOUS CONTINUOUS 3D LEVITATION & TILT ACROSS ALL CARDS & PAGES ──
+(function initAutonomous3DFloating() {
+  const cards = document.querySelectorAll(
+    '.brand-exp-card, .service-group, .cs-card-agency, .dash-card, .proof-card-item, ' +
+    '.seo-feature, .pricing-card, .review-card, .about-photo-wrap, .service-media-frame, ' +
+    '.cs-hero-img-wrap, .hero-stat-pill, .hero-sq-wrap'
+  );
+
+  cards.forEach((card, index) => {
+    // 1. Assign continuous 3D spatial levitation class
+    const mod = index % 3;
+    const levClass = mod === 0 ? 'card-levitate-3d-1' : (mod === 1 ? 'card-levitate-3d-2' : 'card-levitate-3d-3');
+    card.classList.add(levClass);
+    card.classList.add('holographic-3d-sheen');
+    card.classList.add('card-tilt-3d');
+
+    // 2. Interactive mouse tilt overlays seamlessly
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     let ticking = false;
-
     card.addEventListener('mousemove', (e) => {
       if (ticking) return;
       window.requestAnimationFrame(() => {
@@ -971,12 +1181,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         const tiltX = -y * 14;
         const tiltY = x * 14;
 
-        // Dynamic mouse coordinate for 3D holographic glare reflection
         const xPct = ((e.clientX - rect.left) / rect.width) * 100;
         const yPct = ((e.clientY - rect.top) / rect.height) * 100;
         card.style.setProperty('--mouse-x', `${xPct.toFixed(1)}%`);
         card.style.setProperty('--mouse-y', `${yPct.toFixed(1)}%`);
 
+        card.style.animationPlayState = 'paused';
         card.style.transform = `perspective(1100px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`;
         ticking = false;
       });
@@ -984,78 +1194,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }, { passive: true });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.animationPlayState = 'running';
+      card.style.transform = '';
       card.style.removeProperty('--mouse-x');
       card.style.removeProperty('--mouse-y');
     });
-  });
-})();
-
-// ── CUSTOM GLOWING MAGNETIC CURSOR FOLLOWER ──
-(function () {
-  if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 992) return;
-
-  let dot = document.getElementById('cursorGlowDot');
-  let ring = document.getElementById('cursorGlowRing');
-
-  if (!dot) {
-    dot = document.createElement('div');
-    dot.id = 'cursorGlowDot';
-    dot.className = 'cursor-glow-dot';
-    document.body.appendChild(dot);
-  }
-  if (!ring) {
-    ring = document.createElement('div');
-    ring.id = 'cursorGlowRing';
-    ring.className = 'cursor-glow-ring';
-    document.body.appendChild(ring);
-  }
-
-  let mouseX = -100, mouseY = -100;
-  let ringX = -100, ringY = -100;
-  let isMoving = false;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.left = `${mouseX}px`;
-    dot.style.top = `${mouseY}px`;
-    if (!isMoving) {
-      isMoving = true;
-      dot.style.opacity = '1';
-      ring.style.opacity = '1';
-      animateRing();
-    }
-  }, { passive: true });
-
-  window.addEventListener('mouseout', (e) => {
-    if (!e.relatedTarget) {
-      dot.style.opacity = '0';
-      ring.style.opacity = '0';
-      isMoving = false;
-    }
-  });
-
-  function animateRing() {
-    if (!isMoving) return;
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-    ring.style.left = `${ringX.toFixed(1)}px`;
-    ring.style.top = `${ringY.toFixed(1)}px`;
-    requestAnimationFrame(animateRing);
-  }
-
-  // Magnetic hover expansion on clickable items
-  const interactiveTargets = 'a, button, .hero-stat-pill, .cs-card-agency, .dash-card, .proof-frame-wrap, .filter-tab-pill, .card-tilt-3d, .brand-exp-card, .brand-marquee-card';
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(interactiveTargets)) {
-      ring.classList.add('hovering');
-    }
-  });
-  document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(interactiveTargets)) {
-      ring.classList.remove('hovering');
-    }
   });
 })();
 
