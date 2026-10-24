@@ -689,7 +689,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }, 2600);
 })();
 
-// ── HERO INTERACTIVE CONSTELLATION CANVAS ──
+// ── HERO INTERACTIVE 3D MARKETING DATA GLOBE ──
 (function () {
   const canvas = document.getElementById('heroParticles');
   const heroSection = document.getElementById('hero');
@@ -702,102 +702,207 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   let height = 0;
   let animationId = null;
   let isVisible = true;
-  const mouse = { x: -9999, y: -9999, radius: 140 };
+  let radius = 220;
+  let cx = 0;
+  let cy = 0;
 
-  const particleCount = 38;
-  const particles = [];
+  let angleX = 0.22;
+  let angleY = 0;
+  let targetAngleX = 0.22;
+  let targetAngleY = 0;
+  const autoSpin = 0.0024;
+
+  const mouse = { x: -9999, y: -9999 };
 
   function resize() {
     width = canvas.width = heroSection.offsetWidth;
     height = canvas.height = heroSection.offsetHeight;
+    radius = Math.min(width, height) * (width > 992 ? 0.38 : 0.33);
+    if (radius < 140) radius = 140;
+    if (radius > 310) radius = 310;
+    cx = width > 992 ? (width * 0.72) : (width * 0.5);
+    cy = height * (width > 992 ? 0.50 : 0.44);
+    buildGlobe();
   }
 
-  class Particle {
-    constructor() {
-      this.x = Math.random() * (width || 800);
-      this.y = Math.random() * (height || 600);
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.radius = Math.random() * 1.5 + 1.2;
-      this.alpha = Math.random() * 0.5 + 0.35;
-      this.color = Math.random() > 0.4 ? '125, 211, 252' : '91, 159, 213';
+  const specialMetrics = [
+    { label: '6.1x ROAS', color: '#10b981' },
+    { label: 'Top #1 SEO', color: '#38bdf8' },
+    { label: '2.4M Reach', color: '#818cf8' },
+    { label: '+210% Conv', color: '#34d399' },
+    { label: 'Meta Ads', color: '#60a5fa' },
+    { label: 'GA4 CAPI', color: '#38bdf8' }
+  ];
+
+  const nodeCount = 72;
+  let rawPoints = [];
+  let edges = [];
+
+  function buildGlobe() {
+    rawPoints = [];
+    edges = [];
+
+    // Fibonacci sphere distribution for uniform 3D sphere points
+    for (let i = 0; i < nodeCount; i++) {
+      const phi = Math.acos(1 - (2 * (i + 0.5)) / nodeCount);
+      const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+
+      const metric = i < specialMetrics.length ? specialMetrics[i] : null;
+
+      rawPoints.push({
+        ox: Math.sin(phi) * Math.cos(theta),
+        oy: Math.cos(phi),
+        oz: Math.sin(phi) * Math.sin(theta),
+        x: 0, y: 0, z: 0,
+        px: 0, py: 0, pScale: 1,
+        size: metric ? 3.5 : (Math.random() * 1.8 + 1.2),
+        metric: metric,
+        pulse: Math.random() * Math.PI * 2
+      });
     }
 
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-
-      if (this.x < 0) this.x = width;
-      else if (this.x > width) this.x = 0;
-      if (this.y < 0) this.y = height;
-      else if (this.y > height) this.y = 0;
-
-      // Subtle interaction with mouse
-      const dx = mouse.x - this.x;
-      const dy = mouse.y - this.y;
-      const dist = Math.hypot(dx, dy);
-      if (dist < mouse.radius && dist > 0) {
-        const force = (mouse.radius - dist) / mouse.radius;
-        this.x -= (dx / dist) * force * 1.6;
-        this.y -= (dy / dist) * force * 1.6;
+    // Precalculate edges based on angular distance to guarantee smooth 60fps
+    for (let i = 0; i < rawPoints.length; i++) {
+      let connections = 0;
+      for (let j = i + 1; j < rawPoints.length; j++) {
+        const dx = rawPoints[i].ox - rawPoints[j].ox;
+        const dy = rawPoints[i].oy - rawPoints[j].oy;
+        const dz = rawPoints[i].oz - rawPoints[j].oz;
+        const dist = Math.hypot(dx, dy, dz);
+        if (dist < 0.46 && connections < 4) {
+          edges.push({ a: i, b: j, baseDist: dist });
+          connections++;
+        }
       }
-    }
-
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = `rgba(${this.color}, 0.8)`;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    }
-  }
-
-  function init() {
-    resize();
-    particles.length = 0;
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
     }
   }
 
   function render() {
     ctx.clearRect(0, 0, width, height);
 
-    // Draw connecting hairline webs
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
+    // Dynamic rotation with mouse inertia and continuous orbit
+    angleY += autoSpin + (targetAngleY - angleY) * 0.06;
+    angleX += (targetAngleX - angleX) * 0.06;
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.hypot(dx, dy);
+    const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+    const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+    const fov = 500;
 
-        if (dist < 125) {
-          const alpha = (1 - dist / 125) * 0.22;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(125, 211, 252, ${alpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
+    // Project all points into 3D camera space
+    for (let i = 0; i < rawPoints.length; i++) {
+      const p = rawPoints[i];
+      const bx = p.ox * radius;
+      const by = p.oy * radius;
+      const bz = p.oz * radius;
+
+      // Rotate around Y
+      const x1 = bx * cosY + bz * sinY;
+      const z1 = -bx * sinY + bz * cosY;
+
+      // Rotate around X
+      const y2 = by * cosX - z1 * sinX;
+      const z2 = by * sinX + z1 * cosX;
+
+      p.x = x1;
+      p.y = y2;
+      p.z = z2;
+
+      // Perspective projection
+      const scale = fov / (fov + z2 + radius * 0.2);
+      p.pScale = scale;
+      p.px = cx + x1 * scale;
+      p.py = cy + y2 * scale;
+      p.pulse += 0.035;
+    }
+
+    // 1. Draw 3D Orbit Latitude Rings for depth
+    const ringRadii = [radius * 1.05, radius * 0.65];
+    ctx.lineWidth = 0.9;
+    ringRadii.forEach((r, idx) => {
+      ctx.beginPath();
+      const segments = 48;
+      for (let s = 0; s <= segments; s++) {
+        const theta = (s / segments) * Math.PI * 2;
+        const rx = Math.cos(theta) * r;
+        const rz = Math.sin(theta) * r;
+        const ry = idx === 0 ? 0 : r * 0.4;
+
+        const x1 = rx * cosY + rz * sinY;
+        const z1 = -rx * sinY + rz * cosY;
+        const y2 = ry * cosX - z1 * sinX;
+        const z2 = ry * sinX + z1 * cosX;
+
+        const scale = fov / (fov + z2 + radius * 0.2);
+        const sx = cx + x1 * scale;
+        const sy = cy + y2 * scale;
+        if (s === 0) ctx.moveTo(sx, sy);
+        else ctx.lineTo(sx, sy);
       }
+      ctx.strokeStyle = idx === 0 ? 'rgba(56, 189, 248, 0.12)' : 'rgba(16, 185, 129, 0.08)';
+      ctx.stroke();
+    });
 
-      // Connect to mouse if near
-      const mdx = mouse.x - particles[i].x;
-      const mdy = mouse.y - particles[i].y;
-      const mdist = Math.hypot(mdx, mdy);
-      if (mdist < 140) {
-        const mAlpha = (1 - mdist / 140) * 0.38;
+    // 2. Draw 3D Connecting Edges with depth attenuation
+    for (let e = 0; e < edges.length; e++) {
+      const p1 = rawPoints[edges[e].a];
+      const p2 = rawPoints[edges[e].b];
+      const avgZ = (p1.z + p2.z) / 2;
+      const depthFactor = (avgZ + radius) / (2 * radius); // 0 (far) to 1 (near)
+
+      if (depthFactor > 0.1) {
+        const alpha = Math.max(0.04, Math.min(0.26, depthFactor * 0.28));
         ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = `rgba(56, 189, 248, ${mAlpha})`;
+        ctx.moveTo(p1.px, p1.py);
+        ctx.lineTo(p2.px, p2.py);
+        ctx.strokeStyle = `rgba(125, 211, 252, ${alpha})`;
+        ctx.lineWidth = Math.max(0.5, depthFactor * 1.2);
+        ctx.stroke();
+      }
+    }
+
+    // 3. Draw 3D Data Nodes & Metric Badges
+    for (let i = 0; i < rawPoints.length; i++) {
+      const p = rawPoints[i];
+      const depthFactor = (p.z + radius) / (2 * radius);
+      if (depthFactor <= 0.05) continue;
+
+      const alpha = Math.max(0.15, Math.min(0.95, depthFactor * 1.1));
+      const renderedSize = Math.max(1, p.size * p.pScale * (0.6 + depthFactor * 0.5));
+
+      // Draw node glow
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, renderedSize, 0, Math.PI * 2);
+      ctx.fillStyle = p.metric ? p.metric.color : `rgba(125, 211, 252, ${alpha})`;
+      if (depthFactor > 0.55 && p.metric) {
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = p.metric.color;
+      }
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Draw metric pill label if facing front
+      if (p.metric && depthFactor > 0.45) {
+        const pulseScale = 1 + Math.sin(p.pulse) * 0.08;
+        ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
+        const labelText = p.metric.label;
+        const textWidth = ctx.measureText(labelText).width;
+        const pillX = p.px + 8;
+        const pillY = p.py - 10;
+        const pillH = 18;
+        const pillW = textWidth + 14;
+
+        // Pill background
+        ctx.beginPath();
+        ctx.roundRect ? ctx.roundRect(pillX, pillY, pillW, pillH, 9) : ctx.rect(pillX, pillY, pillW, pillH);
+        ctx.fillStyle = 'rgba(7, 18, 36, 0.78)';
+        ctx.fill();
+        ctx.strokeStyle = `rgba(${p.metric.color === '#10b981' ? '16, 185, 129' : '56, 189, 248'}, ${depthFactor * 0.8})`;
         ctx.lineWidth = 1;
         ctx.stroke();
+
+        // Pill text
+        ctx.fillStyle = p.metric.color;
+        ctx.fillText(labelText, pillX + 7, pillY + 12);
       }
     }
 
@@ -806,7 +911,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   }
 
-  init();
+  resize();
   animationId = requestAnimationFrame(render);
 
   window.addEventListener('resize', () => {
@@ -817,11 +922,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
+    targetAngleY = ((mouse.x - cx) / width) * 0.85;
+    targetAngleX = -((mouse.y - cy) / height) * 0.75;
   }, { passive: true });
 
   heroSection.addEventListener('mouseleave', () => {
-    mouse.x = -9999;
-    mouse.y = -9999;
+    targetAngleX = 0.22;
+    targetAngleY = 0;
   }, { passive: true });
 
   // IntersectionObserver: Pause canvas rendering when hero is off-screen (0% CPU impact)
@@ -843,9 +950,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 })();
 
-// ── INTERACTIVE 3D PERSPECTIVE CARD TILT ──
+// ── INTERACTIVE 3D PERSPECTIVE CARD TILT WITH HOLOGRAPHIC SHEEN ──
 (function () {
-  const tiltCards = document.querySelectorAll('.card-tilt-3d, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill, .brand-exp-card');
+  const tiltCards = document.querySelectorAll('.card-tilt-3d, .about-photo-wrap, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill, .brand-exp-card');
   if (!tiltCards.length) return;
 
   // Don't bind tilt on touch devices
@@ -861,17 +968,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-        const tiltX = -y * 12;
-        const tiltY = x * 12;
+        const tiltX = -y * 14;
+        const tiltY = x * 14;
 
-        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        // Dynamic mouse coordinate for 3D holographic glare reflection
+        const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+        const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${xPct.toFixed(1)}%`);
+        card.style.setProperty('--mouse-y', `${yPct.toFixed(1)}%`);
+
+        card.style.transform = `perspective(1100px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`;
         ticking = false;
       });
       ticking = true;
     }, { passive: true });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.removeProperty('--mouse-x');
+      card.style.removeProperty('--mouse-y');
     });
   });
 })();

@@ -2390,21 +2390,159 @@ footer{background:var(--navy);color:rgba(255,255,255,.6);padding:56px 0 24px;}
   z-index: 1;
 }
 
-/* ── Interactive 3D Card Tilt with Perspective ── */
+/* ── Interactive 3D Card Tilt with Perspective & Spatial Depth ── */
 .card-tilt-3d {
   transform-style: preserve-3d;
+  perspective: 1100px;
   will-change: transform;
-  transition: transform 0.12s ease-out, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
 }
 .card-tilt-3d > * {
-  transform: translateZ(14px);
   transform-style: preserve-3d;
 }
-.card-tilt-3d:hover {
-  border-color: rgba(125, 211, 252, 0.55) !important;
-  box-shadow: 0 16px 38px rgba(11, 37, 69, 0.24) !important;
+
+/* 3D Holographic Glare Sheen */
+.card-tilt-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.14) 0%, transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 6;
 }
+.card-tilt-3d:hover::after {
+  opacity: 1;
+}
+
+/* Spatial Z-Depth Tiers for Inner Elements */
+.brand-exp-card.card-tilt-3d .brand-logo-frame {
+  transform: translateZ(38px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-exp-card.card-tilt-3d:hover .brand-logo-frame {
+  transform: translateZ(52px) scale(1.08);
+}
+.brand-exp-card.card-tilt-3d .brand-title {
+  transform: translateZ(26px);
+}
+.brand-exp-card.card-tilt-3d .brand-status-live {
+  transform: translateZ(28px);
+}
+.brand-exp-card.card-tilt-3d .b-metric-val {
+  transform: translateZ(30px);
+  text-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+}
+.brand-exp-card.card-tilt-3d .brand-link-btn {
+  transform: translateZ(32px);
+}
+.about-photo-wrap.card-tilt-3d .about-photo-badge {
+  transform: translateZ(52px);
+  transition: transform 0.35s ease;
+}
+.hero-stat-pill.card-tilt-3d .hero-stat-num {
+  transform: translateZ(22px);
+}
+
+/* ── 3D Floating Spatial Badges Around Hero Portrait ── */
+.hero-3d-floating-badge {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 15px;
+  border-radius: 14px;
+  background: rgba(11, 37, 69, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(56, 189, 248, 0.18);
+  pointer-events: none;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.badge-roas {
+  top: -14px;
+  right: -24px;
+  animation: float3dBadge1 4.8s ease-in-out infinite alternate;
+}
+.badge-rank {
+  bottom: 24px;
+  left: -28px;
+  animation: float3dBadge2 5.6s ease-in-out infinite alternate;
+}
+.badge-reach {
+  bottom: -16px;
+  right: 18px;
+  animation: float3dBadge3 6.2s ease-in-out infinite alternate;
+}
+
+@keyframes float3dBadge1 {
+  0% { transform: translate3d(0, 0, 35px) rotateY(-4deg) rotateX(2deg); }
+  100% { transform: translate3d(0, -12px, 55px) rotateY(6deg) rotateX(-4deg); }
+}
+@keyframes float3dBadge2 {
+  0% { transform: translate3d(0, 0, 30px) rotateY(5deg) rotateX(-3deg); }
+  100% { transform: translate3d(0, -10px, 48px) rotateY(-5deg) rotateX(4deg); }
+}
+@keyframes float3dBadge3 {
+  0% { transform: translate3d(0, 0, 25px) rotateY(-3deg) rotateX(3deg); }
+  100% { transform: translate3d(0, -8px, 42px) rotateY(4deg) rotateX(-2deg); }
+}
+
+.badge-3d-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.18);
+  color: #38BDF8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.badge-3d-icon svg {
+  width: 17px;
+  height: 17px;
+}
+.badge-3d-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.1;
+  display: block;
+}
+.badge-3d-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .badge-roas { top: -8px; right: -8px; }
+  .badge-rank { bottom: 12px; left: -8px; }
+  .badge-reach { display: none; }
+}
+@media (max-width: 480px) {
+  .hero-3d-floating-badge {
+    padding: 6px 10px;
+    gap: 7px;
+  }
+  .badge-3d-icon { width: 26px; height: 26px; }
+  .badge-3d-icon svg { width: 14px; height: 14px; }
+  .badge-3d-val { font-size: 0.8rem; }
+  .badge-3d-sub { font-size: 0.6rem; }
+}
+
 
 /* ── Custom Glowing Magnetic Cursor Follower ── */
 .cursor-glow-dot {
