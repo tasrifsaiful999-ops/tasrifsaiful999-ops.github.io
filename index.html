@@ -163,35 +163,48 @@
           </div>
         </div>
       </div>
-      <!-- Clean portrait frame with 3D Spatial Depth & Floating Badges -->
+      <!-- Clean uncropped portrait frame with dedicated 3D animated side badges rail -->
       <div class="hero-photo-col">
-        <div class="hero-sq-wrap card-tilt-3d">
-          <div class="hero-sq-frame">
-            <img src="/assets/images/hero.webp" width="480" height="480"
-                 alt="Saiful Islam Mollah, Digital Marketing Executive"
-                 fetchpriority="high" decoding="async"
-                 style="width:100%;height:100%;object-fit:cover;object-position:center center;">
-          </div>
-          <!-- 3D Spatial Floating Badges -->
-          <div class="hero-3d-floating-badge badge-roas" aria-hidden="true">
-            <div class="badge-3d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <div>
-              <span class="badge-3d-val">6.1x ROAS</span>
-              <span class="badge-3d-sub">Meta Ads Scaled</span>
+        <div class="hero-portrait-stage">
+          <!-- Pristine uncropped blazer portrait: NO text or badges covering it -->
+          <div class="hero-sq-wrap">
+            <div class="hero-portrait-frame">
+              <img src="/assets/images/hero.webp" width="480" height="480"
+                   alt="Saiful Islam Mollah, Digital Marketing Executive"
+                   fetchpriority="high" decoding="async"
+                   class="hero-portrait-img">
             </div>
           </div>
-          <div class="hero-3d-floating-badge badge-rank" aria-hidden="true">
-            <div class="badge-3d-icon" style="background:rgba(16,185,129,0.18);color:#10B981;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-            <div>
-              <span class="badge-3d-val">Top #1 Rank</span>
-              <span class="badge-3d-sub">Search Console</span>
+          <!-- Dedicated 3D Animated Side Rail placed cleanly at the SIDE of the picture -->
+          <div class="hero-side-badges-rail">
+            <div class="hero-side-badge-card badge-3d-roas" data-proof-src="/assets/images/proof/anzara-meta-ads.png" data-proof-title="Anzara Meta Ads (6.1x ROAS Scaled)">
+              <div class="side-badge-icon roas-ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="side-badge-text">
+                <span class="side-badge-num">6.1x ROAS</span>
+                <span class="side-badge-label">Meta Ads Scaled</span>
+              </div>
             </div>
-          </div>
-          <div class="hero-3d-floating-badge badge-reach" aria-hidden="true">
-            <div class="badge-3d-icon" style="background:rgba(168,85,247,0.18);color:#C084FC;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg></div>
-            <div>
-              <span class="badge-3d-val">2.41M+</span>
-              <span class="badge-3d-sub">Impressions Growth</span>
+
+            <div class="hero-side-badge-card badge-3d-rank" data-proof-src="/assets/images/proof/algora-seo-gsc.png" data-proof-title="Algora SEO Rankings (Top 1)">
+              <div class="side-badge-icon rank-ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="side-badge-text">
+                <span class="side-badge-num">Top #1 Rank</span>
+                <span class="side-badge-label">Search Console</span>
+              </div>
+            </div>
+
+            <div class="hero-side-badge-card badge-3d-reach" data-proof-src="/assets/images/proof/azran-traffic-campaign.png" data-proof-title="Azran Growth (2.41M+ Impressions)">
+              <div class="side-badge-icon reach-ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
+              </div>
+              <div class="side-badge-text">
+                <span class="side-badge-num">2.41M+</span>
+                <span class="side-badge-label">Total Impressions</span>
+              </div>
             </div>
           </div>
         </div>
@@ -235,7 +248,7 @@
 <section id="about" style="background:var(--white);">
   <div class="container">
     <div class="about-grid">
-      <div class="about-photo-wrap reveal card-tilt-3d">
+      <div class="about-photo-wrap reveal">
         <div class="about-photo-main" style="height:480px;">
           <img src="/assets/images/about.webp" width="520" height="540"
                alt="Saiful Islam Mollah working on a laptop"

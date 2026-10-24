@@ -71,10 +71,7 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll('.reveal, .service-group, .cs-card-agency, .dash-card, .proof-card-item, .brand-exp-card, .seo-feature, .pricing-card, .review-card, .cs-metric-card, .consult-card, .stat-card, .service-media-banner').forEach(el => {
-  if (!el.classList.contains('reveal')) el.classList.add('reveal');
-  revealObserver.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ── SKILL BARS ─────────────────────────────────────────
 const skillObserver = new IntersectionObserver((entries) => {
@@ -692,7 +689,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }, 2600);
 })();
 
-// ── HERO INTERACTIVE 3D MARKETING DATA GLOBE ──
+// ── HERO INTERACTIVE CONSTELLATION CANVAS ──
 (function () {
   const canvas = document.getElementById('heroParticles');
   const heroSection = document.getElementById('hero');
@@ -705,207 +702,102 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   let height = 0;
   let animationId = null;
   let isVisible = true;
-  let radius = 220;
-  let cx = 0;
-  let cy = 0;
+  const mouse = { x: -9999, y: -9999, radius: 140 };
 
-  let angleX = 0.22;
-  let angleY = 0;
-  let targetAngleX = 0.22;
-  let targetAngleY = 0;
-  const autoSpin = 0.0024;
-
-  const mouse = { x: -9999, y: -9999 };
+  const particleCount = 38;
+  const particles = [];
 
   function resize() {
     width = canvas.width = heroSection.offsetWidth;
     height = canvas.height = heroSection.offsetHeight;
-    radius = Math.min(width, height) * (width > 992 ? 0.38 : 0.33);
-    if (radius < 140) radius = 140;
-    if (radius > 310) radius = 310;
-    cx = width > 992 ? (width * 0.72) : (width * 0.5);
-    cy = height * (width > 992 ? 0.50 : 0.44);
-    buildGlobe();
   }
 
-  const specialMetrics = [
-    { label: '6.1x ROAS', color: '#10b981' },
-    { label: 'Top #1 SEO', color: '#38bdf8' },
-    { label: '2.4M Reach', color: '#818cf8' },
-    { label: '+210% Conv', color: '#34d399' },
-    { label: 'Meta Ads', color: '#60a5fa' },
-    { label: 'GA4 CAPI', color: '#38bdf8' }
-  ];
-
-  const nodeCount = 72;
-  let rawPoints = [];
-  let edges = [];
-
-  function buildGlobe() {
-    rawPoints = [];
-    edges = [];
-
-    // Fibonacci sphere distribution for uniform 3D sphere points
-    for (let i = 0; i < nodeCount; i++) {
-      const phi = Math.acos(1 - (2 * (i + 0.5)) / nodeCount);
-      const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
-
-      const metric = i < specialMetrics.length ? specialMetrics[i] : null;
-
-      rawPoints.push({
-        ox: Math.sin(phi) * Math.cos(theta),
-        oy: Math.cos(phi),
-        oz: Math.sin(phi) * Math.sin(theta),
-        x: 0, y: 0, z: 0,
-        px: 0, py: 0, pScale: 1,
-        size: metric ? 3.5 : (Math.random() * 1.8 + 1.2),
-        metric: metric,
-        pulse: Math.random() * Math.PI * 2
-      });
+  class Particle {
+    constructor() {
+      this.x = Math.random() * (width || 800);
+      this.y = Math.random() * (height || 600);
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = (Math.random() - 0.5) * 0.45;
+      this.radius = Math.random() * 1.5 + 1.2;
+      this.alpha = Math.random() * 0.5 + 0.35;
+      this.color = Math.random() > 0.4 ? '125, 211, 252' : '91, 159, 213';
     }
 
-    // Precalculate edges based on angular distance to guarantee smooth 60fps
-    for (let i = 0; i < rawPoints.length; i++) {
-      let connections = 0;
-      for (let j = i + 1; j < rawPoints.length; j++) {
-        const dx = rawPoints[i].ox - rawPoints[j].ox;
-        const dy = rawPoints[i].oy - rawPoints[j].oy;
-        const dz = rawPoints[i].oz - rawPoints[j].oz;
-        const dist = Math.hypot(dx, dy, dz);
-        if (dist < 0.46 && connections < 4) {
-          edges.push({ a: i, b: j, baseDist: dist });
-          connections++;
-        }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0) this.x = width;
+      else if (this.x > width) this.x = 0;
+      if (this.y < 0) this.y = height;
+      else if (this.y > height) this.y = 0;
+
+      // Subtle interaction with mouse
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < mouse.radius && dist > 0) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        this.x -= (dx / dist) * force * 1.6;
+        this.y -= (dy / dist) * force * 1.6;
       }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = `rgba(${this.color}, 0.8)`;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  function init() {
+    resize();
+    particles.length = 0;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
     }
   }
 
   function render() {
     ctx.clearRect(0, 0, width, height);
 
-    // Dynamic rotation with mouse inertia and continuous orbit
-    angleY += autoSpin + (targetAngleY - angleY) * 0.06;
-    angleX += (targetAngleX - angleX) * 0.06;
+    // Draw connecting hairline webs
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
 
-    const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
-    const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
-    const fov = 500;
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.hypot(dx, dy);
 
-    // Project all points into 3D camera space
-    for (let i = 0; i < rawPoints.length; i++) {
-      const p = rawPoints[i];
-      const bx = p.ox * radius;
-      const by = p.oy * radius;
-      const bz = p.oz * radius;
-
-      // Rotate around Y
-      const x1 = bx * cosY + bz * sinY;
-      const z1 = -bx * sinY + bz * cosY;
-
-      // Rotate around X
-      const y2 = by * cosX - z1 * sinX;
-      const z2 = by * sinX + z1 * cosX;
-
-      p.x = x1;
-      p.y = y2;
-      p.z = z2;
-
-      // Perspective projection
-      const scale = fov / (fov + z2 + radius * 0.2);
-      p.pScale = scale;
-      p.px = cx + x1 * scale;
-      p.py = cy + y2 * scale;
-      p.pulse += 0.035;
-    }
-
-    // 1. Draw 3D Orbit Latitude Rings for depth
-    const ringRadii = [radius * 1.05, radius * 0.65];
-    ctx.lineWidth = 0.9;
-    ringRadii.forEach((r, idx) => {
-      ctx.beginPath();
-      const segments = 48;
-      for (let s = 0; s <= segments; s++) {
-        const theta = (s / segments) * Math.PI * 2;
-        const rx = Math.cos(theta) * r;
-        const rz = Math.sin(theta) * r;
-        const ry = idx === 0 ? 0 : r * 0.4;
-
-        const x1 = rx * cosY + rz * sinY;
-        const z1 = -rx * sinY + rz * cosY;
-        const y2 = ry * cosX - z1 * sinX;
-        const z2 = ry * sinX + z1 * cosX;
-
-        const scale = fov / (fov + z2 + radius * 0.2);
-        const sx = cx + x1 * scale;
-        const sy = cy + y2 * scale;
-        if (s === 0) ctx.moveTo(sx, sy);
-        else ctx.lineTo(sx, sy);
+        if (dist < 125) {
+          const alpha = (1 - dist / 125) * 0.22;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(125, 211, 252, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
       }
-      ctx.strokeStyle = idx === 0 ? 'rgba(56, 189, 248, 0.12)' : 'rgba(16, 185, 129, 0.08)';
-      ctx.stroke();
-    });
 
-    // 2. Draw 3D Connecting Edges with depth attenuation
-    for (let e = 0; e < edges.length; e++) {
-      const p1 = rawPoints[edges[e].a];
-      const p2 = rawPoints[edges[e].b];
-      const avgZ = (p1.z + p2.z) / 2;
-      const depthFactor = (avgZ + radius) / (2 * radius); // 0 (far) to 1 (near)
-
-      if (depthFactor > 0.1) {
-        const alpha = Math.max(0.04, Math.min(0.26, depthFactor * 0.28));
+      // Connect to mouse if near
+      const mdx = mouse.x - particles[i].x;
+      const mdy = mouse.y - particles[i].y;
+      const mdist = Math.hypot(mdx, mdy);
+      if (mdist < 140) {
+        const mAlpha = (1 - mdist / 140) * 0.38;
         ctx.beginPath();
-        ctx.moveTo(p1.px, p1.py);
-        ctx.lineTo(p2.px, p2.py);
-        ctx.strokeStyle = `rgba(125, 211, 252, ${alpha})`;
-        ctx.lineWidth = Math.max(0.5, depthFactor * 1.2);
-        ctx.stroke();
-      }
-    }
-
-    // 3. Draw 3D Data Nodes & Metric Badges
-    for (let i = 0; i < rawPoints.length; i++) {
-      const p = rawPoints[i];
-      const depthFactor = (p.z + radius) / (2 * radius);
-      if (depthFactor <= 0.05) continue;
-
-      const alpha = Math.max(0.15, Math.min(0.95, depthFactor * 1.1));
-      const renderedSize = Math.max(1, p.size * p.pScale * (0.6 + depthFactor * 0.5));
-
-      // Draw node glow
-      ctx.beginPath();
-      ctx.arc(p.px, p.py, renderedSize, 0, Math.PI * 2);
-      ctx.fillStyle = p.metric ? p.metric.color : `rgba(125, 211, 252, ${alpha})`;
-      if (depthFactor > 0.55 && p.metric) {
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = p.metric.color;
-      }
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Draw metric pill label if facing front
-      if (p.metric && depthFactor > 0.45) {
-        const pulseScale = 1 + Math.sin(p.pulse) * 0.08;
-        ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
-        const labelText = p.metric.label;
-        const textWidth = ctx.measureText(labelText).width;
-        const pillX = p.px + 8;
-        const pillY = p.py - 10;
-        const pillH = 18;
-        const pillW = textWidth + 14;
-
-        // Pill background
-        ctx.beginPath();
-        ctx.roundRect ? ctx.roundRect(pillX, pillY, pillW, pillH, 9) : ctx.rect(pillX, pillY, pillW, pillH);
-        ctx.fillStyle = 'rgba(7, 18, 36, 0.78)';
-        ctx.fill();
-        ctx.strokeStyle = `rgba(${p.metric.color === '#10b981' ? '16, 185, 129' : '56, 189, 248'}, ${depthFactor * 0.8})`;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(56, 189, 248, ${mAlpha})`;
         ctx.lineWidth = 1;
         ctx.stroke();
-
-        // Pill text
-        ctx.fillStyle = p.metric.color;
-        ctx.fillText(labelText, pillX + 7, pillY + 12);
       }
     }
 
@@ -914,7 +806,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   }
 
-  resize();
+  init();
   animationId = requestAnimationFrame(render);
 
   window.addEventListener('resize', () => {
@@ -925,13 +817,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
-    targetAngleY = ((mouse.x - cx) / width) * 0.85;
-    targetAngleX = -((mouse.y - cy) / height) * 0.75;
   }, { passive: true });
 
   heroSection.addEventListener('mouseleave', () => {
-    targetAngleX = 0.22;
-    targetAngleY = 0;
+    mouse.x = -9999;
+    mouse.y = -9999;
   }, { passive: true });
 
   // IntersectionObserver: Pause canvas rendering when hero is off-screen (0% CPU impact)
@@ -953,224 +843,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 })();
 
-// ── SUBPAGE INTERACTIVE 3D MARKETING CYBER-WAVE CANVAS ──
-(function initSubpage3DMatrix() {
-  const pageHero = document.querySelector('.page-hero');
-  if (!pageHero) return;
+// ── INTERACTIVE 3D PERSPECTIVE CARD TILT ──
+(function () {
+  const tiltCards = document.querySelectorAll('.card-tilt-3d, .cs-card-agency, .dash-card, .proof-card-item, .hero-stat-pill, .brand-exp-card, .hero-side-badge-card');
+  if (!tiltCards.length) return;
 
-  // 1. Inject canvas if not already present
-  let canvas = pageHero.querySelector('.page-hero-3d-canvas');
-  if (!canvas) {
-    canvas = document.createElement('canvas');
-    canvas.className = 'page-hero-3d-canvas';
-    pageHero.insertBefore(canvas, pageHero.firstChild);
-  }
+  // Don't bind tilt on touch devices
+  if (window.matchMedia('(pointer: coarse)').matches) return;
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let width = 0, height = 0;
-  let animId = null;
-  let isVisible = true;
-  let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-  let time = 0;
-
-  function resize() {
-    width = canvas.width = pageHero.offsetWidth;
-    height = canvas.height = pageHero.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize, { passive: true });
-
-  pageHero.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.targetX = (e.clientX - rect.left - width / 2) * 0.0006;
-    mouse.targetY = (e.clientY - rect.top - height / 2) * 0.0006;
-  }, { passive: true });
-
-  pageHero.addEventListener('mouseleave', () => {
-    mouse.targetX = 0;
-    mouse.targetY = 0;
-  }, { passive: true });
-
-  // Grid points for 3D Perspective Wave Mesh
-  const cols = 22;
-  const rows = 12;
-  const spacingX = 42;
-  const spacingZ = 42;
-
-  function render() {
-    ctx.clearRect(0, 0, width, height);
-    time += 0.024;
-    mouse.x += (mouse.targetX - mouse.x) * 0.05;
-    mouse.y += (mouse.targetY - mouse.y) * 0.05;
-
-    const rotX = 0.45 + mouse.y;
-    const rotY = mouse.x;
-    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
-    const fov = 420;
-    const cx = width * 0.58;
-    const cy = height * 0.48;
-
-    const projected = [];
-
-    for (let r = 0; r < rows; r++) {
-      projected[r] = [];
-      for (let c = 0; c < cols; c++) {
-        const ox = (c - cols / 2) * spacingX;
-        const oz = (r - rows / 2) * spacingZ;
-        const oy = Math.sin(c * 0.35 + time) * 22 + Math.cos(r * 0.4 + time * 0.8) * 18;
-
-        // 3D rotation
-        const x1 = ox * cosY + oz * sinY;
-        const z1 = -ox * sinY + oz * cosY;
-        const y2 = oy * cosX - z1 * sinX;
-        const z2 = oy * sinX + z1 * cosX + 320;
-
-        const scale = fov / (fov + z2);
-        const px = cx + x1 * scale;
-        const py = cy + y2 * scale;
-        projected[r][c] = { px, py, scale, z: z2 };
-      }
-    }
-
-    // Draw connecting lines with depth fade
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const pt = projected[r][c];
-        const alpha = Math.max(0.04, Math.min(0.35, 1 - pt.z / 650));
-
-        // Horizontal line
-        if (c < cols - 1) {
-          const next = projected[r][c + 1];
-          ctx.beginPath();
-          ctx.moveTo(pt.px, pt.py);
-          ctx.lineTo(next.px, next.py);
-          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.75})`;
-          ctx.lineWidth = pt.scale * 1.1;
-          ctx.stroke();
-        }
-
-        // Vertical line
-        if (r < rows - 1) {
-          const down = projected[r + 1][c];
-          ctx.beginPath();
-          ctx.moveTo(pt.px, pt.py);
-          ctx.lineTo(down.px, down.py);
-          ctx.strokeStyle = `rgba(16, 185, 129, ${alpha * 0.55})`;
-          ctx.lineWidth = pt.scale * 1.1;
-          ctx.stroke();
-        }
-
-        // Floating node glow
-        if ((r + c) % 3 === 0) {
-          ctx.beginPath();
-          ctx.arc(pt.px, pt.py, pt.scale * 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(125, 211, 252, ${alpha * 1.2})`;
-          ctx.fill();
-        }
-      }
-    }
-
-    if (isVisible) {
-      animId = requestAnimationFrame(render);
-    }
-  }
-
-  animId = requestAnimationFrame(render);
-
-  if ('IntersectionObserver' in window) {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        isVisible = entry.isIntersecting;
-        if (isVisible) {
-          if (!animId) animId = requestAnimationFrame(render);
-        } else {
-          if (animId) {
-            cancelAnimationFrame(animId);
-            animId = null;
-          }
-        }
-      });
-    }, { threshold: 0.05 });
-    obs.observe(pageHero);
-  }
-
-  // 2. Inject Subpage 3D Floating Ambient Badges
-  const container = pageHero.querySelector('.container');
-  if (container && !pageHero.querySelector('.subpage-3d-badges-wrap')) {
-    const path = window.location.pathname.toLowerCase();
-    let badges = [
-      { text: '6.1x ROAS Scaling', dot: '' },
-      { text: 'Top #1 SEO Ranked', dot: 'sky' },
-      { text: 'GA4 / CAPI Verified', dot: 'purple' }
-    ];
-    if (path.includes('result')) {
-      badges = [
-        { text: '2.41M+ Reach Growth', dot: 'sky' },
-        { text: '+210% Conversion Lift', dot: '' },
-        { text: 'Enterprise Performance', dot: 'purple' }
-      ];
-    } else if (path.includes('case-stud')) {
-      badges = [
-        { text: 'Real Brands Audited', dot: '' },
-        { text: 'Data-Backed Growth', dot: 'sky' },
-        { text: 'Scale-Ready Funnels', dot: 'purple' }
-      ];
-    } else if (path.includes('seo')) {
-      badges = [
-        { text: 'Top #1 Search Console', dot: 'sky' },
-        { text: 'Zero Spam / White-Hat', dot: '' },
-        { text: '180K+ Organic Traffic', dot: 'purple' }
-      ];
-    } else if (path.includes('review')) {
-      badges = [
-        { text: '5.0★ Genuine Feedback', dot: '' },
-        { text: 'Long-term Partnerships', dot: 'sky' },
-        { text: '100% Client Verified', dot: 'purple' }
-      ];
-    } else if (path.includes('consult')) {
-      badges = [
-        { text: '1-on-1 Growth Audit', dot: 'sky' },
-        { text: 'Full Funnel Roadmaps', dot: '' },
-        { text: 'Strategy Session', dot: 'purple' }
-      ];
-    }
-
-    const wrap = document.createElement('div');
-    wrap.className = 'subpage-3d-badges-wrap';
-    wrap.setAttribute('aria-hidden', 'true');
-    badges.forEach(b => {
-      const el = document.createElement('div');
-      el.className = 'subpage-3d-badge';
-      el.innerHTML = `<span class="s-badge-dot ${b.dot}"></span><span>${b.text}</span>`;
-      wrap.appendChild(el);
-    });
-    pageHero.appendChild(wrap);
-  }
-})();
-
-// ── AUTONOMOUS CONTINUOUS 3D LEVITATION & TILT ACROSS ALL CARDS & PAGES ──
-(function initAutonomous3DFloating() {
-  const cards = document.querySelectorAll(
-    '.brand-exp-card, .service-group, .cs-card-agency, .dash-card, .proof-card-item, ' +
-    '.seo-feature, .pricing-card, .review-card, .about-photo-wrap, .service-media-frame, ' +
-    '.cs-hero-img-wrap, .hero-stat-pill, .hero-sq-wrap'
-  );
-
-  cards.forEach((card, index) => {
-    // 1. Assign continuous 3D spatial levitation class
-    const mod = index % 3;
-    const levClass = mod === 0 ? 'card-levitate-3d-1' : (mod === 1 ? 'card-levitate-3d-2' : 'card-levitate-3d-3');
-    card.classList.add(levClass);
-    card.classList.add('holographic-3d-sheen');
-    card.classList.add('card-tilt-3d');
-
-    // 2. Interactive mouse tilt overlays seamlessly
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
+  tiltCards.forEach(card => {
     let ticking = false;
+
     card.addEventListener('mousemove', (e) => {
       if (ticking) return;
       window.requestAnimationFrame(() => {
@@ -1178,26 +861,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-        const tiltX = -y * 14;
-        const tiltY = x * 14;
+        const tiltX = -y * 12;
+        const tiltY = x * 12;
 
-        const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-        const yPct = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mouse-x', `${xPct.toFixed(1)}%`);
-        card.style.setProperty('--mouse-y', `${yPct.toFixed(1)}%`);
-
-        card.style.animationPlayState = 'paused';
-        card.style.transform = `perspective(1100px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`;
+        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`;
         ticking = false;
       });
       ticking = true;
     }, { passive: true });
 
     card.addEventListener('mouseleave', () => {
-      card.style.animationPlayState = 'running';
       card.style.transform = '';
-      card.style.removeProperty('--mouse-x');
-      card.style.removeProperty('--mouse-y');
     });
   });
 })();
