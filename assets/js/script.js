@@ -865,6 +865,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         const tiltY = x * 12;
 
         card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`;
+        card.style.setProperty('--mouse-x', `${(e.clientX - rect.left)}px`);
+        card.style.setProperty('--mouse-y', `${(e.clientY - rect.top)}px`);
         ticking = false;
       });
       ticking = true;
@@ -878,3 +880,40 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 
 
+
+// --- Premium Animation Additions ---
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Scroll-triggered Staggered Reveal
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    const revealTargets = document.querySelectorAll('.section-title-wrap, .cs-card-agency, .proof-card-item, .brand-exp-card, .service-card, .review-card, .faq-item, .consult-card');
+    revealTargets.forEach(el => {
+      el.classList.add('reveal-on-scroll');
+      revealObserver.observe(el);
+    });
+  }
+
+  // 2. Magnetic Buttons Effect for Desktop
+  if (!window.matchMedia('(pointer: coarse)').matches) {
+    const magnetics = document.querySelectorAll('.hero-btns .btn, .btn-primary');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
+        btn.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+  }
+});
