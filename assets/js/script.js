@@ -106,7 +106,8 @@ function animateCounter(el) {
   function step(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
+    // Smooth easeOutExpo for fluid count-up
+    const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
     const val = target * eased;
     el.textContent = prefix + formatNum(val) + suffix;
     if (progress < 1) requestAnimationFrame(step);
@@ -963,4 +964,332 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+});
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// 3D CYLINDRICAL POV SPIN CAROUSEL (/pov-carousel--spin/)
+// ═══════════════════════════════════════════════════════════════════════
+function initPovCarousel() {
+  const container = document.getElementById('povReviewsCarousel');
+  if (!container) return;
+
+  const rotator = container.querySelector('.pov-carousel-rotator');
+  if (!rotator) return;
+  const cards = Array.from(rotator.querySelectorAll('.pov-card'));
+  if (!cards.length) return;
+
+  const prevBtn = container.querySelector('.pov-prev-btn');
+  const nextBtn = container.querySelector('.pov-next-btn');
+  const dotsContainer = container.querySelector('.pov-pagination-dots');
+
+  const totalCards = cards.length;
+  const angleStep = 360 / totalCards; // 60 deg for 6 cards
+
+  let currentAngle = 0;
+  let targetAngle = 0;
+  let isDragging = false;
+  let startX = 0;
+  let startAngle = 0;
+  let lastX = 0;
+  let velocityX = 0;
+  let animFrameId = null;
+  let isHovered = false;
+  let autoplayTimer = null;
+
+  // Build pagination dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    cards.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = 'pov-p-dot' + (idx === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to testimonial ' + (idx + 1));
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToIndex(idx);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function getRadius() {
+    const w = window.innerWidth;
+    if (w <= 480) return 220;
+    if (w <= 768) return 270;
+    if (w <= 1024) return 330;
+    return 390;
+  }
+
+  function render(angle) {
+    const radius = getRadius();
+    let minDiff = Infinity;
+    let activeIndex = 0;
+
+    cards.forEach((card, i) => {
+      const baseAngle = i * angleStep;
+      let diff = (baseAngle - angle) % 360;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+
+      const absDiff = Math.abs(diff);
+      if (absDiff < minDiff) {
+        minDiff = absDiff;
+        activeIndex = i;
+      }
+
+      const rad = (diff * Math.PI) / 180;
+      const x = Math.sin(rad) * radius;
+      // Recede into Z depth
+      const z = (Math.cos(rad) - 1) * (radius * 0.9);
+      const rotY = diff * 0.35; // gentle panorama tilt
+
+      // Smooth scale and opacity decay
+      const scale = Math.max(0.72, 1 - Math.min(absDiff / 180, 1) * 0.28);
+      let opacity = 1;
+      if (absDiff > 140) {
+        opacity = 0;
+      } else if (absDiff > 65) {
+        opacity = Math.max(0, 1 - ((absDiff - 65) / 75) * 0.75);
+      }
+
+      const zIndex = Math.round(1000 + z);
+
+      card.style.transform = `translate3d(${x.toFixed(1)}px, 0, ${z.toFixed(1)}px) rotateY(${rotY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+      card.style.opacity = opacity.toFixed(3);
+      card.style.zIndex = zIndex;
+      card.style.visibility = opacity < 0.04 ? 'hidden' : 'visible';
+
+      const isActive = (absDiff < 25);
+      card.classList.toggle('is-active', isActive);
+      card.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+    });
+
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.pov-p-dot');
+      dots.forEach((d, idx) => {
+        d.classList.toggle('active', idx === activeIndex);
+      });
+    }
+  }
+
+  function tick() {
+    const delta = targetAngle - currentAngle;
+    if (Math.abs(delta) > 0.05) {
+      currentAngle += delta * 0.14;
+      render(currentAngle);
+      animFrameId = requestAnimationFrame(tick);
+    } else {
+      currentAngle = targetAngle;
+      render(currentAngle);
+      animFrameId = null;
+    }
+  }
+
+  function animateTo(angle) {
+    targetAngle = angle;
+    if (!animFrameId) {
+      animFrameId = requestAnimationFrame(tick);
+    }
+  }
+
+  function snapToNearest() {
+    targetAngle = Math.round(targetAngle / angleStep) * angleStep;
+    animateTo(targetAngle);
+  }
+
+  function goToIndex(idx) {
+    const normCurrent = ((targetAngle % 360) + 360) % 360;
+    const targetBase = idx * angleStep;
+    let diff = (targetBase - normCurrent) % 360;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    targetAngle += diff;
+    animateTo(targetAngle);
+  }
+
+  function next() {
+    targetAngle += angleStep;
+    animateTo(targetAngle);
+  }
+
+  function prev() {
+    targetAngle -= angleStep;
+    animateTo(targetAngle);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetAutoplay(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetAutoplay(); });
+
+  // Direct click to spin inactive card to front
+  cards.forEach((card, idx) => {
+    card.addEventListener('click', (e) => {
+      if (!card.classList.contains('is-active')) {
+        e.preventDefault();
+        goToIndex(idx);
+        resetAutoplay();
+      }
+    });
+  });
+
+  // Pointer / Mouse Drag / Touch Swipe
+  function onPointerDown(e) {
+    isDragging = true;
+    startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    lastX = startX;
+    startAngle = targetAngle;
+    rotator.classList.add('is-dragging');
+    stopAutoplay();
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    const deltaX = clientX - startX;
+    velocityX = clientX - lastX;
+    lastX = clientX;
+
+    const factor = window.innerWidth <= 640 ? 0.32 : 0.22;
+    targetAngle = startAngle - (deltaX * factor);
+    currentAngle = targetAngle;
+    render(currentAngle);
+  }
+
+  function onPointerUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    rotator.classList.remove('is-dragging');
+
+    // Smooth inertia snap
+    targetAngle -= velocityX * 0.75;
+    snapToNearest();
+    startAutoplay();
+  }
+
+  rotator.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  rotator.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+
+  // Wheel horizontal / tilt support
+  let wheelTimeout = null;
+  container.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) {
+      e.preventDefault();
+      const delta = (e.deltaX || e.deltaY);
+      targetAngle += (delta > 0 ? 1 : -1) * 20;
+      animateTo(targetAngle);
+      clearTimeout(wheelTimeout);
+      wheelTimeout = setTimeout(snapToNearest, 160);
+      resetAutoplay();
+    }
+  }, { passive: false });
+
+  // Keyboard navigation
+  container.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev();
+      resetAutoplay();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      next();
+      resetAutoplay();
+    }
+  });
+
+  // Autoplay with hover pause
+  function startAutoplay() {
+    stopAutoplay();
+    if (isHovered) return;
+    autoplayTimer = setInterval(() => {
+      next();
+    }, 4800);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  container.addEventListener('mouseenter', () => {
+    isHovered = true;
+    stopAutoplay();
+  });
+
+  container.addEventListener('mouseleave', () => {
+    isHovered = false;
+    startAutoplay();
+  });
+
+  window.addEventListener('resize', () => {
+    render(currentAngle);
+  });
+
+  // Initial render
+  render(0);
+  startAutoplay();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// SPRINGY RAF MAGNETIC PULL ON PRIMARY CTAS
+// ═══════════════════════════════════════════════════════════════════════
+function initMagneticButtons() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  const primaryBtns = document.querySelectorAll('.btn-primary, .hero-cta, .consult-book-btn, .btn-solid, .hero-btns .btn');
+  primaryBtns.forEach(btn => {
+    btn.classList.add('btn-magnetic');
+    let rafId = null;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let isHovering = false;
+
+    function springLoop() {
+      // Spring lerp interpolation
+      currentX += (targetX - currentX) * 0.16;
+      currentY += (targetY - currentY) * 0.16;
+      btn.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
+
+      if (isHovering || Math.abs(currentX) > 0.1 || Math.abs(currentY) > 0.1) {
+        rafId = requestAnimationFrame(springLoop);
+      } else {
+        btn.style.transform = 'translate3d(0, 0, 0)';
+        rafId = null;
+      }
+    }
+
+    btn.addEventListener('mousemove', (e) => {
+      isHovering = true;
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - (rect.left + rect.width / 2);
+      const y = e.clientY - (rect.top + rect.height / 2);
+      // Gentle spring magnetic pull (max 10px offset)
+      targetX = Math.max(-10, Math.min(10, x * 0.25));
+      targetY = Math.max(-8, Math.min(8, y * 0.25));
+      if (!rafId) rafId = requestAnimationFrame(springLoop);
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      isHovering = false;
+      targetX = 0;
+      targetY = 0;
+    });
+  });
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  initPovCarousel();
+  initMagneticButtons();
 });

@@ -3534,7 +3534,7 @@ input, select, textarea {
 }
 
 .hero-btns .btn-primary:hover, .btn-solid:hover {
-  box-shadow: 0 10px 28px rgba(0, 102, 255, 0.45) !important;
+  box-shadow: 0 10px 28px rgba(11, 37, 69, 0.35) !important;
 }
 
 /* Highlight Shimmer across all pages */
@@ -3565,4 +3565,280 @@ input, select, textarea {
 @keyframes pulseRipple {
   0% { transform: scale(0.9); opacity: 0.85; }
   100% { transform: scale(2.6); opacity: 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3D POV CYLINDRICAL SPIN CAROUSEL (/pov-carousel--spin/)
+   ═══════════════════════════════════════════════════════════════════════ */
+.pov-reviews-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.pov-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 0 24px;
+  user-select: none;
+  outline: none;
+  overflow: hidden;
+}
+
+.pov-carousel-stage {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pov-carousel-rotator {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.pov-carousel-rotator.is-dragging {
+  cursor: grabbing;
+}
+
+/* Individual 3D POV Card */
+.pov-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(390px, calc(100vw - 44px));
+  margin-left: calc(min(390px, calc(100vw - 44px)) / -2);
+  margin-top: -215px;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.45s ease, 
+              box-shadow 0.45s ease;
+  pointer-events: auto;
+}
+
+.pov-card .rv-card {
+  height: 100%;
+  min-height: 380px;
+  box-sizing: border-box;
+  background: var(--white);
+  border: 1.5px solid var(--rule);
+  border-radius: 20px;
+  padding: 30px 26px 24px;
+  box-shadow: 0 10px 30px rgba(11, 37, 69, 0.08);
+  transition: all 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Active center card: Elevated scale, crisp opacity, glowing steel blue border */
+.pov-card.is-active .rv-card {
+  border-color: rgba(91, 159, 213, 0.85);
+  box-shadow: 0 20px 50px -10px rgba(11, 37, 69, 0.22), 
+              0 0 32px rgba(91, 159, 213, 0.35),
+              inset 0 0 20px rgba(235, 243, 252, 0.65);
+  transform: translateY(-4px);
+}
+
+.pov-card.is-active .rv-verified {
+  background: rgba(91, 159, 213, 0.15);
+  border-color: rgba(91, 159, 213, 0.4);
+  color: #163A6B;
+}
+
+/* Inactive receding cards */
+.pov-card:not(.is-active) {
+  cursor: pointer;
+}
+
+.pov-card:not(.is-active) .rv-card {
+  filter: brightness(0.97);
+}
+
+.pov-card:not(.is-active):hover .rv-card {
+  filter: brightness(1.02);
+  border-color: var(--steel-light);
+}
+
+/* Controls */
+.pov-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 10;
+}
+
+.pov-arrow-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1.5px solid var(--rule);
+  color: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.08);
+}
+
+.pov-arrow-btn:hover {
+  background: var(--navy);
+  color: #FFFFFF;
+  border-color: var(--navy);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.24);
+}
+
+.pov-pagination-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pov-p-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #CBD5E1;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.pov-p-dot.active {
+  background: linear-gradient(135deg, var(--steel) 0%, var(--steel-light) 100%);
+  width: 28px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(46, 109, 164, 0.35);
+}
+
+/* Interaction drag hint badge */
+.pov-drag-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px auto 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--steel);
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+}
+
+.pov-drag-hint svg {
+  animation: povHintSway 2.4s ease-in-out infinite;
+}
+
+@keyframes povHintSway {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@media (max-width: 768px) {
+  .pov-carousel-stage {
+    height: 460px;
+  }
+  .pov-card {
+    width: min(340px, calc(100vw - 32px));
+    margin-left: calc(min(340px, calc(100vw - 32px)) / -2);
+    margin-top: -205px;
+  }
+  .pov-card .rv-card {
+    padding: 24px 20px 20px;
+    min-height: 360px;
+  }
+  .pov-card .rv-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CARD BORDER BEAM / TRAVELING GLOW ANIMATION
+   ═══════════════════════════════════════════════════════════════════════ */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card-border-beam {
+  position: relative !important;
+  border-color: rgba(91, 159, 213, 0.28) !important;
+}
+
+.card-border-beam::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,
+    transparent 65%,
+    rgba(91, 159, 213, 0.15) 75%,
+    #5B9FD5 88%,
+    #EBF3FC 95%,
+    #2E6DA4 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  animation: border-beam-spin 6.5s linear infinite;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.card-border-beam:hover::before {
+  animation-duration: 3.2s;
+  opacity: 1;
+}
+
+@keyframes border-beam-spin {
+  0% { --beam-angle: 0deg; }
+  100% { --beam-angle: 360deg; }
+}
+
+/* Fallback for browsers not supporting @property */
+@supports not (background: paint(something)) {
+  .card-border-beam::before {
+    background: linear-gradient(135deg, rgba(91, 159, 213, 0.35), rgba(46, 109, 164, 0.25), transparent);
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SPRINGY MAGNETIC BUTTONS
+   ═══════════════════════════════════════════════════════════════════════ */
+.btn-magnetic {
+  display: inline-flex !important;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
