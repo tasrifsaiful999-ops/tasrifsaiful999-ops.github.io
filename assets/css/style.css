@@ -5158,3 +5158,197 @@ footer {
     scroll-behavior: auto !important;
   }
 }
+
+
+
+/* ==========================================================================
+   LUSION 3D WEBGL & CUBERTO INTERACTION & ACTIVE THEORY ATMOSPHERE (v4.0)
+   ========================================================================== */
+
+/* 1. Lusion Real-Time 3D WebGL Canvas */
+.lusion-3d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+  transition: opacity 0.5s ease;
+}
+
+/* 2. Cuberto Fluid Custom Mouse Follower */
+.cuberto-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 999999;
+  user-select: none;
+  transition: opacity 0.3s ease;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7DD3FC;
+  box-shadow: 0 0 10px #7DD3FC, 0 0 20px #5B9FD5;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease-out, opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(125, 211, 252, 0.65);
+  background: rgba(11, 37, 69, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 0 20px rgba(91, 159, 213, 0.3), inset 0 0 10px rgba(91, 159, 213, 0.15);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.25s ease,
+              border-color 0.25s ease,
+              border-radius 0.3s ease,
+              box-shadow 0.25s ease,
+              opacity 0.2s ease;
+  overflow: hidden;
+}
+
+.cursor-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover States for Cuberto Cursor */
+.cuberto-cursor.is-hover-button .cursor-dot {
+  opacity: 0;
+}
+.cuberto-cursor.is-hover-button .cursor-ring {
+  width: 56px;
+  height: 56px;
+  background: rgba(91, 159, 213, 0.3);
+  border-color: rgba(125, 211, 252, 0.9);
+  box-shadow: 0 0 32px rgba(91, 159, 213, 0.55);
+}
+
+.cuberto-cursor.is-hover-card .cursor-dot {
+  opacity: 0;
+}
+.cuberto-cursor.is-hover-card .cursor-ring {
+  width: 110px;
+  height: 38px;
+  background: rgba(11, 37, 69, 0.88);
+  border-color: rgba(125, 211, 252, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 24px rgba(91, 159, 213, 0.4);
+}
+.cuberto-cursor.is-hover-card .cursor-label {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.cuberto-cursor.is-hover-drag .cursor-dot {
+  opacity: 0;
+}
+.cuberto-cursor.is-hover-drag .cursor-ring {
+  width: 96px;
+  height: 34px;
+  background: rgba(11, 37, 69, 0.92);
+  border-color: rgba(91, 159, 213, 0.7);
+}
+.cuberto-cursor.is-hover-drag .cursor-label {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (pointer: coarse), (hover: none) {
+  .cuberto-cursor {
+    display: none !important;
+  }
+}
+
+/* 3. Active Theory Specular Dynamic Border on Cards */
+.service-card,
+.cs-card-agency,
+.dash-card,
+.hero-stat-pill {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease !important;
+}
+
+.service-card::before,
+.cs-card-agency::before,
+.dash-card::before,
+.hero-stat-pill::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(125, 211, 252, 0.35), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.service-card:hover::before,
+.cs-card-agency:hover::before,
+.dash-card:hover::before,
+.hero-stat-pill:hover::before {
+  opacity: 1;
+}
+
+/* 4. Active Theory Click Energy Ripple */
+.click-ripple-pulse {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  border: 1.5px solid rgba(125, 211, 252, 0.85);
+  box-shadow: 0 0 20px rgba(91, 159, 213, 0.6);
+  animation: clickRippleAnim 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 999998;
+}
+
+@keyframes clickRippleAnim {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

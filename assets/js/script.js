@@ -6143,6 +6143,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initDhakaClock();
   initMotionPreviewSystem();
+  initLusion3DScene();
+  initCubertoCursor();
+  initActiveTheoryAtmosphere();
 
 
 
@@ -6315,4 +6318,344 @@ function initMotionPreviewSystem() {
   if (activeMode === 'intro') {
     runCinematicIntroSequence();
   }
+}
+
+
+
+
+/* ==========================================================================
+   LUSION 3D WEBGL ENGINE & CUBERTO INTERACTION (v4.0)
+   ========================================================================== */
+
+// 1. Lusion Real-Time 3D WebGL Spatial Scene (Three.js)
+function initLusion3DScene() {
+  if (typeof window === 'undefined' || typeof THREE === 'undefined') return;
+  const canvas = document.getElementById('lusionCanvas3D');
+  const heroSection = document.getElementById('hero');
+  if (!canvas || !heroSection) return;
+
+  // Reduced motion safeguard
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    canvas.style.display = 'none';
+    return;
+  }
+
+  // Scene & Camera
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, heroSection.offsetWidth / heroSection.offsetHeight, 0.1, 1000);
+  camera.position.z = 17;
+
+  // Renderer
+  let renderer = null;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+  } catch (err) {
+    console.warn('WebGL not supported, falling back to 2D canvas.');
+    return;
+  }
+  renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  // Lights (Lusion Studio Setup)
+  const ambientLight = new THREE.AmbientLight(0x0B2545, 1.8);
+  scene.add(ambientLight);
+
+  const keyLight = new THREE.PointLight(0x5B9FD5, 3.8, 60);
+  keyLight.position.set(12, 10, 14);
+  scene.add(keyLight);
+
+  const rimLight = new THREE.PointLight(0x2E6DA4, 2.6, 60);
+  rimLight.position.set(-12, -8, 10);
+  scene.add(rimLight);
+
+  const cursorLight = new THREE.PointLight(0x7DD3FC, 2.4, 40);
+  cursorLight.position.set(0, 0, 10);
+  scene.add(cursorLight);
+
+  // Group for floating geometries
+  const group3D = new THREE.Group();
+  scene.add(group3D);
+
+  // Central Lusion Crystal Polyhedron (Beside & Behind Portrait)
+  const crystalGeo = new THREE.IcosahedronGeometry(3.6, 2);
+  const crystalMat = new THREE.MeshPhysicalMaterial({
+    color: 0x163A6B,
+    emissive: 0x0B2545,
+    roughness: 0.12,
+    metalness: 0.85,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.08,
+    transparent: true,
+    opacity: 0.82,
+    reflectivity: 0.95
+  });
+  const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
+  crystalMesh.position.set(6.8, 0.5, -2);
+  group3D.add(crystalMesh);
+
+  // Outer Glowing Wireframe Cage
+  const wireGeo = new THREE.IcosahedronGeometry(4.2, 1);
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: 0x5B9FD5,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.28
+  });
+  const wireMesh = new THREE.Mesh(wireGeo, wireMat);
+  wireMesh.position.copy(crystalMesh.position);
+  group3D.add(wireMesh);
+
+  // Orbiting Floating Secondary Crystal Nodes
+  const nodeDefs = [
+    { geo: new THREE.OctahedronGeometry(1.2), x: -8, y: 4.5, z: 2 },
+    { geo: new THREE.DodecahedronGeometry(1.4), x: 10, y: -4, z: -3 },
+    { geo: new THREE.TetrahedronGeometry(1.1), x: -10, y: -4.5, z: 1 },
+    { geo: new THREE.IcosahedronGeometry(1.3), x: 8.5, y: 6.5, z: -1 }
+  ];
+
+  const floatingNodes = [];
+  nodeDefs.forEach(def => {
+    const mat = new THREE.MeshPhysicalMaterial({
+      color: 0x2E6DA4,
+      roughness: 0.18,
+      metalness: 0.78,
+      transparent: true,
+      opacity: 0.72
+    });
+    const mesh = new THREE.Mesh(def.geo, mat);
+    mesh.position.set(def.x, def.y, def.z);
+    mesh.userData = { origX: def.x, origY: def.y, origZ: def.z, speed: 0.01 + Math.random() * 0.01 };
+    group3D.add(mesh);
+    floatingNodes.push(mesh);
+  });
+
+  // Active Theory Particle Constellation (Depth Nodes & Connection Lines)
+  const particleCount = 120;
+  const particleGeo = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleVelocities = [];
+
+  for (let i = 0; i < particleCount; i++) {
+    particlePositions[i * 3] = (Math.random() - 0.5) * 36;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 24;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 16;
+    particleVelocities.push({
+      vx: (Math.random() - 0.5) * 0.015,
+      vy: (Math.random() - 0.5) * 0.015,
+      vz: (Math.random() - 0.5) * 0.015
+    });
+  }
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+  const particleMat = new THREE.PointsMaterial({
+    color: 0x7DD3FC,
+    size: 0.18,
+    transparent: true,
+    opacity: 0.75,
+    blending: THREE.AdditiveBlending
+  });
+  const particleSystem = new THREE.Points(particleGeo, particleMat);
+  scene.add(particleSystem);
+
+  // Mouse & Camera Parallax Control
+  let mouseX = 0, mouseY = 0;
+  let targetCamX = 0, targetCamY = 0;
+  let isVisible = true;
+  let rafId = null;
+
+  function onMouseMove(e) {
+    const rect = heroSection.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouseY = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+
+    targetCamX = mouseX * 1.8;
+    targetCamY = mouseY * 1.2;
+
+    cursorLight.position.x = mouseX * 12;
+    cursorLight.position.y = mouseY * 8;
+  }
+  window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+  // Handle Resize
+  function onResize() {
+    if (!heroSection || !renderer) return;
+    const w = heroSection.offsetWidth;
+    const h = heroSection.offsetHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', onResize, { passive: true });
+
+  // Intersection Observer for 60FPS Optimization
+  const observer = new IntersectionObserver((entries) => {
+    isVisible = entries[0].isIntersecting;
+    if (isVisible && !rafId) {
+      rafId = requestAnimationFrame(animate);
+    }
+  }, { threshold: 0.05 });
+  observer.observe(heroSection);
+
+  // Main 3D Animation Loop
+  let time = 0;
+  function animate() {
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+    time += 0.015;
+
+    // Smooth camera lerp
+    camera.position.x += (targetCamX - camera.position.x) * 0.06;
+    camera.position.y += (targetCamY - camera.position.y) * 0.06;
+    camera.lookAt(0, 0, 0);
+
+    // Rotate Central Crystal
+    crystalMesh.rotation.x += 0.005;
+    crystalMesh.rotation.y += 0.008;
+    crystalMesh.position.y = 0.5 + Math.sin(time * 1.2) * 0.35;
+
+    // Counter-rotate Wireframe Cage
+    wireMesh.rotation.x -= 0.004;
+    wireMesh.rotation.y -= 0.006;
+    wireMesh.position.copy(crystalMesh.position);
+
+    // Animate Orbiting Nodes
+    floatingNodes.forEach((node, idx) => {
+      node.rotation.x += node.userData.speed;
+      node.rotation.y += node.userData.speed * 1.2;
+      node.position.y = node.userData.origY + Math.sin(time * 1.5 + idx) * 0.45;
+      node.position.x = node.userData.origX + Math.cos(time * 1.2 + idx) * 0.25;
+    });
+
+    // Particle Drift
+    const pos = particleGeo.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      pos[i * 3] += particleVelocities[i].vx;
+      pos[i * 3 + 1] += particleVelocities[i].vy;
+      pos[i * 3 + 2] += particleVelocities[i].vz;
+
+      // Wrap boundaries
+      if (pos[i * 3] > 18) pos[i * 3] = -18;
+      if (pos[i * 3] < -18) pos[i * 3] = 18;
+      if (pos[i * 3 + 1] > 12) pos[i * 3 + 1] = -12;
+      if (pos[i * 3 + 1] < -12) pos[i * 3 + 1] = 12;
+    }
+    particleGeo.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+    rafId = requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+// 2. Cuberto Fluid Custom Mouse Follower
+function initCubertoCursor() {
+  if (typeof window === 'undefined') return;
+  if (window.matchMedia('(pointer: coarse), (hover: none)').matches) return;
+
+  const cursorEl = document.getElementById('cubertoCursor');
+  if (!cursorEl) return;
+
+  const dot = cursorEl.querySelector('.cursor-dot');
+  const ring = cursorEl.querySelector('.cursor-ring');
+  const label = cursorEl.querySelector('.cursor-label');
+  if (!dot || !ring) return;
+
+  let mouseX = -100, mouseY = -100;
+  let ringX = -100, ringY = -100;
+  let isVisible = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!isVisible) {
+      isVisible = true;
+      cursorEl.style.opacity = '1';
+      ringX = mouseX;
+      ringY = mouseY;
+    }
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => {
+    cursorEl.style.opacity = '0';
+    isVisible = false;
+  });
+
+  // Smooth Spring Loop
+  function loop() {
+    if (isVisible) {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+
+      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      ring.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) translate(-50%, -50%)`;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Dynamic Hover Morphing Targets
+  document.addEventListener('mouseover', (e) => {
+    // 1. Buttons & CTA
+    const btn = e.target.closest('.btn, .nav-cta-btn, .pre-card-cta, .consult-book-btn, .btn-solid, .filter-tab-pill, .hamburger');
+    if (btn) {
+      cursorEl.className = 'cuberto-cursor is-hover-button';
+      return;
+    }
+
+    // 2. Proof & Project Cards
+    const card = e.target.closest('.hero-stat-pill, .hero-side-badge-card, .cs-card-agency, .dash-card, .service-card');
+    if (card) {
+      cursorEl.className = 'cuberto-cursor is-hover-card';
+      if (label) {
+        label.textContent = card.hasAttribute('data-proof-src') ? 'VIEW PROOF' : 'EXPLORE';
+      }
+      return;
+    }
+
+    // 3. Draggable Carousel & Marquee
+    const drag = e.target.closest('.brand-marquee-container, #reviews, .pov-carousel-container');
+    if (drag) {
+      cursorEl.className = 'cuberto-cursor is-hover-drag';
+      if (label) label.textContent = 'DRAG ⟷';
+      return;
+    }
+
+    // Default State
+    cursorEl.className = 'cuberto-cursor';
+  });
+}
+
+// 3. Active Theory Atmospheric Depth & Interactive Ripples
+function initActiveTheoryAtmosphere() {
+  if (typeof window === 'undefined') return;
+
+  // Specular Border Sweep on Cards (Tracks Mouse Coordinates)
+  const cards = document.querySelectorAll('.service-card, .cs-card-agency, .dash-card, .hero-stat-pill');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mouse-x', x.toFixed(1) + '%');
+      card.style.setProperty('--mouse-y', y.toFixed(1) + '%');
+    }, { passive: true });
+  });
+
+  // Interactive Click Energy Ripple (Active Theory Style)
+  window.addEventListener('pointerdown', (e) => {
+    // Only trigger on interactive items or main container
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple-pulse';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top = e.clientY + 'px';
+    document.body.appendChild(ripple);
+
+    setTimeout(() => {
+      ripple.remove();
+    }, 750);
+  }, { passive: true });
 }
