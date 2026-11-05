@@ -6172,7 +6172,7 @@ function initMotionPreviewSystem() {
   let activeMode = urlParams.get('motion');
 
   if (!activeMode || !['original', 'enhanced', 'intro'].includes(activeMode)) {
-    activeMode = sessionStorage.getItem('saiful_motion_mode') || 'original';
+    activeMode = sessionStorage.getItem('saiful_motion_mode') || 'intro';
   }
 
   // Set mode on root element
