@@ -4124,3 +4124,471 @@ body:hover .ambient-interactive-spotlight {
     transform: none !important;
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3D FLOATING CAPSULE NAVBAR & LUXURY BRAND MONOGRAM (v4.0)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 1. Floating 3D Capsule Navbar */
+#navbar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1220px, calc(100% - 28px));
+  height: 66px;
+  padding: 0 16px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 9999px;
+  background: rgba(11, 37, 69, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(91, 159, 213, 0.32);
+  box-shadow: 0 18px 44px -10px rgba(7, 23, 44, 0.48), 
+              0 0 24px rgba(91, 159, 213, 0.12),
+              inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  z-index: 1000;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body:not(:has(#hero)) #navbar,
+#navbar.nav-solid,
+#navbar.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(91, 159, 213, 0.28);
+  box-shadow: 0 18px 46px -8px rgba(11, 37, 69, 0.15),
+              0 0 20px rgba(91, 159, 213, 0.08),
+              inset 0 1px 1px rgba(255, 255, 255, 0.85);
+}
+
+/* 2. 3D Monogram Emblem & Wordmark */
+.nav-brand-luxury {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.nav-brand-luxury:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.brand-monogram-badge {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.35),
+              0 0 14px rgba(91, 159, 213, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+.nav-brand-luxury:hover .brand-monogram-badge {
+  box-shadow: 0 6px 20px rgba(11, 37, 69, 0.4),
+              0 0 22px rgba(91, 159, 213, 0.45);
+}
+
+.monogram-glass-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 50%, rgba(91,159,213,0.15) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.monogram-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-name {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  transition: color 0.25s ease;
+}
+
+body:not(:has(#hero)) #navbar .brand-name,
+#navbar.nav-solid .brand-name,
+#navbar.scrolled .brand-name {
+  color: var(--navy);
+}
+
+.brand-micro {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #7DD3FC;
+  transition: color 0.25s ease;
+  margin-top: 2px;
+}
+
+body:not(:has(#hero)) #navbar .brand-micro,
+#navbar.nav-solid .brand-micro,
+#navbar.scrolled .brand-micro {
+  color: var(--steel);
+}
+
+@media (max-width: 520px) {
+  .brand-wordmark {
+    display: none;
+  }
+}
+
+/* 3. Sliding Hover Pill Indicator */
+.nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  padding: 4px;
+}
+
+.nav-sliding-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 38px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              background 0.2s ease;
+  z-index: 1;
+}
+
+body:not(:has(#hero)) #navbar .nav-sliding-pill,
+#navbar.nav-solid .nav-sliding-pill,
+#navbar.scrolled .nav-sliding-pill {
+  background: rgba(11, 37, 69, 0.08);
+  border: 1px solid rgba(11, 37, 69, 0.12);
+}
+
+.nav-links li {
+  position: relative;
+  z-index: 2;
+}
+
+.nav-links a {
+  position: relative;
+  z-index: 2;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+body:not(:has(#hero)) #navbar .nav-links a,
+#navbar.nav-solid .nav-links a,
+#navbar.scrolled .nav-links a {
+  color: var(--text-mid);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #FFFFFF !important;
+}
+
+body:not(:has(#hero)) #navbar .nav-links a:hover,
+#navbar.nav-solid .nav-links a:hover,
+#navbar.scrolled .nav-links a:hover,
+body:not(:has(#hero)) #navbar .nav-links a.active,
+#navbar.nav-solid .nav-links a.active,
+#navbar.scrolled .nav-links a.active {
+  color: var(--navy) !important;
+}
+
+/* 4. Navbar CTA with Live Radar Status Dot */
+.nav-links .nav-cta {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px !important;
+  border-radius: 9999px !important;
+  font-size: 0.83rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #0B2545 0%, #163A6B 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(91, 159, 213, 0.45) !important;
+  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.3), 0 0 14px rgba(91, 159, 213, 0.2) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.nav-links .nav-cta:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%) !important;
+  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.35), 0 0 22px rgba(91, 159, 213, 0.4) !important;
+}
+
+.live-status-radar {
+  position: relative;
+  display: inline-flex;
+  width: 9px;
+  height: 9px;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.radar-ping {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #10B981;
+  opacity: 0.75;
+  animation: radarWave 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@keyframes radarWave {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3D FOOTER HORIZON DEPTH & INTERACTIVE RETAINER DECK
+   ═══════════════════════════════════════════════════════════════════════ */
+footer {
+  position: relative;
+  background: #07172C !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  padding: 60px 0 28px !important;
+  overflow: hidden !important;
+}
+
+/* Radiant Curved Horizon Arc */
+.footer-horizon-arc {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  max-width: 1600px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(91, 159, 213, 0.38) 0%, rgba(46, 109, 164, 0.16) 40%, transparent 75%);
+  border-bottom: 1.5px solid rgba(91, 159, 213, 0.45);
+  box-shadow: 0 10px 40px rgba(91, 159, 213, 0.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Pre-footer 3D Floating Retainer Card */
+.footer-pre-card-wrap {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 56px;
+}
+
+.footer-pre-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(11, 37, 69, 0.85) 0%, rgba(22, 58, 107, 0.7) 100%);
+  border: 1px solid rgba(91, 159, 213, 0.35);
+  border-radius: 24px;
+  padding: 44px 40px;
+  box-shadow: 0 24px 60px -12px rgba(7, 23, 44, 0.5),
+              0 0 35px rgba(91, 159, 213, 0.18),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.pre-card-ambient-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(91, 159, 213, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pre-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.pre-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7DD3FC;
+  background: rgba(91, 159, 213, 0.12);
+  border: 1px solid rgba(91, 159, 213, 0.25);
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+.pre-card-tz {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 5px 13px;
+  border-radius: 20px;
+}
+
+.pre-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.pre-card-sub {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.pre-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* 3D Social Media Badges */
+.footer-social-3d {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.social-tile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(7, 23, 44, 0.3);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.social-tile .tile-icon {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+  flex: 0 0 17px;
+  transition: transform 0.25s ease;
+}
+
+.social-tile:hover {
+  transform: translateY(-3px) scale(1.04);
+  color: #FFFFFF;
+}
+
+.social-tile:hover .tile-icon {
+  transform: scale(1.15);
+}
+
+/* Brand-specific hover glows */
+.social-tile.tile-fb:hover {
+  background: rgba(24, 119, 242, 0.22);
+  border-color: rgba(24, 119, 242, 0.6);
+  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.3);
+}
+
+.social-tile.tile-ig:hover {
+  background: rgba(225, 48, 108, 0.22);
+  border-color: rgba(225, 48, 108, 0.6);
+  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.3);
+}
+
+.social-tile.tile-li:hover {
+  background: rgba(10, 102, 194, 0.25);
+  border-color: rgba(10, 102, 194, 0.65);
+  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.35);
+}
+
+.social-tile.tile-wa:hover {
+  background: rgba(37, 211, 102, 0.22);
+  border-color: rgba(37, 211, 102, 0.6);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+}
+
+.footer-bottom {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 24px;
+}
+.footer-bottom span {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+}
