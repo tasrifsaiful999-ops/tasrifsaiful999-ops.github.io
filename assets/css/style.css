@@ -4126,515 +4126,48 @@ body:hover .ambient-interactive-spotlight {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════
-   3D FLOATING CAPSULE NAVBAR & LUXURY BRAND MONOGRAM (v4.0)
-   ═══════════════════════════════════════════════════════════════════════ */
 
-/* 1. Floating 3D Capsule Navbar */
-#navbar {
-  position: fixed;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1220px, calc(100% - 28px));
-  height: 66px;
-  padding: 0 16px 0 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 9999px;
-  background: rgba(11, 37, 69, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(91, 159, 213, 0.32);
-  box-shadow: 0 18px 44px -10px rgba(7, 23, 44, 0.48), 
-              0 0 24px rgba(91, 159, 213, 0.12),
-              inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  z-index: 1000;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* ==========================================================================
+   REFINED NAVY BLUE 3-ZONE FLOATING ISLAND NAVBAR & 3D FOOTER DECK (v3.6)
+   Clean, Prestigious, Clutter-Free Linear/Apple Standard
+   ========================================================================== */
 
-body:not(:has(#hero)) #navbar,
-#navbar.nav-solid,
-#navbar.scrolled {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(91, 159, 213, 0.28);
-  box-shadow: 0 18px 46px -8px rgba(11, 37, 69, 0.15),
-              0 0 20px rgba(91, 159, 213, 0.08),
-              inset 0 1px 1px rgba(255, 255, 255, 0.85);
-}
-
-/* 2. 3D Monogram Emblem & Wordmark */
-.nav-brand-luxury {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  flex-shrink: 0;
-}
-.nav-brand-luxury:hover {
-  transform: translateY(-1px) scale(1.02);
-}
-
-.brand-monogram-badge {
-  position: relative;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.35),
-              0 0 14px rgba(91, 159, 213, 0.25);
-  transition: box-shadow 0.3s ease;
-}
-.nav-brand-luxury:hover .brand-monogram-badge {
-  box-shadow: 0 6px 20px rgba(11, 37, 69, 0.4),
-              0 0 22px rgba(91, 159, 213, 0.45);
-}
-
-.monogram-glass-sheen {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 50%, rgba(91,159,213,0.15) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.monogram-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.brand-wordmark {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.brand-name {
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  font-size: 0.94rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #FFFFFF;
-  transition: color 0.25s ease;
-}
-
-body:not(:has(#hero)) #navbar .brand-name,
-#navbar.nav-solid .brand-name,
-#navbar.scrolled .brand-name {
-  color: var(--navy);
-}
-
-.brand-micro {
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #7DD3FC;
-  transition: color 0.25s ease;
-  margin-top: 2px;
-}
-
-body:not(:has(#hero)) #navbar .brand-micro,
-#navbar.nav-solid .brand-micro,
-#navbar.scrolled .brand-micro {
-  color: var(--steel);
-}
-
-@media (max-width: 520px) {
-  .brand-wordmark {
-    display: none;
-  }
-}
-
-/* 3. Sliding Hover Pill Indicator */
-.nav-links {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  list-style: none;
-  padding: 4px;
-}
-
-.nav-sliding-pill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 38px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.2s ease,
-              background 0.2s ease;
-  z-index: 1;
-}
-
-body:not(:has(#hero)) #navbar .nav-sliding-pill,
-#navbar.nav-solid .nav-sliding-pill,
-#navbar.scrolled .nav-sliding-pill {
-  background: rgba(11, 37, 69, 0.08);
-  border: 1px solid rgba(11, 37, 69, 0.12);
-}
-
-.nav-links li {
-  position: relative;
-  z-index: 2;
-}
-
-.nav-links a {
-  position: relative;
-  z-index: 2;
-  padding: 8px 14px;
-  border-radius: 9999px;
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.88);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-body:not(:has(#hero)) #navbar .nav-links a,
-#navbar.nav-solid .nav-links a,
-#navbar.scrolled .nav-links a {
-  color: var(--text-mid);
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: #FFFFFF !important;
-}
-
-body:not(:has(#hero)) #navbar .nav-links a:hover,
-#navbar.nav-solid .nav-links a:hover,
-#navbar.scrolled .nav-links a:hover,
-body:not(:has(#hero)) #navbar .nav-links a.active,
-#navbar.nav-solid .nav-links a.active,
-#navbar.scrolled .nav-links a.active {
-  color: var(--navy) !important;
-}
-
-/* 4. Navbar CTA with Live Radar Status Dot */
-.nav-links .nav-cta {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 18px !important;
-  border-radius: 9999px !important;
-  font-size: 0.83rem !important;
-  font-weight: 700 !important;
-  background: linear-gradient(135deg, #0B2545 0%, #163A6B 100%) !important;
-  color: #FFFFFF !important;
-  border: 1px solid rgba(91, 159, 213, 0.45) !important;
-  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.3), 0 0 14px rgba(91, 159, 213, 0.2) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.nav-links .nav-cta:hover {
-  transform: translateY(-2px) scale(1.03) !important;
-  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%) !important;
-  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.35), 0 0 22px rgba(91, 159, 213, 0.4) !important;
-}
-
-.live-status-radar {
-  position: relative;
-  display: inline-flex;
-  width: 9px;
-  height: 9px;
-  align-items: center;
-  justify-content: center;
-}
-
-.radar-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 8px #10B981;
-}
-
-.radar-ping {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 1.5px solid #10B981;
-  opacity: 0.75;
-  animation: radarWave 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-}
-
-@keyframes radarWave {
-  0% { transform: scale(0.8); opacity: 0.9; }
-  100% { transform: scale(2.5); opacity: 0; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   3D FOOTER HORIZON DEPTH & INTERACTIVE RETAINER DECK
-   ═══════════════════════════════════════════════════════════════════════ */
-footer {
-  position: relative;
-  background: #07172C !important;
-  color: rgba(255, 255, 255, 0.65) !important;
-  padding: 60px 0 28px !important;
-  overflow: hidden !important;
-}
-
-/* Radiant Curved Horizon Arc */
-.footer-horizon-arc {
-  position: absolute;
-  top: -120px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140%;
-  max-width: 1600px;
-  height: 190px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(91, 159, 213, 0.38) 0%, rgba(46, 109, 164, 0.16) 40%, transparent 75%);
-  border-bottom: 1.5px solid rgba(91, 159, 213, 0.45);
-  box-shadow: 0 10px 40px rgba(91, 159, 213, 0.2);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Pre-footer 3D Floating Retainer Card */
-.footer-pre-card-wrap {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 56px;
-}
-
-.footer-pre-card {
-  position: relative;
-  background: linear-gradient(135deg, rgba(11, 37, 69, 0.85) 0%, rgba(22, 58, 107, 0.7) 100%);
-  border: 1px solid rgba(91, 159, 213, 0.35);
-  border-radius: 24px;
-  padding: 44px 40px;
-  box-shadow: 0 24px 60px -12px rgba(7, 23, 44, 0.5),
-              0 0 35px rgba(91, 159, 213, 0.18),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  overflow: hidden;
-}
-
-.pre-card-ambient-glow {
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(91, 159, 213, 0.25) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.pre-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.pre-card-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #7DD3FC;
-  background: rgba(91, 159, 213, 0.12);
-  border: 1px solid rgba(91, 159, 213, 0.25);
-  padding: 5px 14px;
-  border-radius: 20px;
-}
-
-.pre-card-tz {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 5px 13px;
-  border-radius: 20px;
-}
-
-.pre-card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 14px;
-  line-height: 1.25;
-}
-
-.pre-card-sub {
-  font-size: 0.96rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
-  max-width: 680px;
-  margin-bottom: 28px;
-}
-
-.pre-card-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-/* 3D Social Media Badges */
-.footer-social-3d {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.social-tile {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px 18px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 600;
-  box-shadow: 0 4px 14px rgba(7, 23, 44, 0.3);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.social-tile .tile-icon {
-  width: 17px;
-  height: 17px;
-  fill: currentColor;
-  flex: 0 0 17px;
-  transition: transform 0.25s ease;
-}
-
-.social-tile:hover {
-  transform: translateY(-3px) scale(1.04);
-  color: #FFFFFF;
-}
-
-.social-tile:hover .tile-icon {
-  transform: scale(1.15);
-}
-
-/* Brand-specific hover glows */
-.social-tile.tile-fb:hover {
-  background: rgba(24, 119, 242, 0.22);
-  border-color: rgba(24, 119, 242, 0.6);
-  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.3);
-}
-
-.social-tile.tile-ig:hover {
-  background: rgba(225, 48, 108, 0.22);
-  border-color: rgba(225, 48, 108, 0.6);
-  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.3);
-}
-
-.social-tile.tile-li:hover {
-  background: rgba(10, 102, 194, 0.25);
-  border-color: rgba(10, 102, 194, 0.65);
-  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.35);
-}
-
-.social-tile.tile-wa:hover {
-  background: rgba(37, 211, 102, 0.22);
-  border-color: rgba(37, 211, 102, 0.6);
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
-}
-
-.footer-bottom {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 24px;
-}
-.footer-bottom span {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 600;
-}
-
-@media (max-width: 900px) {
-  .nav-links {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-}
-
-
-/* ═══════════════════════════════════════════════════════════════════════
-   LINEAR / STRIPE / APPLE STANDARD: 3-ZONE FLOATING ISLAND & 3D FOOTER (v3.5)
-   ═══════════════════════════════════════════════════════════════════════ */
-
-/* 1. Header & 3-Zone Floating Capsule Island */
+/* 1. Universal Floating Navy Blue Glass Capsule Island */
 #navbar {
   position: fixed !important;
   top: 16px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: min(1220px, calc(100% - 32px)) !important;
-  height: 64px !important;
-  padding: 0 16px !important;
+  width: min(1200px, calc(100% - 32px)) !important;
+  height: 62px !important;
+  padding: 0 14px 0 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   border-radius: 9999px !important;
-  background: rgba(11, 37, 69, 0.78) !important;
+  background: rgba(11, 37, 69, 0.84) !important;
   backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border: 1px solid rgba(91, 159, 213, 0.28) !important;
-  box-shadow: 0 18px 44px -8px rgba(7, 23, 44, 0.45), 
+  box-shadow: 0 16px 36px -8px rgba(7, 23, 44, 0.5), 
               0 0 20px rgba(91, 159, 213, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.16) !important;
   z-index: 1000 !important;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-body:not(:has(#hero)) #navbar,
+/* Maintain Navy Blue Luxury Glass Across All Pages & On Scroll */
+#navbar.scrolled,
 #navbar.nav-solid,
-#navbar.scrolled {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  border: 1px solid rgba(91, 159, 213, 0.28) !important;
-  box-shadow: 0 18px 46px -8px rgba(11, 37, 69, 0.14),
-              0 0 20px rgba(91, 159, 213, 0.08),
-              inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+body:not(:has(#hero)) #navbar {
+  background: rgba(11, 37, 69, 0.94) !important;
+  border-color: rgba(91, 159, 213, 0.36) !important;
+  box-shadow: 0 20px 44px -8px rgba(7, 23, 44, 0.65), 
+              0 0 28px rgba(91, 159, 213, 0.2),
+              inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
 }
 
-/* 3-Zone Flex Architecture */
+/* 3-Zone Architecture */
 .nav-zone-left {
   display: flex;
   align-items: center;
@@ -4655,7 +4188,7 @@ body:not(:has(#hero)) #navbar,
   flex: 0 0 auto;
 }
 
-/* 2. Brand Monogram Emblem & Wordmark (Single Horizontal Row) */
+/* 2. Brand Monogram Emblem & Clean "SAIFUL" Wordmark */
 .nav-brand-luxury {
   display: inline-flex;
   align-items: center;
@@ -4677,12 +4210,12 @@ body:not(:has(#hero)) #navbar,
   flex: 0 0 38px;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.35),
+  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.4),
               0 0 12px rgba(91, 159, 213, 0.25);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 .nav-brand-luxury:hover .brand-monogram-badge {
-  box-shadow: 0 6px 18px rgba(11, 37, 69, 0.45),
+  box-shadow: 0 6px 18px rgba(11, 37, 69, 0.5),
               0 0 20px rgba(91, 159, 213, 0.45);
   transform: rotate(-3deg) scale(1.04);
 }
@@ -4710,18 +4243,12 @@ body:not(:has(#hero)) #navbar,
 
 .brand-name-bold {
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #FFFFFF;
+  letter-spacing: 0.05em;
+  color: #FFFFFF !important;
   line-height: 1;
   transition: color 0.25s ease;
-}
-
-body:not(:has(#hero)) #navbar .brand-name-bold,
-#navbar.nav-solid .brand-name-bold,
-#navbar.scrolled .brand-name-bold {
-  color: var(--navy);
 }
 
 .brand-pill-tag {
@@ -4737,40 +4264,42 @@ body:not(:has(#hero)) #navbar .brand-name-bold,
   border: 1px solid rgba(91, 159, 213, 0.35);
   color: #7DD3FC;
   line-height: 1;
-  transition: all 0.25s ease;
 }
 
-body:not(:has(#hero)) #navbar .brand-pill-tag,
-#navbar.nav-solid .brand-pill-tag,
-#navbar.scrolled .brand-pill-tag {
-  background: var(--ice);
-  border-color: rgba(46, 109, 164, 0.3);
-  color: var(--steel);
+@media (max-width: 540px) {
+  .brand-wordmark-row {
+    display: none;
+  }
 }
 
-/* 3. Zone 2: Grouped Frosted Glass Capsule & Sliding Pill */
+/* 3. Center Navigation Capsule & Fluid Sliding Pill */
 .nav-center-capsule {
   position: relative;
   display: inline-flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3px 6px;
   border-radius: 9999px;
-  padding: 3px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
-body:not(:has(#hero)) #navbar .nav-center-capsule,
-#navbar.nav-solid .nav-center-capsule,
-#navbar.scrolled .nav-center-capsule {
-  background: rgba(11, 37, 69, 0.04);
-  border: 1px solid rgba(11, 37, 69, 0.08);
+.nav-sliding-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: rgba(91, 159, 213, 0.2);
+  border: 1px solid rgba(91, 159, 213, 0.4);
+  box-shadow: 0 0 16px rgba(91, 159, 213, 0.25);
+  z-index: 1;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+  opacity: 0;
 }
 
 .nav-center-capsule .nav-links {
   position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -4779,107 +4308,75 @@ body:not(:has(#hero)) #navbar .nav-center-capsule,
   padding: 0;
 }
 
-.nav-sliding-pill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 36px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.2s ease,
-              background 0.2s ease;
-  z-index: 1;
-}
-
-body:not(:has(#hero)) #navbar .nav-sliding-pill,
-#navbar.nav-solid .nav-sliding-pill,
-#navbar.scrolled .nav-sliding-pill {
-  background: rgba(11, 37, 69, 0.09);
-  border: 1px solid rgba(11, 37, 69, 0.14);
-}
-
 .nav-center-capsule .nav-links li {
-  position: relative;
-  z-index: 2;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-center-capsule .nav-links a {
-  position: relative;
-  z-index: 2;
   display: inline-block;
-  padding: 8px 14px;
-  border-radius: 9999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  padding: 7px 14px;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82) !important;
   text-decoration: none;
+  border-radius: 9999px;
   transition: color 0.2s ease;
   white-space: nowrap;
-}
-
-body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a,
-#navbar.nav-solid .nav-center-capsule .nav-links a,
-#navbar.scrolled .nav-center-capsule .nav-links a {
-  color: var(--text-mid);
 }
 
 .nav-center-capsule .nav-links a:hover,
 .nav-center-capsule .nav-links a.active {
   color: #FFFFFF !important;
+  font-weight: 600;
 }
 
-body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a:hover,
-#navbar.nav-solid .nav-center-capsule .nav-links a:hover,
-#navbar.scrolled .nav-center-capsule .nav-links a:hover,
-body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a.active,
-#navbar.nav-solid .nav-center-capsule .nav-links a.active,
-#navbar.scrolled .nav-center-capsule .nav-links a.active {
-  color: var(--navy) !important;
+@media (max-width: 980px) {
+  .nav-zone-center {
+    display: none !important;
+  }
 }
 
-/* 4. Zone 3: Right CTA with 3D Elevation & Radar Beacon */
+/* 4. High-Contrast CTA Button & Live Radar Beacon */
 .nav-cta-btn {
-  display: inline-flex !important;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 18px !important;
-  border-radius: 9999px !important;
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
-  background: linear-gradient(135deg, #0B2545 0%, #163A6B 100%) !important;
+  padding: 9px 18px;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: #FFFFFF !important;
   text-decoration: none;
-  border: 1px solid rgba(91, 159, 213, 0.45) !important;
-  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.35), 0 0 14px rgba(91, 159, 213, 0.25) !important;
+  background: linear-gradient(135deg, #2E6DA4 0%, #163A6B 100%) !important;
+  border: 1px solid rgba(91, 159, 213, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(46, 109, 164, 0.4),
+              inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   white-space: nowrap;
 }
-
 .nav-cta-btn:hover {
-  transform: translateY(-2px) scale(1.03) !important;
-  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%) !important;
-  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.4), 0 0 22px rgba(91, 159, 213, 0.45) !important;
+  transform: translateY(-1px) scale(1.03) !important;
+  box-shadow: 0 6px 22px rgba(91, 159, 213, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+  border-color: rgba(125, 211, 252, 0.8) !important;
 }
 
-/* Radar Beacon */
 .radar-beacon {
   position: relative;
+  width: 8px;
+  height: 8px;
   display: inline-flex;
-  width: 9px;
-  height: 9px;
   align-items: center;
   justify-content: center;
 }
 
 .radar-core {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #10B981;
   box-shadow: 0 0 8px #10B981;
@@ -4890,307 +4387,342 @@ body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a.active,
   inset: -3px;
   border-radius: 50%;
   border: 1.5px solid #10B981;
-  opacity: 0.75;
-  animation: radarWave 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  animation: radarPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-@keyframes radarWave {
-  0% { transform: scale(0.8); opacity: 0.9; }
-  100% { transform: scale(2.5); opacity: 0; }
+@keyframes radarPulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .nav-zone-center {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-}
-@media (max-width: 520px) {
-  .brand-wordmark-row {
-    display: none;
-  }
-}
-@media (max-width: 440px) {
+@media (max-width: 640px) {
   .nav-cta-btn {
     display: none !important;
   }
 }
 
-/* 5. Mobile 3D Frosted Drawer */
+/* 5. Mobile Controls & Frosted Perspective Drawer */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  background: rgba(91, 159, 213, 0.15) !important;
+  border: 1px solid rgba(91, 159, 213, 0.3) !important;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.hamburger:hover {
+  background: rgba(91, 159, 213, 0.25) !important;
+  border-color: rgba(91, 159, 213, 0.5) !important;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #FFFFFF !important;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 980px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
 .mobile-nav {
   position: fixed;
-  top: 88px;
+  top: 86px;
   left: 16px;
   right: 16px;
-  background: rgba(11, 37, 69, 0.95);
+  background: rgba(11, 37, 69, 0.97) !important;
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(91, 159, 213, 0.35);
-  border-radius: 24px;
-  padding: 24px 20px;
-  box-shadow: 0 24px 60px rgba(7, 23, 44, 0.6), 0 0 30px rgba(91, 159, 213, 0.15);
-  transform: translateY(-20px) scale(0.96);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 999;
+  border: 1px solid rgba(91, 159, 213, 0.32);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(7, 23, 44, 0.8),
+              0 0 32px rgba(91, 159, 213, 0.25);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-16px) scale(0.96);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-nav.open {
-  transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
 .mobile-nav a {
-  padding: 12px 16px;
-  border-radius: 12px;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 1.05rem;
   font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
   transition: all 0.2s ease;
 }
-
 .mobile-nav a:hover,
 .mobile-nav a.active {
-  background: rgba(91, 159, 213, 0.2);
+  background: rgba(91, 159, 213, 0.16);
   color: #FFFFFF;
 }
 
-.mobile-nav .mob-cta {
-  display: flex;
-  align-items: center;
+.mobile-cta {
+  margin-top: 10px;
+  display: flex !important;
   justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%);
+  padding: 12px 20px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #2E6DA4 0%, #163A6B 100%) !important;
   color: #FFFFFF !important;
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.4);
+  font-weight: 700 !important;
+  text-align: center;
 }
 
-/* 6. Footer 3D Horizon Arc & Pre-Footer Retainer Deck */
+/* 6. Footer 3D Horizon Arc & Luminous Horizon Beam */
 footer {
-  position: relative;
-  background: #07172C !important;
-  color: rgba(255, 255, 255, 0.65) !important;
-  padding: 64px 0 28px !important;
+  background: linear-gradient(180deg, #07172C 0%, #0B2545 100%) !important;
+  position: relative !important;
   overflow: hidden !important;
+  padding-top: 60px !important;
+  padding-bottom: 28px !important;
 }
 
-/* Radiant Curved Horizon Arc */
 .footer-horizon-arc {
   position: absolute;
-  top: -140px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
-  max-width: 1600px;
-  height: 220px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(91, 159, 213, 0.45) 0%, rgba(46, 109, 164, 0.18) 45%, transparent 75%);
-  border-bottom: 1.5px solid rgba(91, 159, 213, 0.55);
-  box-shadow: 0 10px 48px rgba(91, 159, 213, 0.25);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: radial-gradient(ellipse at center, rgba(91, 159, 213, 0.55) 0%, transparent 75%);
+  box-shadow: 0 0 24px rgba(91, 159, 213, 0.45);
   pointer-events: none;
-  z-index: 0;
 }
 
-/* Pre-footer 3D Floating Retainer Card */
+/* 7. Clean Floating Pre-Footer Retainer Card */
 .footer-pre-card-wrap {
+  max-width: 1080px;
+  margin: 0 auto 52px auto;
+  padding: 0 20px;
   position: relative;
   z-index: 2;
-  margin-bottom: 56px;
 }
 
 .footer-pre-card {
   position: relative;
-  background: linear-gradient(135deg, rgba(11, 37, 69, 0.9) 0%, rgba(22, 58, 107, 0.78) 100%);
-  border: 1px solid rgba(91, 159, 213, 0.38);
-  border-radius: 24px;
-  padding: 44px 40px;
-  box-shadow: 0 24px 60px -12px rgba(7, 23, 44, 0.55),
-              0 0 38px rgba(91, 159, 213, 0.22),
-              inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(11, 37, 69, 0.65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(91, 159, 213, 0.28);
+  border-radius: 20px;
+  padding: 42px 36px;
+  text-align: center;
+  box-shadow: 0 20px 50px -12px rgba(7, 23, 44, 0.65),
+              0 0 24px rgba(91, 159, 213, 0.12);
   overflow: hidden;
-}
-
-.pre-card-ambient-glow {
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(91, 159, 213, 0.28) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.pre-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
 }
 
 .pre-card-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(91, 159, 213, 0.15);
+  border: 1px solid rgba(91, 159, 213, 0.3);
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #7DD3FC;
-  background: rgba(91, 159, 213, 0.14);
-  border: 1px solid rgba(91, 159, 213, 0.28);
-  padding: 5px 14px;
-  border-radius: 20px;
+  margin-bottom: 16px;
 }
 
-.pre-card-tz {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 5px 13px;
-  border-radius: 20px;
+.badge-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  display: inline-block;
 }
 
-.pre-card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+.footer-pre-card h3 {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 1.85rem;
   font-weight: 700;
   color: #FFFFFF;
-  margin-bottom: 14px;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
-.pre-card-sub {
-  font-size: 0.96rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
-  max-width: 680px;
-  margin-bottom: 28px;
+.footer-pre-card p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 580px;
+  margin: 0 auto 26px auto;
+  line-height: 1.6;
 }
 
 .pre-card-actions {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
   gap: 14px;
-}
-
-/* 7. 3D Tactile Social Media Glass Tiles */
-.footer-social-3d {
-  display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
 }
 
-.social-tile {
-  position: relative;
+.pre-card-cta {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 10px 18px;
+  gap: 8px;
+  padding: 12px 24px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
   color: #FFFFFF;
   text-decoration: none;
-  font-size: 0.82rem;
+  background: linear-gradient(135deg, #2E6DA4 0%, #163A6B 100%);
+  border: 1px solid rgba(91, 159, 213, 0.5);
+  box-shadow: 0 6px 20px rgba(46, 109, 164, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pre-card-cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(91, 159, 213, 0.45);
+  border-color: rgba(125, 211, 252, 0.8);
+}
+
+.pre-card-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.92rem;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(7, 23, 44, 0.3);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.25s ease;
 }
-
-.social-tile .tile-icon {
-  width: 17px;
-  height: 17px;
-  fill: currentColor;
-  flex: 0 0 17px;
-  transition: transform 0.25s ease;
-}
-
-.social-tile:hover {
-  transform: translate3d(0, -4px, 15px) scale(1.05);
+.pre-card-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
   color: #FFFFFF;
 }
 
-.social-tile:hover .tile-icon {
-  transform: scale(1.15);
-}
-
-.social-tile.tile-fb:hover {
-  background: rgba(24, 119, 242, 0.24);
-  border-color: rgba(24, 119, 242, 0.65);
-  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.35);
-}
-
-.social-tile.tile-ig:hover {
-  background: rgba(225, 48, 108, 0.24);
-  border-color: rgba(225, 48, 108, 0.65);
-  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.35);
-}
-
-.social-tile.tile-li:hover {
-  background: rgba(10, 102, 194, 0.28);
-  border-color: rgba(10, 102, 194, 0.7);
-  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.4);
-}
-
-.social-tile.tile-wa:hover {
-  background: rgba(37, 211, 102, 0.24);
-  border-color: rgba(37, 211, 102, 0.65);
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
-}
-
-/* 8. 3-Column Footer Grid */
+/* 8. 3-Column Clean Footer Grid */
 .footer-grid {
+  max-width: 1140px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 40px;
-  padding-bottom: 36px;
+  gap: 48px;
+  padding-bottom: 38px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
   position: relative;
   z-index: 2;
 }
 
 .footer-brand p {
-  font-size: 0.85rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 16px;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 14px 0 18px 0;
   max-width: 320px;
 }
 
+/* Tactile Compact Social Chips */
+.footer-social-3d {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-tile {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.social-tile .tile-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.social-tile:hover {
+  transform: translateY(-2px);
+  color: #FFFFFF;
+}
+.social-tile.tile-fb:hover {
+  background: rgba(24, 119, 242, 0.28);
+  border-color: rgba(24, 119, 242, 0.65);
+  box-shadow: 0 4px 16px rgba(24, 119, 242, 0.35);
+}
+.social-tile.tile-ig:hover {
+  background: rgba(225, 48, 108, 0.28);
+  border-color: rgba(225, 48, 108, 0.65);
+  box-shadow: 0 4px 16px rgba(225, 48, 108, 0.35);
+}
+.social-tile.tile-li:hover {
+  background: rgba(10, 102, 194, 0.32);
+  border-color: rgba(10, 102, 194, 0.7);
+  box-shadow: 0 4px 16px rgba(10, 102, 194, 0.4);
+}
+.social-tile.tile-wa:hover {
+  background: rgba(37, 211, 102, 0.28);
+  border-color: rgba(37, 211, 102, 0.65);
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+}
+
 .footer-col-title {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: #7DD3FC;
   margin-bottom: 16px;
 }
 
@@ -5203,13 +4735,14 @@ footer {
 .footer-links a,
 .footer-links span {
   font-size: 0.86rem;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .footer-links a:hover {
   color: #FFFFFF;
+  transform: translateX(3px);
 }
 
 .footer-contact-item {
@@ -5223,10 +4756,13 @@ footer {
   z-index: 2;
   text-align: center;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
   margin-top: 24px;
 }
-.footer-bottom span {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 600;
+
+@media (max-width: 820px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
