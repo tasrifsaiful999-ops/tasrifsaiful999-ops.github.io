@@ -4766,3 +4766,395 @@ footer {
     gap: 32px;
   }
 }
+
+
+
+/* ==========================================================================
+   REVERSIBLE MOTION PREVIEW SYSTEM (Modes: Original, Enhanced, Cinematic Intro)
+   Cuberto, Lusion & Active Theory Standards
+   ========================================================================== */
+
+/* 1. Floating Motion Preview Control Deck */
+#motionPreviewDeck {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 14px;
+  border-radius: 9999px;
+  background: rgba(11, 37, 69, 0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(91, 159, 213, 0.35);
+  box-shadow: 0 16px 40px -8px rgba(7, 23, 44, 0.7),
+              0 0 24px rgba(91, 159, 213, 0.2);
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  user-select: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#motionPreviewDeck.is-minimized {
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+#motionPreviewDeck.is-minimized .deck-content-wrap {
+  display: none !important;
+}
+
+#motionPreviewDeck.is-minimized .deck-expand-btn {
+  display: flex !important;
+}
+
+.deck-expand-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: #7DD3FC;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.deck-content-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deck-tag-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7DD3FC;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 4px;
+  border-right: 1px solid rgba(91, 159, 213, 0.25);
+}
+
+.deck-mode-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deck-pill-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.75);
+  padding: 5px 11px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.deck-pill-btn:hover {
+  background: rgba(91, 159, 213, 0.18);
+  color: #FFFFFF;
+  border-color: rgba(91, 159, 213, 0.4);
+}
+
+.deck-pill-btn.is-active {
+  background: linear-gradient(135deg, #2E6DA4 0%, #163A6B 100%);
+  color: #FFFFFF;
+  border-color: rgba(125, 211, 252, 0.6);
+  box-shadow: 0 2px 10px rgba(46, 109, 164, 0.4);
+}
+
+.deck-replay-btn {
+  background: rgba(91, 159, 213, 0.15);
+  border: 1px solid rgba(91, 159, 213, 0.3);
+  color: #7DD3FC;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+.deck-replay-btn:hover {
+  background: rgba(91, 159, 213, 0.3);
+  color: #FFFFFF;
+  transform: rotate(180deg);
+}
+
+.deck-minimize-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 4px;
+  transition: color 0.2s ease;
+}
+.deck-minimize-btn:hover {
+  color: #FFFFFF;
+}
+
+@media (max-width: 640px) {
+  #motionPreviewDeck {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    justify-content: space-between;
+  }
+}
+
+/* 2. MODE 2 — ENHANCED (Lusion 3D Depth, Cuberto Motion, Active Theory Particles) */
+[data-motion-mode="enhanced"] .hero-portrait-frame {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s ease;
+}
+
+[data-motion-mode="enhanced"] .hero-portrait-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+[data-motion-mode="enhanced"] .hero-portrait-frame.is-tilting::after {
+  opacity: 1;
+}
+
+/* Independent floating animation for 3 Performance Badges (Phase Staggering) */
+[data-motion-mode="enhanced"] .hero-side-badge-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+[data-motion-mode="enhanced"] .hero-side-badge-card.badge-3d-roas {
+  animation: enhancedFloatBadge1 4.8s ease-in-out infinite alternate !important;
+}
+
+[data-motion-mode="enhanced"] .hero-side-badge-card.badge-3d-rank {
+  animation: enhancedFloatBadge2 5.6s ease-in-out 1.2s infinite alternate !important;
+}
+
+[data-motion-mode="enhanced"] .hero-side-badge-card.badge-3d-reach {
+  animation: enhancedFloatBadge3 5.2s ease-in-out 2.4s infinite alternate !important;
+}
+
+@keyframes enhancedFloatBadge1 {
+  0% { transform: translateY(0px) translateZ(35px); }
+  100% { transform: translateY(-3.5px) translateZ(35px); }
+}
+
+@keyframes enhancedFloatBadge2 {
+  0% { transform: translateY(0px) translateZ(35px); }
+  100% { transform: translateY(3.5px) translateZ(35px); }
+}
+
+@keyframes enhancedFloatBadge3 {
+  0% { transform: translateY(0px) translateZ(35px); }
+  100% { transform: translateY(-3px) translateZ(35px); }
+}
+
+[data-motion-mode="enhanced"] .hero-side-badge-card:hover {
+  transform: translateY(-4px) translateZ(42px) scale(1.02) !important;
+  border-color: rgba(91, 159, 213, 0.55) !important;
+  box-shadow: 0 18px 40px -8px rgba(11, 37, 69, 0.4), 0 0 22px rgba(91, 159, 213, 0.3) !important;
+}
+
+/* Enhanced Magnetic CTA Buttons */
+[data-motion-mode="enhanced"] .btn-magnetic {
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+[data-motion-mode="enhanced"] .btn-magnetic span {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Enhanced Card Tactile Depth */
+[data-motion-mode="enhanced"] .service-card:hover,
+[data-motion-mode="enhanced"] .cs-card-agency:hover,
+[data-motion-mode="enhanced"] .dash-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  border-color: rgba(91, 159, 213, 0.45) !important;
+  box-shadow: 0 20px 48px -10px rgba(11, 37, 69, 0.35), 0 0 20px rgba(91, 159, 213, 0.15) !important;
+}
+
+/* 3. MODE 3 — CINEMATIC INTRO CHOREOGRAPHY (0.0s – 2.2s Progressive Reveal) */
+[data-motion-mode="intro"].intro-running #navbar {
+  animation: introNavGlide 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.0s both !important;
+}
+
+[data-motion-mode="intro"].intro-running #heroParticles,
+[data-motion-mode="intro"].intro-running .hero-ambient-wrap {
+  animation: introBackdropFade 0.7s ease 0.0s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-status-pill,
+[data-motion-mode="intro"].intro-running .hero-kicker-title {
+  animation: introUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-headline {
+  animation: introHeadlineReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-sub-text {
+  animation: introUpFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-btns {
+  animation: introUpFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-portrait-frame {
+  animation: introPortraitSettle 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-side-badge-card.badge-3d-roas {
+  animation: introBadgeSlide 0.75s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-side-badge-card.badge-3d-rank {
+  animation: introBadgeSlide 0.75s cubic-bezier(0.16, 1, 0.3, 1) 1.25s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-side-badge-card.badge-3d-reach {
+  animation: introBadgeSlide 0.75s cubic-bezier(0.16, 1, 0.3, 1) 1.4s both !important;
+}
+
+[data-motion-mode="intro"].intro-running .hero-stat-pill:nth-child(1) {
+  animation: introStatPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s both !important;
+}
+[data-motion-mode="intro"].intro-running .hero-stat-pill:nth-child(2) {
+  animation: introStatPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 1.42s both !important;
+}
+[data-motion-mode="intro"].intro-running .hero-stat-pill:nth-child(3) {
+  animation: introStatPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 1.54s both !important;
+}
+[data-motion-mode="intro"].intro-running .hero-stat-pill:nth-child(4) {
+  animation: introStatPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 1.66s both !important;
+}
+
+@keyframes introNavGlide {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes introBackdropFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes introUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introHeadlineReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(22px);
+    clip-path: inset(0 0 100% 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0% 0);
+  }
+}
+
+@keyframes introPortraitSettle {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes introBadgeSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(32px) translateZ(35px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateZ(35px);
+  }
+}
+
+@keyframes introStatPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* When intro finishes, transition cleanly into enhanced resting state */
+[data-motion-mode="intro"]:not(.intro-running) .hero-side-badge-card.badge-3d-roas {
+  animation: enhancedFloatBadge1 4.8s ease-in-out infinite alternate !important;
+}
+[data-motion-mode="intro"]:not(.intro-running) .hero-side-badge-card.badge-3d-rank {
+  animation: enhancedFloatBadge2 5.6s ease-in-out 1.2s infinite alternate !important;
+}
+[data-motion-mode="intro"]:not(.intro-running) .hero-side-badge-card.badge-3d-reach {
+  animation: enhancedFloatBadge3 5.2s ease-in-out 2.4s infinite alternate !important;
+}
+
+/* 4. PREFERS-REDUCED-MOTION SUPPORT (Global Safety) */
+@media (prefers-reduced-motion: reduce) {
+  #motionPreviewDeck {
+    display: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
