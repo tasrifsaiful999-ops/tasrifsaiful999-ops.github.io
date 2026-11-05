@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=4.0">
+<link rel="stylesheet" href="/assets/css/style.css?v=3.5">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -83,47 +83,78 @@
 <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
 <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></symbol>
 </defs></svg>
-<nav id="navbar" aria-label="Primary">
-  <a class="nav-brand-luxury" href="/" aria-label="Saiful Mollah - Growth &amp; Performance Executive">
-    <div class="brand-monogram-badge">
-      <div class="monogram-glass-sheen"></div>
-      <svg class="monogram-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="smBadgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0B2545"/>
-            <stop offset="50%" stop-color="#163A6B"/>
-            <stop offset="100%" stop-color="#2E6DA4"/>
-          </linearGradient>
-          <linearGradient id="smSparkGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#2E6DA4"/>
-            <stop offset="100%" stop-color="#5B9FD5"/>
-          </linearGradient>
-        </defs>
-        <rect x="2" y="2" width="40" height="40" rx="11" fill="url(#smBadgeGrad)" stroke="rgba(91,159,213,0.4)" stroke-width="1.5"/>
-        <text x="13" y="27" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="14.5" fill="#FFFFFF" letter-spacing="-0.5">SM</text>
-        <path d="M29 9 L31 14 L36 16 L31 18 L29 23 L27 18 L22 16 L27 14 Z" fill="url(#smSparkGrad)"/>
-      </svg>
+<nav id="navbar" class="nav-3zone-island" aria-label="Primary">
+  <!-- Zone 1: Brand Monogram & Wordmark -->
+  <div class="nav-zone-left">
+    <a class="nav-brand-luxury" href="/" aria-label="Saiful Mollah - Growth Executive">
+      <div class="brand-monogram-badge">
+        <div class="monogram-glass-sheen"></div>
+        <svg class="monogram-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="smGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0B2545"/>
+              <stop offset="100%" stop-color="#2E6DA4"/>
+            </linearGradient>
+            <linearGradient id="smSpark" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#2E6DA4"/>
+              <stop offset="100%" stop-color="#5B9FD5"/>
+            </linearGradient>
+          </defs>
+          <rect x="1.5" y="1.5" width="35" height="35" rx="10" fill="url(#smGrad)" stroke="rgba(91,159,213,0.4)" stroke-width="1.2"/>
+          <text x="9" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="13" fill="#FFFFFF" letter-spacing="-0.3">SM</text>
+          <path d="M26 8 L27.6 12 L31.5 13.5 L27.6 15 L26 19 L24.4 15 L20.5 13.5 L24.4 12 Z" fill="url(#smSpark)"/>
+        </svg>
+      </div>
+      <div class="brand-wordmark-row">
+        <span class="brand-name-bold">SAIFUL MOLLAH</span>
+        <span class="brand-pill-tag">GROWTH</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Zone 2: Grouped Frosted Glass Capsule (Primary Links) -->
+  <div class="nav-zone-center">
+    <div class="nav-center-capsule">
+      <div class="nav-sliding-pill" aria-hidden="true"></div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/results/">Results</a></li>
+        <li><a href="/seo-projects/">SEO Projects</a></li>
+        <li><a href="/case-studies/" class="active">Case Studies</a></li>
+        <li><a href="/reviews/">Reviews</a></li>
+      </ul>
     </div>
-    <div class="brand-wordmark">
-      <span class="brand-name">SAIFUL MOLLAH</span>
-      <span class="brand-micro">GROWTH &amp; PERFORMANCE</span>
-    </div>
-  </a>
-  <ul class="nav-links">
-    <div class="nav-sliding-pill" aria-hidden="true"></div>
-    <li><a href="/">Home</a></li>
-    <li><a href="/services/">Services</a></li>
-    <li><a href="/results/">Results</a></li>
-    <li><a href="/seo-projects/">SEO Projects</a></li>
-    <li><a href="/case-studies/" class="active">Case Studies</a></li>
-    <li><a href="/reviews/">Reviews</a></li>
-    <li><a href="/consultation/" class="nav-cta btn-magnetic"><span class="live-status-radar" aria-hidden="true"><span class="radar-ping"></span><span class="radar-dot"></span></span><span>Start a Project</span></a></li>
-  </ul>
-  <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
+  </div>
+
+  <!-- Zone 3: Right Action & Mobile Controls -->
+  <div class="nav-zone-right">
+    <a href="/consultation/" class="nav-cta-btn btn-magnetic">
+      <span class="radar-beacon" aria-hidden="true">
+        <span class="radar-pulse"></span>
+        <span class="radar-core"></span>
+      </span>
+      <span>Start a Project</span>
+    </a>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
-<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
-  <a href="/">Home</a><a href="/services/">Services</a><a href="/results/">Results</a><a href="/seo-projects/">SEO Projects</a><a href="/case-studies/" class="active">Case Studies</a><a href="/reviews/">Reviews</a>
-  <a href="/consultation/" class="mob-cta">Start a Project →</a>
+
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation">
+  <div class="mobile-nav-inner">
+    <a href="/">Home</a>
+    <a href="/services/">Services</a>
+    <a href="/results/">Results</a>
+    <a href="/seo-projects/">SEO Projects</a>
+    <a href="/case-studies/" class="active">Case Studies</a>
+    <a href="/reviews/">Reviews</a>
+    <a href="/consultation/" class="mob-cta btn-magnetic">
+      <span class="radar-beacon" aria-hidden="true"><span class="radar-pulse"></span><span class="radar-core"></span></span>
+      <span>Start a Project →</span>
+    </a>
+  </div>
 </nav>
 <main id="main">
 <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -255,24 +286,25 @@
   </div>
 
   <div class="container footer-grid">
+    <!-- Col 1: Brand Monogram & Executive Summary -->
     <div class="footer-brand">
       <a class="nav-brand-luxury" href="/" aria-label="Saiful Mollah - Homepage" style="margin-bottom:14px;">
         <div class="brand-monogram-badge">
           <div class="monogram-glass-sheen"></div>
-          <svg class="monogram-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="2" y="2" width="40" height="40" rx="11" fill="url(#smBadgeGrad)" stroke="rgba(91,159,213,0.4)" stroke-width="1.5"/>
-            <text x="13" y="27" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="14.5" fill="#FFFFFF" letter-spacing="-0.5">SM</text>
-            <path d="M29 9 L31 14 L36 16 L31 18 L29 23 L27 18 L22 16 L27 14 Z" fill="url(#smSparkGrad)"/>
+          <svg class="monogram-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="35" height="35" rx="10" fill="url(#smGrad)" stroke="rgba(91,159,213,0.4)" stroke-width="1.2"/>
+            <text x="9" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="13" fill="#FFFFFF" letter-spacing="-0.3">SM</text>
+            <path d="M26 8 L27.6 12 L31.5 13.5 L27.6 15 L26 19 L24.4 15 L20.5 13.5 L24.4 12 Z" fill="url(#smSpark)"/>
           </svg>
         </div>
-        <div class="brand-wordmark">
-          <span class="brand-name">SAIFUL MOLLAH</span>
-          <span class="brand-micro">GROWTH &amp; PERFORMANCE</span>
+        <div class="brand-wordmark-row">
+          <span class="brand-name-bold">SAIFUL MOLLAH</span>
+          <span class="brand-pill-tag">GROWTH</span>
         </div>
       </a>
       <p>Digital Marketing Executive at Algora, Dhaka — Meta Ads, SEO, content and campaign reporting for growing brands.</p>
       
-      <!-- 3D Glassmorphic Social Badges -->
+      <!-- 3D Tactile Social Media Glass Tiles -->
       <div class="footer-social-3d">
         <a href="https://www.facebook.com/weirdsafu" target="_blank" rel="noopener noreferrer" class="social-tile tile-fb btn-magnetic" aria-label="Facebook Profile">
           <svg class="tile-icon" aria-hidden="true"><use href="#i-facebook"/></svg>
@@ -293,6 +325,7 @@
       </div>
     </div>
 
+    <!-- Col 2: Structured Quick Sitemap Links -->
     <div class="footer-links">
       <div class="footer-col-title">Sitemap</div>
       <a href="/">Home</a>
@@ -304,11 +337,21 @@
       <a href="/consultation/">Consultation</a>
     </div>
 
+    <!-- Col 3: Direct Contact Details & Physical Location -->
     <div class="footer-links">
-      <div class="footer-col-title">Contact</div>
-      <a href="mailto:saifulislammollah09@gmail.com">saifulislammollah09@gmail.com</a>
-      <a href="tel:+8801796128003">+8801796128003</a>
-      <span>Banani, Dhaka, Bangladesh</span>
+      <div class="footer-col-title">Contact &amp; Location</div>
+      <a href="mailto:saifulislammollah09@gmail.com" class="footer-contact-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>saifulislammollah09@gmail.com</span>
+      </a>
+      <a href="tel:+8801796128003" class="footer-contact-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>+8801796128003</span>
+      </a>
+      <span class="footer-contact-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Banani, Dhaka, Bangladesh</span>
+      </span>
     </div>
   </div>
 
@@ -316,6 +359,6 @@
 </footer>
 
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-  <script src="/assets/js/script.js?v=4.0" defer></script>
+  <script src="/assets/js/script.js?v=3.5" defer></script>
 </body>
 </html>

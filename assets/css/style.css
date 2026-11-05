@@ -4592,3 +4592,641 @@ footer {
     display: flex;
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LINEAR / STRIPE / APPLE STANDARD: 3-ZONE FLOATING ISLAND & 3D FOOTER (v3.5)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 1. Header & 3-Zone Floating Capsule Island */
+#navbar {
+  position: fixed !important;
+  top: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: min(1220px, calc(100% - 32px)) !important;
+  height: 64px !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-radius: 9999px !important;
+  background: rgba(11, 37, 69, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(91, 159, 213, 0.28) !important;
+  box-shadow: 0 18px 44px -8px rgba(7, 23, 44, 0.45), 
+              0 0 20px rgba(91, 159, 213, 0.12),
+              inset 0 1px 1px rgba(255, 255, 255, 0.16) !important;
+  z-index: 1000 !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body:not(:has(#hero)) #navbar,
+#navbar.nav-solid,
+#navbar.scrolled {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(91, 159, 213, 0.28) !important;
+  box-shadow: 0 18px 46px -8px rgba(11, 37, 69, 0.14),
+              0 0 20px rgba(91, 159, 213, 0.08),
+              inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 3-Zone Flex Architecture */
+.nav-zone-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.nav-zone-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.nav-zone-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+/* 2. Brand Monogram Emblem & Wordmark (Single Horizontal Row) */
+.nav-brand-luxury {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.nav-brand-luxury:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.brand-monogram-badge {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.35),
+              0 0 12px rgba(91, 159, 213, 0.25);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.nav-brand-luxury:hover .brand-monogram-badge {
+  box-shadow: 0 6px 18px rgba(11, 37, 69, 0.45),
+              0 0 20px rgba(91, 159, 213, 0.45);
+  transform: rotate(-3deg) scale(1.04);
+}
+
+.monogram-glass-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.38) 0%, transparent 50%, rgba(91,159,213,0.18) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.monogram-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand-wordmark-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.brand-name-bold {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+body:not(:has(#hero)) #navbar .brand-name-bold,
+#navbar.nav-solid .brand-name-bold,
+#navbar.scrolled .brand-name-bold {
+  color: var(--navy);
+}
+
+.brand-pill-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(91, 159, 213, 0.18);
+  border: 1px solid rgba(91, 159, 213, 0.35);
+  color: #7DD3FC;
+  line-height: 1;
+  transition: all 0.25s ease;
+}
+
+body:not(:has(#hero)) #navbar .brand-pill-tag,
+#navbar.nav-solid .brand-pill-tag,
+#navbar.scrolled .brand-pill-tag {
+  background: var(--ice);
+  border-color: rgba(46, 109, 164, 0.3);
+  color: var(--steel);
+}
+
+/* 3. Zone 2: Grouped Frosted Glass Capsule & Sliding Pill */
+.nav-center-capsule {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 3px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+body:not(:has(#hero)) #navbar .nav-center-capsule,
+#navbar.nav-solid .nav-center-capsule,
+#navbar.scrolled .nav-center-capsule {
+  background: rgba(11, 37, 69, 0.04);
+  border: 1px solid rgba(11, 37, 69, 0.08);
+}
+
+.nav-center-capsule .nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-sliding-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 36px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              background 0.2s ease;
+  z-index: 1;
+}
+
+body:not(:has(#hero)) #navbar .nav-sliding-pill,
+#navbar.nav-solid .nav-sliding-pill,
+#navbar.scrolled .nav-sliding-pill {
+  background: rgba(11, 37, 69, 0.09);
+  border: 1px solid rgba(11, 37, 69, 0.14);
+}
+
+.nav-center-capsule .nav-links li {
+  position: relative;
+  z-index: 2;
+}
+
+.nav-center-capsule .nav-links a {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a,
+#navbar.nav-solid .nav-center-capsule .nav-links a,
+#navbar.scrolled .nav-center-capsule .nav-links a {
+  color: var(--text-mid);
+}
+
+.nav-center-capsule .nav-links a:hover,
+.nav-center-capsule .nav-links a.active {
+  color: #FFFFFF !important;
+}
+
+body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a:hover,
+#navbar.nav-solid .nav-center-capsule .nav-links a:hover,
+#navbar.scrolled .nav-center-capsule .nav-links a:hover,
+body:not(:has(#hero)) #navbar .nav-center-capsule .nav-links a.active,
+#navbar.nav-solid .nav-center-capsule .nav-links a.active,
+#navbar.scrolled .nav-center-capsule .nav-links a.active {
+  color: var(--navy) !important;
+}
+
+/* 4. Zone 3: Right CTA with 3D Elevation & Radar Beacon */
+.nav-cta-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px !important;
+  border-radius: 9999px !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #0B2545 0%, #163A6B 100%) !important;
+  color: #FFFFFF !important;
+  text-decoration: none;
+  border: 1px solid rgba(91, 159, 213, 0.45) !important;
+  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.35), 0 0 14px rgba(91, 159, 213, 0.25) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap;
+}
+
+.nav-cta-btn:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%) !important;
+  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.4), 0 0 22px rgba(91, 159, 213, 0.45) !important;
+}
+
+/* Radar Beacon */
+.radar-beacon {
+  position: relative;
+  display: inline-flex;
+  width: 9px;
+  height: 9px;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-core {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.radar-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #10B981;
+  opacity: 0.75;
+  animation: radarWave 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@keyframes radarWave {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .nav-zone-center {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+}
+@media (max-width: 520px) {
+  .brand-wordmark-row {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  .nav-cta-btn {
+    display: none !important;
+  }
+}
+
+/* 5. Mobile 3D Frosted Drawer */
+.mobile-nav {
+  position: fixed;
+  top: 88px;
+  left: 16px;
+  right: 16px;
+  background: rgba(11, 37, 69, 0.95);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(91, 159, 213, 0.35);
+  border-radius: 24px;
+  padding: 24px 20px;
+  box-shadow: 0 24px 60px rgba(7, 23, 44, 0.6), 0 0 30px rgba(91, 159, 213, 0.15);
+  transform: translateY(-20px) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-nav.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-nav a {
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active {
+  background: rgba(91, 159, 213, 0.2);
+  color: #FFFFFF;
+}
+
+.mobile-nav .mob-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #163A6B 0%, #2E6DA4 100%);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.4);
+}
+
+/* 6. Footer 3D Horizon Arc & Pre-Footer Retainer Deck */
+footer {
+  position: relative;
+  background: #07172C !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  padding: 64px 0 28px !important;
+  overflow: hidden !important;
+}
+
+/* Radiant Curved Horizon Arc */
+.footer-horizon-arc {
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  max-width: 1600px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(91, 159, 213, 0.45) 0%, rgba(46, 109, 164, 0.18) 45%, transparent 75%);
+  border-bottom: 1.5px solid rgba(91, 159, 213, 0.55);
+  box-shadow: 0 10px 48px rgba(91, 159, 213, 0.25);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Pre-footer 3D Floating Retainer Card */
+.footer-pre-card-wrap {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 56px;
+}
+
+.footer-pre-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(11, 37, 69, 0.9) 0%, rgba(22, 58, 107, 0.78) 100%);
+  border: 1px solid rgba(91, 159, 213, 0.38);
+  border-radius: 24px;
+  padding: 44px 40px;
+  box-shadow: 0 24px 60px -12px rgba(7, 23, 44, 0.55),
+              0 0 38px rgba(91, 159, 213, 0.22),
+              inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  overflow: hidden;
+}
+
+.pre-card-ambient-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(91, 159, 213, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pre-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.pre-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7DD3FC;
+  background: rgba(91, 159, 213, 0.14);
+  border: 1px solid rgba(91, 159, 213, 0.28);
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+.pre-card-tz {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 5px 13px;
+  border-radius: 20px;
+}
+
+.pre-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.pre-card-sub {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.pre-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* 7. 3D Tactile Social Media Glass Tiles */
+.footer-social-3d {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.social-tile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(7, 23, 44, 0.3);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.social-tile .tile-icon {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+  flex: 0 0 17px;
+  transition: transform 0.25s ease;
+}
+
+.social-tile:hover {
+  transform: translate3d(0, -4px, 15px) scale(1.05);
+  color: #FFFFFF;
+}
+
+.social-tile:hover .tile-icon {
+  transform: scale(1.15);
+}
+
+.social-tile.tile-fb:hover {
+  background: rgba(24, 119, 242, 0.24);
+  border-color: rgba(24, 119, 242, 0.65);
+  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.35);
+}
+
+.social-tile.tile-ig:hover {
+  background: rgba(225, 48, 108, 0.24);
+  border-color: rgba(225, 48, 108, 0.65);
+  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.35);
+}
+
+.social-tile.tile-li:hover {
+  background: rgba(10, 102, 194, 0.28);
+  border-color: rgba(10, 102, 194, 0.7);
+  box-shadow: 0 8px 24px rgba(10, 102, 194, 0.4);
+}
+
+.social-tile.tile-wa:hover {
+  background: rgba(37, 211, 102, 0.24);
+  border-color: rgba(37, 211, 102, 0.65);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+}
+
+/* 8. 3-Column Footer Grid */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 16px;
+  max-width: 320px;
+}
+
+.footer-col-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a,
+.footer-links span {
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #FFFFFF;
+}
+
+.footer-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-bottom {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 24px;
+}
+.footer-bottom span {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
