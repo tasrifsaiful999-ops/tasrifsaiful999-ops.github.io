@@ -2751,62 +2751,21 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 
   let currentIndex = 0;
-
-
-
   setInterval(() => {
-
-
-
     const currentWord = words[currentIndex];
-
-
-
     const nextIndex = (currentIndex + 1) % words.length;
-
-
-
     const nextWord = words[nextIndex];
 
-
-
-
-
-
-
     currentWord.classList.remove('active');
-
-
-
     currentWord.classList.add('exit');
 
-
-
-
-
-
-
-    nextWord.classList.remove('exit');
-
-
-
-    nextWord.classList.add('active');
-
-
-
-
-
-
-
     setTimeout(() => {
-
-
-
       currentWord.classList.remove('exit');
+      nextWord.classList.add('active');
+    }, 350);
 
-
-
-    }, 650);
+    currentIndex = nextIndex;
+  }, 4200);
 
 
 
@@ -6182,7 +6141,7 @@ function initMotionPreviewSystem() {
   document.documentElement.setAttribute('data-motion-mode', activeMode);
 
   // 2. Build Floating Motion Preview Control Deck
-  if (!document.getElementById('motionPreviewDeck')) {
+  if (false && !document.getElementById('motionPreviewDeck')) {
     const deck = document.createElement('div');
     deck.id = 'motionPreviewDeck';
     deck.setAttribute('aria-label', 'Motion Preview Controls');
@@ -6390,7 +6349,7 @@ function initLusion3DScene() {
     reflectivity: 0.95
   });
   const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
-  crystalMesh.position.set(6.8, 0.5, -2);
+  crystalMesh.position.set(7.2, 1.0, -3.2);
   group3D.add(crystalMesh);
 
   // Outer Glowing Wireframe Cage
@@ -6659,3 +6618,36 @@ function initActiveTheoryAtmosphere() {
     }, 750);
   }, { passive: true });
 }
+
+
+// Interactive Chips Selector for Let's Connect / Consultation Form (Reference 5 standard)
+(function initAllChips() {
+  function initChipsSelector(groupId, hiddenInputId) {
+    var group = document.getElementById(groupId);
+    var hiddenInput = document.getElementById(hiddenInputId);
+    if (!group || !hiddenInput) return;
+    
+    var chips = group.querySelectorAll('.chip-item, .chip-pill');
+    chips.forEach(function(chip) {
+      chip.addEventListener('click', function(e) {
+        e.preventDefault();
+        chips.forEach(function(c) { c.classList.remove('is-active'); });
+        chip.classList.add('is-active');
+        var val = chip.getAttribute('data-val') || chip.textContent.trim();
+        hiddenInput.value = val;
+        hiddenInput.setAttribute('value', val);
+      });
+    });
+  }
+
+  function start() {
+    initChipsSelector('serviceChipsGroup', 'hiddenServiceInput');
+    initChipsSelector('budgetChipsGroup', 'hiddenBudgetInput');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
