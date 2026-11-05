@@ -124,7 +124,21 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
+// Observe all elements with data-target
 document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+
+// Auto-discover and animate metric values across all subpages
+document.querySelectorAll('.metric-val, .metric-value, .stat-num, .hero-stat-num, .about-exp-num, .cs-metric-num, .sg-stat-num').forEach(el => {
+  if (el.dataset.target) return;
+  const txt = el.textContent.trim();
+  const match = txt.match(/^([^0-9]*)([0-9,.]+)([^0-9]*)$/);
+  if (match) {
+    el.dataset.prefix = match[1];
+    el.dataset.target = match[2];
+    el.dataset.suffix = match[3];
+    counterObserver.observe(el);
+  }
+});
 
 // ── FORM SUBMIT — REAL FORMSPREE DELIVERY ──────────────
 // Connected endpoint (Portfolio Project Enquiry): formspree.io/f/mljdneen
@@ -879,11 +893,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 
 
-
-
-// --- Premium Animation Additions ---
+// ==========================================================================
+// UNIVERSAL SITEWIDE SCROLL REVEAL & DYNAMIC ANIMATION ENGINE (60FPS)
+// ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Scroll-triggered Staggered Reveal
+  // 1. Universal Staggered Scroll-Reveal Observer for ALL pages
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -892,23 +906,56 @@ document.addEventListener('DOMContentLoaded', () => {
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
 
-    const revealTargets = document.querySelectorAll('.section-title-wrap, .cs-card-agency, .proof-card-item, .brand-exp-card, .service-card, .review-card, .faq-item, .consult-card');
-    revealTargets.forEach(el => {
-      el.classList.add('reveal-on-scroll');
+    // Target headings, sections, cards, and content blocks across homepage and all subpages
+    const revealSelectors = [
+      '.section-head', '.section-title-wrap', '.section-label',
+      '.service-group', '.service-media-banner',
+      '.cs-card', '.cs-card-agency', '.case-study-card',
+      '.proof-card-item', '.brand-exp-card', '.brand-grid-item', '.brand-logo-card',
+      '.review-card', '.faq-item', '.consult-card',
+      '.hero-metrics-pill-strip .hero-stat-pill',
+      '.footer-grid > *', '.footer-bottom',
+      '.results-grid > *', '.reviews-grid > *', '.seo-card',
+      '.breadcrumbs', '.about-story-grid', '.about-exp-badge'
+    ];
+
+    const allRevealElements = document.querySelectorAll(revealSelectors.join(', '));
+    allRevealElements.forEach(el => {
+      el.classList.add('reveal-item');
       revealObserver.observe(el);
+    });
+
+    // Auto-stagger children inside rows and grid containers
+    const gridContainers = document.querySelectorAll('.hero-metrics-pill-strip, .brand-grid, .proof-grid, .reviews-grid, .footer-grid, .brand-exp-grid, .cs-grid');
+    gridContainers.forEach(grid => {
+      Array.from(grid.children).forEach((child, i) => {
+        child.style.setProperty('--stagger', `${i * 0.09}s`);
+      });
     });
   }
 
-  // 2. Magnetic Buttons Effect for Desktop
+  // 2. Mouse Coordinate Tracking on Cards for Specular Light Sheen
+  const sheenCards = document.querySelectorAll('.hero-stat-pill, .hero-side-badge-card, .cs-card-agency, .proof-card-item, .service-group, .brand-exp-card, .review-card, .consult-card');
   if (!window.matchMedia('(pointer: coarse)').matches) {
-    const magnetics = document.querySelectorAll('.hero-btns .btn, .btn-primary');
+    sheenCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${(e.clientX - rect.left)}px`);
+        card.style.setProperty('--mouse-y', `${(e.clientY - rect.top)}px`);
+      }, { passive: true });
+    });
+  }
+
+  // 3. Magnetic Attraction for Hero Buttons on Desktop
+  if (!window.matchMedia('(pointer: coarse)').matches) {
+    const magnetics = document.querySelectorAll('.hero-btns .btn, .btn-primary, .btn-solid, .nav-cta a');
     magnetics.forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
         const rect = btn.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
-        const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.22;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.22;
         btn.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
       });
       btn.addEventListener('mouseleave', () => {

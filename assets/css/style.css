@@ -3287,85 +3287,268 @@ input, select, textarea {
 }
 
 
-/* ========================================================
-   PREMIUM MICRO-ANIMATIONS & INTERACTION SYSTEM (60FPS)
-   ======================================================== */
+/* ==========================================================================
+   UNIVERSAL SITEWIDE ANIMATION & MOTION SYSTEM (60FPS HARDWARE-ACCELERATED)
+   ========================================================================== */
 
-/* 1. Living Breathing Ambient Background Glow */
+/* --- 1. Opening Entrance Keyframes --- */
+@keyframes heroTitleSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSubSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroSlideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(45px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes navSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pillPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Floating 3D Bobbing for Side Badges */
+@keyframes badgeFloat1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(0.4deg); }
+}
+
+@keyframes badgeFloat2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(7px) rotate(-0.4deg); }
+}
+
+@keyframes badgeFloat3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(0.3deg); }
+}
+
+/* Text Shimmer Sweep on Highlighted Words */
+@keyframes textShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* --- 2. Initial Page-Load Cascade Bindings --- */
+.site-header {
+  animation: navSlideDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-status-pill, .page-hero .section-label {
+  animation: pillPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+.hero-kicker-title {
+  animation: heroSubSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-headline, .page-hero h1 {
+  animation: heroTitleSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.hero-sub-text, .page-hero p {
+  animation: heroSubSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+}
+
+.hero-btns {
+  animation: heroSubSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+.hero-portrait-frame {
+  animation: heroFadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+/* 3D Floating Badges Beside Portrait */
+.hero-side-badge-card.badge-3d-roas {
+  animation: heroSlideFromRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both, badgeFloat1 4.5s ease-in-out 1.2s infinite;
+}
+
+.hero-side-badge-card.badge-3d-rank {
+  animation: heroSlideFromRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both, badgeFloat2 5.5s ease-in-out 1.35s infinite;
+}
+
+.hero-side-badge-card.badge-3d-reach {
+  animation: heroSlideFromRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both, badgeFloat3 6s ease-in-out 1.5s infinite;
+}
+
+/* --- 3. Ambient Living Glow --- */
 @keyframes ambientGlowPulse1 {
   0%, 100% {
     transform: translate(0, 0) scale(1);
     opacity: 0.65;
   }
   50% {
-    transform: translate(35px, -22px) scale(1.12);
+    transform: translate(40px, -25px) scale(1.15);
     opacity: 0.95;
   }
 }
+
 @keyframes ambientGlowPulse2 {
   0%, 100% {
     transform: translate(0, 0) scale(1);
     opacity: 0.5;
   }
   50% {
-    transform: translate(-30px, 24px) scale(1.16);
+    transform: translate(-35px, 30px) scale(1.18);
     opacity: 0.88;
   }
 }
+
 .ambient-glow-1 {
-  animation: ambientGlowPulse1 13s ease-in-out infinite !important;
-  will-change: transform, opacity;
-}
-.ambient-glow-2 {
-  animation: ambientGlowPulse2 17s ease-in-out infinite !important;
+  animation: ambientGlowPulse1 12s ease-in-out infinite !important;
   will-change: transform, opacity;
 }
 
-/* 2. Glass Specular Sheen on 3D Tilt Cards */
-.card-tilt-3d, .hero-side-badge-card, .hero-stat-pill, .proof-card-item, .brand-exp-card {
+.ambient-glow-2 {
+  animation: ambientGlowPulse2 16s ease-in-out infinite !important;
+  will-change: transform, opacity;
+}
+
+/* --- 4. Sitewide Universal Scroll-Triggered Reveal --- */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(38px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--stagger, 0s);
+  will-change: opacity, transform;
+}
+
+.reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* --- 5. Interactive 3D Card Hover & Elevate --- */
+.hero-stat-pill,
+.hero-side-badge-card,
+.cs-card-agency,
+.proof-card-item,
+.service-group,
+.brand-exp-card,
+.review-card,
+.consult-card {
   position: relative;
   overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: transform, box-shadow;
 }
-.card-tilt-3d::after,
-.hero-side-badge-card::after,
+
+.hero-stat-pill:hover,
+.hero-side-badge-card:hover,
+.cs-card-agency:hover,
+.proof-card-item:hover,
+.service-group:hover,
+.brand-exp-card:hover,
+.review-card:hover,
+.consult-card:hover {
+  transform: translateY(-8px) scale(1.018) !important;
+  border-color: rgba(125, 211, 252, 0.65) !important;
+  box-shadow: 0 22px 50px rgba(0, 85, 190, 0.3), 0 0 25px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Glass Specular Sheen Tracker on Hover */
 .hero-stat-pill::after,
-.proof-card-item::after {
+.hero-side-badge-card::after,
+.cs-card-agency::after,
+.proof-card-item::after,
+.service-group::after,
+.brand-exp-card::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle 220px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.16), transparent 75%);
+  background: radial-gradient(circle 260px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.18), transparent 75%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 5;
 }
-.card-tilt-3d:hover::after,
-.hero-side-badge-card:hover::after,
+
 .hero-stat-pill:hover::after,
-.proof-card-item:hover::after {
+.hero-side-badge-card:hover::after,
+.cs-card-agency:hover::after,
+.proof-card-item:hover::after,
+.service-group:hover::after,
+.brand-exp-card:hover::after {
   opacity: 1;
 }
 
-/* 3. Smooth Scroll Staggered Reveal */
-.reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-.reveal-on-scroll.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 4. Magnetic Button Ease */
-.hero-btns .btn, .btn-primary, .btn-outline {
+/* --- 6. Magnetic Buttons & Shimmering Accent Text --- */
+.hero-btns .btn, .btn-primary, .btn-outline, .btn-solid {
   will-change: transform;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 
-/* 5. Live Pulse Dot enhancement */
+.hero-btns .btn-primary:hover, .btn-solid:hover {
+  box-shadow: 0 10px 28px rgba(0, 102, 255, 0.45) !important;
+}
+
+/* Highlight Shimmer across all pages */
+.page-hero h1 .accent,
+.section-title span.accent,
+.hero-kicker-title span.accent {
+  background: linear-gradient(90deg, #38BDF8 0%, #E0F2FE 35%, #38BDF8 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 7s linear infinite;
+}
+
+/* Smooth Pulse for live status dot */
 .live-pulse-dot {
   position: relative;
 }
@@ -3375,10 +3558,11 @@ input, select, textarea {
   inset: -3px;
   border-radius: 50%;
   background: inherit;
-  opacity: 0.6;
-  animation: pulseRipple 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  opacity: 0.65;
+  animation: pulseRipple 2.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
+
 @keyframes pulseRipple {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  100% { transform: scale(2.4); opacity: 0; }
+  0% { transform: scale(0.9); opacity: 0.85; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
