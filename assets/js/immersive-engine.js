@@ -1,6 +1,6 @@
 /**
- * IMMERSIVE 3D UNIVERSE ENGINE — LUSION × CUBERTO × ACTIVE THEORY
- * Custom Creative Development Suite
+ * IMMERSIVE 3D CONTENT-FIRST STORY ENGINE
+ * Where the Website Content Itself is the 3D Animated Experience
  */
 
 (function () {
@@ -15,21 +15,16 @@
   };
 
   // ==========================================================================
-  // 1. LUSION & FRANKY HUNG REAL-TIME 3D WEBGL SCENE (Three.js)
+  // 1. CONTENT-FIRST 3D STORYTELLING SYSTEM (Three.js & Scroll Progress)
   // ==========================================================================
-  function initLusion3DScene() {
-    if (typeof THREE === 'undefined') return;
-
-    let canvas = document.getElementById('universeCanvas3D');
-    if (!canvas) {
-      canvas = document.createElement('canvas');
-      canvas.id = 'universeCanvas3D';
-      document.body.prepend(canvas);
-    }
+  function initContentStory3D() {
+    const canvas = document.getElementById('storyCanvas3D');
+    const wrapper = document.getElementById('storyWrapper');
+    if (!canvas || !wrapper || typeof THREE === 'undefined') return;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 22;
+    camera.position.z = 20;
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
@@ -40,134 +35,108 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 1. Franky Hung Iridescent Chromatic Fluid Sphere
-    const sphereGeo = new THREE.SphereGeometry(4.2, 64, 64);
-    const sphereMat = new THREE.MeshPhysicalMaterial({
-      color: 0x00F2FE,
-      emissive: 0x051a3a,
-      roughness: 0.1,
-      metalness: 0.9,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      transmission: 0.45,
-      transparent: true,
-      opacity: 0.85
+    // 1. Saiful's Authentic Portrait as a 3D Textured Mesh
+    const texLoader = new THREE.TextureLoader();
+    const portraitTex = texLoader.load('/assets/images/hero.webp');
+    const planeGeo = new THREE.PlaneGeometry(6.8, 8.8, 32, 32);
+    const planeMat = new THREE.MeshPhysicalMaterial({
+      map: portraitTex,
+      roughness: 0.2,
+      metalness: 0.1,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.2,
+      side: THREE.DoubleSide
     });
-    const mainSphere = new THREE.Mesh(sphereGeo, sphereMat);
-    mainSphere.position.set(0, 0, -3);
-    scene.add(mainSphere);
+    const portraitMesh = new THREE.Mesh(planeGeo, planeMat);
+    portraitMesh.position.set(0, 0, 0);
+    scene.add(portraitMesh);
 
-    // Glowing Wireframe Aura around Sphere
-    const auraGeo = new THREE.SphereGeometry(4.6, 32, 32);
-    const auraMat = new THREE.MeshBasicMaterial({
-      color: 0x4FACFE,
+    // Glowing Holographic Cage around Portrait Mesh
+    const cageGeo = new THREE.BoxGeometry(7.2, 9.2, 1.2);
+    const cageMat = new THREE.MeshBasicMaterial({
+      color: 0x00F2FE,
       wireframe: true,
       transparent: true,
-      opacity: 0.25
+      opacity: 0.35
     });
-    const auraMesh = new THREE.Mesh(auraGeo, auraMat);
-    mainSphere.add(auraMesh);
+    const cageMesh = new THREE.Mesh(cageGeo, cageMat);
+    portraitMesh.add(cageMesh);
 
-    // 2. Lusion Intersecting Physics Cross Jacks
-    function createLusionJack(colorHex, scale = 1.0) {
-      const jackGroup = new THREE.Group();
-      const cylGeo = new THREE.CylinderGeometry(0.48 * scale, 0.48 * scale, 3.5 * scale, 32);
-      const mat = new THREE.MeshPhysicalMaterial({
-        color: colorHex,
-        roughness: 0.15,
-        metalness: 0.85,
-        clearcoat: 0.9
-      });
-
-      const c1 = new THREE.Mesh(cylGeo, mat);
-      const c2 = new THREE.Mesh(cylGeo, mat);
-      c2.rotation.z = Math.PI / 2;
-      const c3 = new THREE.Mesh(cylGeo, mat);
-      c3.rotation.x = Math.PI / 2;
-
-      jackGroup.add(c1, c2, c3);
-      return jackGroup;
-    }
-
-    const jacks = [
-      { mesh: createLusionJack(0x00F2FE, 1.1), x: -8.5, y: 3.2, z: -1, rx: 0.007, ry: 0.009 },
-      { mesh: createLusionJack(0xFFFFFF, 0.9), x: 8.5, y: -2.5, z: 1, rx: -0.008, ry: 0.006 },
-      { mesh: createLusionJack(0x10E7C3, 0.75), x: -6.5, y: -4.5, z: 2, rx: 0.009, ry: -0.007 },
-      { mesh: createLusionJack(0x8B5CF6, 1.0), x: 7.5, y: 4.5, z: -3, rx: -0.006, ry: -0.008 }
-    ];
-
-    jacks.forEach(j => {
-      j.mesh.position.set(j.x, j.y, j.z);
-      scene.add(j.mesh);
-    });
-
-    // 3. Volumetric Particle Cosmos
-    const particleCount = 1000;
-    const pGeo = new THREE.BufferGeometry();
-    const pos = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount * 3; i++) {
-      pos[i] = (Math.random() - 0.5) * 65;
-    }
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const pMat = new THREE.PointsMaterial({
-      size: 0.15,
-      color: 0x00F2FE,
-      transparent: true,
-      opacity: 0.65
-    });
-    const particles = new THREE.Points(pGeo, pMat);
-    scene.add(particles);
-
-    // Lights
-    const ambLight = new THREE.AmbientLight(0x0a1e3f, 2.5);
+    // Studio Lights
+    const ambLight = new THREE.AmbientLight(0xFFFFFF, 1.6);
     scene.add(ambLight);
 
-    const light1 = new THREE.PointLight(0x00F2FE, 4, 60);
-    light1.position.set(12, 12, 12);
-    scene.add(light1);
+    const pointLight = new THREE.PointLight(0x00F2FE, 3.5, 60);
+    pointLight.position.set(12, 12, 15);
+    scene.add(pointLight);
 
-    const light2 = new THREE.PointLight(0x8B5CF6, 3, 50);
-    light2.position.set(-12, -10, 6);
-    scene.add(light2);
+    const rimLight = new THREE.PointLight(0x8B5CF6, 2.5, 50);
+    rimLight.position.set(-12, -10, 5);
+    scene.add(rimLight);
 
-    // Mouse Tracking
-    window.addEventListener('pointermove', function (e) {
-      state.mouse.targetX = (e.clientX - state.windowHalfX) * 0.0008;
-      state.mouse.targetY = (e.clientY - state.windowHalfY) * 0.0008;
-    }, { passive: true });
+    // Chapter Layers & Scroll Logic
+    const layers = [
+      document.getElementById('storyLayer1'),
+      document.getElementById('storyLayer2'),
+      document.getElementById('storyLayer3'),
+      document.getElementById('storyLayer4'),
+      document.getElementById('storyLayer5')
+    ];
+    const chapterNameEl = document.getElementById('storyChapterName');
+    const progressBar = document.getElementById('storyProgressBar');
 
-    let clock = new THREE.Clock();
-    function animate() {
-      requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
+    const chapterTitles = [
+      'Act 01 · Monumental Hero',
+      'Act 02 · Quantitative Proof',
+      'Act 03 · Anzara Case Study',
+      'Act 04 · Elor CPR Record',
+      'Act 05 · Initiate Growth'
+    ];
 
-      // Rotate sphere
-      mainSphere.rotation.y = time * 0.15;
-      mainSphere.rotation.x = Math.sin(time * 0.3) * 0.1;
-      auraMesh.rotation.y -= 0.008;
+    function updateStory() {
+      const rect = wrapper.getBoundingClientRect();
+      const totalDist = wrapper.offsetHeight - window.innerHeight;
+      const scrolled = -rect.top;
+      const progress = Math.min(1, Math.max(0, scrolled / totalDist));
 
-      // Tumble jacks
-      jacks.forEach(j => {
-        j.mesh.rotation.x += j.rx;
-        j.mesh.rotation.y += j.ry;
-        j.mesh.position.y += Math.sin(time + j.x) * 0.008;
+      if (progressBar) {
+        progressBar.style.width = (progress * 100).toFixed(1) + '%';
+      }
+
+      // Calculate active layer index (0 to 4)
+      const activeIdx = Math.min(4, Math.floor(progress * 5));
+
+      layers.forEach((layer, idx) => {
+        if (!layer) return;
+        if (idx === activeIdx) {
+          layer.classList.add('is-active');
+        } else {
+          layer.classList.remove('is-active');
+        }
       });
 
-      // Particle Drift
-      particles.rotation.y = time * 0.015;
+      if (chapterNameEl) {
+        chapterNameEl.textContent = chapterTitles[activeIdx];
+      }
 
-      // Camera parallax
-      camera.position.x += (state.mouse.targetX * 14 - camera.position.x) * 0.05;
-      camera.position.y += (-state.mouse.targetY * 14 - camera.position.y) * 0.05;
-      camera.lookAt(0, 0, 0);
+      // Physical 3D Transformation of Portrait Mesh driven by scroll progress!
+      portraitMesh.rotation.y = (progress * Math.PI * 2) * 0.45;
+      portraitMesh.rotation.x = Math.sin(progress * Math.PI) * 0.28;
+      portraitMesh.position.z = -progress * 16;
+      portraitMesh.position.x = Math.sin(progress * Math.PI * 2) * 8.5;
+    }
 
+    window.addEventListener('scroll', updateStory, { passive: true });
+    updateStory();
+
+    // Render loop
+    function animate() {
+      requestAnimationFrame(animate);
       renderer.render(scene, camera);
     }
     animate();
 
     window.addEventListener('resize', function () {
-      state.windowHalfX = window.innerWidth / 2;
-      state.windowHalfY = window.innerHeight / 2;
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -216,26 +185,13 @@
     requestAnimationFrame(renderCursor);
 
     // Interactive Hover Elements
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .chip-item, .portal-hud-card, .spatial-orbit-card');
+    const interactiveElements = document.querySelectorAll('a, button, .btn, .chip-item, .metric-monolith-card, .proof-monolith-box');
     interactiveElements.forEach(function (el) {
       el.addEventListener('mouseenter', function () {
         document.body.classList.add('is-hovering-button');
       });
       el.addEventListener('mouseleave', function () {
         document.body.classList.remove('is-hovering-button');
-      });
-    });
-
-    // Project Cards Hover
-    const cards = document.querySelectorAll('.cs-card, .spatial-orbit-card, .result-card, .review-card');
-    cards.forEach(function (card) {
-      card.addEventListener('mouseenter', function () {
-        document.body.classList.add('is-hovering-card');
-        label.textContent = card.dataset.cursor || 'EXPLORE';
-      });
-      card.addEventListener('mouseleave', function () {
-        document.body.classList.remove('is-hovering-card');
-        label.textContent = '';
       });
     });
 
@@ -257,30 +213,7 @@
   }
 
   // ==========================================================================
-  // 3. ANDREAS ANTONSSON 3D TILTED PHOTO PORTAL
-  // ==========================================================================
-  function initPhotoPortalTilt() {
-    const card = document.querySelector('.portal-stage-inner');
-    if (!card) return;
-
-    card.addEventListener('mousemove', function (e) {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-
-      const rotX = -(y - 0.5) * 16;
-      const rotY = (x - 0.5) * 16;
-
-      card.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-
-    card.addEventListener('mouseleave', function () {
-      card.style.transform = 'perspective(1200px) rotateX(6deg) rotateY(-3deg) scale3d(1, 1, 1)';
-    });
-  }
-
-  // ==========================================================================
-  // 4. ACTIVE THEORY SYNTHESIZED WEB AUDIO SOUND SYSTEM
+  // 3. ACTIVE THEORY SYNTHESIZED WEB AUDIO SOUND SYSTEM
   // ==========================================================================
   function initActiveTheorySound() {
     function getAudioContext() {
@@ -352,7 +285,7 @@
       });
     });
 
-    document.querySelectorAll('a, button, .chip-item, .portal-hud-card, .spatial-orbit-card').forEach(function (el) {
+    document.querySelectorAll('a, button, .chip-item, .metric-monolith-card').forEach(function (el) {
       el.addEventListener('mouseenter', function () {
         playCrystalClick();
       }, { passive: true });
@@ -360,7 +293,7 @@
   }
 
   // ==========================================================================
-  // 5. LENIS SMOOTH SCROLL INTEGRATION
+  // 4. LENIS SMOOTH SCROLL INTEGRATION
   // ==========================================================================
   function initLenisSmoothScroll() {
     if (typeof Lenis === 'undefined') return;
@@ -380,9 +313,8 @@
   }
 
   function start() {
-    initLusion3DScene();
+    initContentStory3D();
     initCubertoCursor();
-    initPhotoPortalTilt();
     initActiveTheorySound();
     initLenisSmoothScroll();
   }
