@@ -1,0 +1,320 @@
+/* ==========================================================================
+   IMMERSIVE 3D WEB EXPERIENCE & SPATIAL INTERACTION ENGINE
+   Google Deepmind Studio Standard · Saiful Islam Mollah Luxury Portfolio
+   ========================================================================== */
+
+/* ── 1. Hero 3D Spatial WebGL Canvas ── */
+.hero-3d-spatial-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+}
+
+/* Background ambient WebGL canvas across sections */
+.site-atmosphere-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+}
+
+/* Ensure hero content sits above 3D WebGL stage */
+#hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── 2. Spatial 3D Card Tilt & Specular Border Beam ── */
+.card-tilt-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.card-tilt-3d > * {
+  transform: translateZ(12px);
+}
+
+.card-border-beam {
+  position: relative;
+}
+
+.card-border-beam::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    rgba(125, 211, 252, 0.75),
+    rgba(46, 109, 164, 0.3) 40%,
+    transparent 80%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+}
+
+.card-border-beam:hover::before {
+  opacity: 1;
+}
+
+/* ── 3. Fluid Organic Spatial Cursor Follower ── */
+@media (pointer: fine) and (hover: hover) {
+  #spatialCursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    will-change: transform;
+  }
+
+  .spatial-cursor-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: #7DD3FC;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 0 10px rgba(125, 211, 252, 0.9);
+  }
+
+  .spatial-cursor-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(125, 211, 252, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(11, 37, 69, 0.08);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                background 0.25s ease,
+                border-radius 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spatial-cursor-label {
+    opacity: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #0B2545;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  /* Morph State: Over Magnetic Buttons */
+  #spatialCursor.is-hover-button .spatial-cursor-ring {
+    width: 52px;
+    height: 52px;
+    border-color: rgba(125, 211, 252, 0.95);
+    background: rgba(125, 211, 252, 0.18);
+    box-shadow: 0 0 20px rgba(125, 211, 252, 0.4);
+  }
+  #spatialCursor.is-hover-button .spatial-cursor-dot {
+    opacity: 0;
+  }
+
+  /* Morph State: Over Proof & Case Study Cards (Expands into Pill) */
+  #spatialCursor.is-hover-card .spatial-cursor-ring {
+    width: 110px;
+    height: 38px;
+    border-radius: 20px;
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(125, 211, 252, 0.6);
+  }
+  #spatialCursor.is-hover-card .spatial-cursor-dot {
+    opacity: 0;
+  }
+  #spatialCursor.is-hover-card .spatial-cursor-label {
+    opacity: 1;
+  }
+
+  /* Morph State: Over Carousel Drag Areas */
+  #spatialCursor.is-hover-drag .spatial-cursor-ring {
+    width: 90px;
+    height: 36px;
+    border-radius: 18px;
+    background: #7DD3FC;
+    border-color: #7DD3FC;
+    box-shadow: 0 8px 24px rgba(125, 211, 252, 0.5);
+  }
+  #spatialCursor.is-hover-drag .spatial-cursor-dot {
+    opacity: 0;
+  }
+  #spatialCursor.is-hover-drag .spatial-cursor-label {
+    opacity: 1;
+    color: #0B2545;
+  }
+}
+
+/* On touch devices, hide custom cursor */
+@media (pointer: coarse) {
+  #spatialCursor {
+    display: none !important;
+  }
+}
+
+/* ── 4. Kinetic Click Ripple Wave ── */
+.click-ripple-pulse {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999998;
+  transform: translate(-50%, -50%) scale(0);
+  border: 1.5px solid rgba(125, 211, 252, 0.85);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+  animation: spatialRippleExpand 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes spatialRippleExpand {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ── 5. Multi-Layer Magnetic Physics ── */
+.btn-magnetic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.btn-magnetic > * {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* ── 6. Section Scroll & Reveal Enhancements ── */
+.reveal-stagger {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-stagger.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 7. Luxury 3D Portrait Holographic Depth Frame ── */
+.hero-portrait-stage {
+  perspective: 1200px;
+}
+
+.hero-portrait-frame {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.hero-portrait-frame:hover {
+  transform: rotateY(5deg) rotateX(-3deg) translateZ(10px);
+  box-shadow: 0 32px 80px rgba(5, 16, 32, 0.7), 0 0 30px rgba(91, 159, 213, 0.35);
+}
+
+/* ── 8. Reduced Motion Accessibility Safeguards ── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-spatial-canvas,
+  .site-atmosphere-canvas,
+  #spatialCursor,
+  .click-ripple-pulse {
+    display: none !important;
+  }
+  .card-tilt-3d,
+  .btn-magnetic {
+    transform: none !important;
+  }
+  .reveal-stagger {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ── Text Rotator Non-Clipping Protection ── */
+.text-rotator {
+  display: inline-block !important;
+  position: relative !important;
+  vertical-align: bottom !important;
+  overflow: visible !important;
+  height: 1.28em !important;
+  min-width: 340px !important;
+}
+
+.rotate-word {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+/* ── Hero Metric Pills Sizing & Overflow Protection ── */
+.hero-stat-pill {
+  min-width: 135px !important;
+  overflow: visible !important;
+}
+
+.hero-stat-num {
+  font-size: 1.55rem !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  letter-spacing: -0.01em !important;
+}
+
+.hero-stat-lbl {
+  white-space: nowrap !important;
+  font-size: 0.72rem !important;
+}
+
+/* Subpage Hero Spatial Polish */
+.page-hero {
+  position: relative;
+  overflow: hidden;
+}

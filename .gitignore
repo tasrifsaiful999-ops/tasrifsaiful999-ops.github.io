@@ -19,3 +19,12 @@ TEST_REPORT.md
 requirements.txt
 static/
 saiful_extracted.jpg
+
+scratch/
+_production_backup_7465507/
+node_modules/
+
+ref.html
+
+package.json
+package-lock.json

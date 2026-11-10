@@ -1,0 +1,133 @@
+/* ═══════════════════════════════════════════════════════
+   SAIFUL — IMMERSIVE 3D LAYER  (v6.0, additive)
+   Loaded AFTER style.css. Everything that changes the
+   original look is gated behind html.gl-on, so if WebGL
+   or JS is unavailable the original design shows untouched.
+═══════════════════════════════════════════════════════ */
+
+/* ── Entrance veil (set by tiny head script on internal navigation) ── */
+html.pt-enter::before {
+  content: ""; position: fixed; inset: 0; z-index: 99997; background: #0B2545;
+}
+
+/* ── WebGL stage ── */
+#gl-stage {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; display: block;
+}
+html.gl-on body { background: #0B2545; }
+html.gl-on #navbar, html.gl-on .mobile-nav { z-index: 1000; }
+html.gl-on main, html.gl-on footer { position: relative; z-index: 1; }
+html.gl-on footer { z-index: 2; }
+
+/* Let the scene breathe through the light sections (soft veil keeps text AA-readable) */
+html.gl-on main > section[style*="var(--white)"],
+html.gl-on main > section[style*="var(--bg)"],
+html.gl-on main > section.expertise-strip {
+  background: rgba(247, 250, 253, 0.58) !important;
+}
+html.gl-on main > section[style*="var(--white)"] { background: rgba(255, 255, 255, 0.62) !important; }
+
+/* Dark zones go translucent navy so the liquid light shows through */
+html.gl-on #hero {
+  background: radial-gradient(1100px circle at 78% 28%, rgba(30, 84, 136, 0.28) 0%, rgba(7, 23, 44, 0.30) 55%, rgba(7, 23, 44, 0.55) 100%) !important;
+}
+html.gl-on .page-hero {
+  background: linear-gradient(135deg, rgba(11, 37, 69, 0.62) 0%, rgba(22, 58, 107, 0.40) 55%, rgba(46, 109, 164, 0.28) 100%) !important;
+}
+html.gl-on main > section#experience {
+  background: radial-gradient(1000px circle at 50% 20%, rgba(30, 84, 136, 0.30) 0%, rgba(7, 23, 44, 0.62) 80%) !important;
+}
+html.gl-on main > section#contact {
+  background: linear-gradient(135deg, rgba(11, 37, 69, 0.72) 0%, rgba(22, 58, 107, 0.55) 55%, rgba(46, 109, 164, 0.42) 100%) !important;
+}
+html.gl-on #heroParticles, html.gl-on .hero-bg-shape { display: none !important; }
+
+/* GSAP drives the hero entrance in 3D mode; neutralise the CSS-only one */
+html.gl-on .hero-anim-pill, html.gl-on .hero-anim-kicker, html.gl-on .hero-anim-title,
+html.gl-on .hero-anim-sub, html.gl-on .hero-anim-btns {
+  animation: none !important;
+}
+
+/* ── Lenis ── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+html.gl-on.lenis { scroll-behavior: auto; }
+
+/* ── Split text ── */
+.sw { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.06em 0 0.16em; margin: -0.06em 0 -0.16em; white-space: nowrap; }
+.sw > i { display: inline-block; font-style: inherit; will-change: transform; }
+.sw-gap { display: inline; }
+
+/* ── Image reveal wrappers ── */
+.img-reveal { overflow: hidden; }
+.img-reveal > img { will-change: transform, clip-path; }
+
+/* ── Progress rail ── */
+.gl-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 1100;
+  transform-origin: 0 50%; transform: scaleX(0); pointer-events: none;
+  background: linear-gradient(90deg, #2E6DA4, #5B9FD5, #EBF3FC);
+  box-shadow: 0 0 14px rgba(91, 159, 213, 0.7);
+}
+
+/* ── Cursor ring (fine pointers only; native cursor stays visible) ── */
+.gl-cursor {
+  position: fixed; left: 0; top: 0; width: 38px; height: 38px; margin: -19px 0 0 -19px;
+  border: 1.5px solid rgba(91, 159, 213, 0.85); border-radius: 50%;
+  pointer-events: none; z-index: 1200; opacity: 0;
+  mix-blend-mode: difference; transition: width .25s, height .25s, margin .25s, background .25s, opacity .3s;
+}
+.gl-cursor.on { opacity: 1; }
+.gl-cursor.hot { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(91, 159, 213, 0.18); }
+
+/* ── Page transition curtain ── */
+.pt-curtain {
+  position: fixed; inset: 0; z-index: 99998; pointer-events: none;
+  background: #0B2545; display: grid; place-items: center;
+  clip-path: inset(100% 0 0 0);
+}
+.pt-curtain::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(800px circle at 50% 120%, rgba(91, 159, 213, 0.45), transparent 60%);
+}
+.pt-mark {
+  position: relative; z-index: 1; font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; color: #fff; letter-spacing: -0.01em;
+}
+.pt-mark span { color: #5B9FD5; }
+.pt-label {
+  position: relative; z-index: 1; margin-top: 8px; text-align: center; color: rgba(255, 255, 255, 0.6);
+  font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 700;
+}
+
+/* ── Hero portrait: depth stage (identity untouched — only the frame tilts) ── */
+html.gl-on .hero-portrait-stage { perspective: 1100px; transform-style: preserve-3d; }
+html.gl-on .hero-sq-wrap { transform-style: preserve-3d; will-change: transform; }
+.hero-sheen {
+  position: absolute; inset: 0; pointer-events: none; border-radius: inherit; mix-blend-mode: soft-light;
+  background: radial-gradient(420px circle at var(--sx, 30%) var(--sy, 20%), rgba(255, 255, 255, 0.34), transparent 55%);
+}
+
+/* ── Interactive previews ── */
+html.gl-on .cs-verified-img-box, html.gl-on .proof-frame-wrap { overflow: hidden; }
+html.gl-on .cs-verified-img-box, html.gl-on .proof-frame-wrap { position: relative; }
+html.gl-on .cs-verified-img-box::after, html.gl-on .proof-frame-wrap::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s;
+  background: radial-gradient(360px circle at var(--px, 50%) var(--py, 50%), rgba(91, 159, 213, 0.22), transparent 60%);
+}
+html.gl-on .cs-verified-img-box:hover::after, html.gl-on .proof-frame-wrap:hover::after { opacity: 1; }
+
+/* ── Mobile / touch tuning ── */
+@media (pointer: coarse) { .gl-cursor { display: none; } }
+@media (max-width: 768px) {
+  html.gl-on main > section[style*="var(--white)"] { background: rgba(255, 255, 255, 0.74) !important; }
+  html.gl-on main > section[style*="var(--bg)"] { background: rgba(247, 250, 253, 0.74) !important; }
+}
+
+/* ── Reduced motion: original design, no 3D layer at all ── */
+@media (prefers-reduced-motion: reduce) {
+  #gl-stage, .gl-progress, .gl-cursor, .pt-curtain { display: none !important; }
+  html.pt-enter::before { display: none; }
+}
