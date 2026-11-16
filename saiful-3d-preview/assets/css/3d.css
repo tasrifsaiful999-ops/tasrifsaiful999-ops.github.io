@@ -22,11 +22,92 @@ html.gl-on footer { z-index: 2; }
 
 /* Let the scene breathe through the light sections (soft veil keeps text AA-readable) */
 html.gl-on main > section[style*="var(--white)"],
-html.gl-on main > section[style*="var(--bg)"],
-html.gl-on main > section.expertise-strip {
+html.gl-on main > section[style*="var(--bg)"] {
   background: rgba(247, 250, 253, 0.58) !important;
 }
 html.gl-on main > section[style*="var(--white)"] { background: rgba(255, 255, 255, 0.62) !important; }
+
+/* ── High-Contrast Luminous Expertise Strip (Skills Ribbon) ── */
+.expertise-strip,
+html.gl-on main > section.expertise-strip {
+  position: relative !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, #06152B 0%, #0A2244 50%, #0E305C 100%) !important;
+  border-top: 1px solid rgba(91, 159, 213, 0.35) !important;
+  border-bottom: 1px solid rgba(91, 159, 213, 0.35) !important;
+  box-shadow: 0 16px 40px rgba(5, 17, 33, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+  padding: 22px 0 !important;
+  z-index: 10 !important;
+}
+
+.expertise-strip .es-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 24px !important;
+  white-space: nowrap !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 999px !important;
+  margin: 0 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.expertise-strip .es-item .ico {
+  width: 20px !important;
+  height: 20px !important;
+  color: #5B9FD5 !important;
+  stroke: #5B9FD5 !important;
+  stroke-width: 2.2 !important;
+  filter: drop-shadow(0 0 8px rgba(91, 159, 213, 0.85)) !important;
+  flex: 0 0 auto !important;
+}
+
+.expertise-strip .es-fade {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 100px !important;
+  z-index: 20 !important;
+  pointer-events: none !important;
+}
+
+.expertise-strip .es-fade-l {
+  left: 0 !important;
+  background: linear-gradient(90deg, #06152B 0%, rgba(6, 21, 43, 0) 100%) !important;
+}
+
+.expertise-strip .es-fade-r {
+  right: 0 !important;
+  background: linear-gradient(270deg, #0E305C 0%, rgba(14, 48, 92, 0) 100%) !important;
+}
+
+@media (max-width: 768px) {
+  .expertise-strip,
+  html.gl-on main > section.expertise-strip {
+    padding: 16px 0 !important;
+  }
+  .expertise-strip .es-item {
+    padding: 8px 18px !important;
+    font-size: 0.84rem !important;
+    margin: 0 6px !important;
+    gap: 8px !important;
+  }
+  .expertise-strip .es-item .ico {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .expertise-strip .es-fade {
+    width: 48px !important;
+  }
+}
 
 /* Dark zones go translucent navy so the liquid light shows through */
 html.gl-on #hero {

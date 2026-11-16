@@ -683,11 +683,27 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const words = Array.from(rotator.querySelectorAll('.rotate-word'));
   if (words.length <= 1) return;
 
+  function syncRotatorWidth(word) {
+    if (!word) return;
+    const w = word.getBoundingClientRect ? word.getBoundingClientRect().width : word.offsetWidth;
+    if (w > 0) {
+      rotator.style.width = Math.ceil(w) + 8 + 'px';
+    }
+  }
+
+  const activeWord = rotator.querySelector('.rotate-word.active') || words[0];
+  syncRotatorWidth(activeWord);
+  window.addEventListener('resize', () => {
+    syncRotatorWidth(rotator.querySelector('.rotate-word.active') || words[0]);
+  });
+
   let currentIndex = 0;
   setInterval(() => {
     const currentWord = words[currentIndex];
     const nextIndex = (currentIndex + 1) % words.length;
     const nextWord = words[nextIndex];
+
+    syncRotatorWidth(nextWord);
 
     currentWord.classList.remove('active');
     currentWord.classList.add('exit');
